@@ -1,0 +1,24 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BloodStockController;
+
+Route::prefix('auth')->group(function() {
+    Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
+    Route::post('/register-action', [AuthController::class, 'registerAction'])->name('api.auth.register-action'); 
+});
+
+Route::middleware(['jwt'])->group(function() {
+    Route::get('/', [IndexController::class, 'index'])->name('home');
+
+    Route::prefix('auth')->group(function() {
+        Route::get('/logout', [AuthController::class, 'logout'])->name('api.auth.logout');
+    });
+
+    Route::prefix('blood-stock')->group(function() {
+        Route::get('/', [BloodStockController::class, 'index'])->name('api.bloodStock.index');
+        Route::get('/create', [BloodStockController::class, 'index'])->name('api.bloodStock.create');
+    });
+});
