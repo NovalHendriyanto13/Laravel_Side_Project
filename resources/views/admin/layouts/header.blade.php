@@ -16,5 +16,6 @@
 <!-- Custom styles for this template-->
 <!-- <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet"> -->
 <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
 
 @stack('css')

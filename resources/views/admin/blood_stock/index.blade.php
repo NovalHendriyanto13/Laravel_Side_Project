@@ -28,7 +28,7 @@
                         <th>Nomor Stock</th>
                         <th>Jenis Darah</th>
                         <th>Golongan Darah</th>
-                        <th>Volume</th>
+                        <th>Volume (ml)</th>
                         <th>Status</th>
                         <th> </th>
                     </tr>
@@ -39,7 +39,7 @@
                         <th>Nomor Stock</th>
                         <th>Jenis Darah</th>
                         <th>Golongan Darah</th>
-                        <th>Volume</th>
+                        <th>Volume (ml)</th>
                         <th>Status</th>
                         <th> </th>
                     </tr>

@@ -30,7 +30,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('blood.index') }}">
             <i class="fas fa-fw fa-cog"></i>
             <span>Darah</span>
         </a>

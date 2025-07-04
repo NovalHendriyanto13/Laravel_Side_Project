@@ -26,13 +26,8 @@ $(document).ready(function() {
         if ($.fn.DataTable) {
             $('.table-datatable').DataTable();
         }
+
+        $('.datepicker').datepicker();
     }
 
-    async function _populateDropdown(type, obj) {
-        if (type == 'blood') {
-            $.ajax({
-                url: ''
-            })
-        }
-    }
 })

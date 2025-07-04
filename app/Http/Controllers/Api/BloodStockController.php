@@ -14,6 +14,7 @@ class BloodStockController extends ApiBaseController {
                 'blood_stock.blood_group',
                 'blood_stock.blood_rhesus',
                 'blood_stock.unit_volume',
+                'blood_stock.status',
                 'blood.name',
                 'blood.blood_type'
             ])
@@ -25,6 +26,35 @@ class BloodStockController extends ApiBaseController {
     }
 
     public function create(Request $request) {
+        $request->validate([
+            'stock_no' => 'required|string|max:20|unique:blood_stock,stock_no',
+            'expiry_date' => 'required',
+            'blood_id' => 'required',
+            'unit_volume' => 'required',
+            'blood_group' => 'required',
+            'blood_rhesus' => 'required',
+        ]);
+
+        try {
+            $data = BloodStock::create([
+                'stock_no' => $request->stock_no,
+                'expiry_date' => date('Y-m-d', strtotime($request->expiry_date)),
+                'blood_id' => $request->blood_id,
+                'unit_volume' => $request->unit_volume,
+                'blood_group' => $request->blood_group,
+                'blood_rhesus' => $request->blood_rhesus,
+                'status' => $request->status,
+            ]);
+
+            if (!$data) {
+                throw new \Exception('Add New Blood Stock is failed');
+            }
+
+            return $this->successApiResponse($data);
+
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
+        }
 
     }
 }

@@ -16,9 +16,10 @@ class BloodStock extends Model
     protected $fillable = [
         'blood_id',
         'stock_no',
+        'expiry_date',
         'blood_group',
         'blood_rhesus',
         'unit_volume',
-        'status'
+        'status',
     ];
 }

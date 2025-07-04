@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\IndexController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\BloodStockController;
+use App\Http\Controllers\Web\BloodController;
 
 Route::prefix('auth')->group(function() {
     Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
@@ -34,5 +35,9 @@ Route::middleware(['jwt'])->group(function() {
     Route::prefix('blood-stock')->group(function() {
         Route::get('/', [BloodStockController::class, 'index'])->name('bloodStock.index');
         Route::get('/create', [BloodStockController::class, 'create'])->name('bloodStock.create');
+    });
+
+    Route::prefix('blood')->group(function() {
+        Route::get('/', [BloodController::class, 'index'])->name('blood.index');
     });
 });

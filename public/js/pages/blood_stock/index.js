@@ -7,7 +7,7 @@ $(document).ready(async function() {
         const apiUrl = table.data('url');
         const token = localStorage.getItem('_token');
 
-        $('.table-stock').DataTable({
+        table.DataTable({
             ajax: {
                 url: apiUrl,
                 type: 'GET',
@@ -43,7 +43,6 @@ $(document).ready(async function() {
                     render: function(data, type, row) {
                         return `
                             <button class="btn btn-sm btn-info view-btn" data-id="${row.id}">View</button>
-                            <button class="btn btn-sm btn-warning edit-btn" data-id="${row.id}">Edit</button>
                         `;
                     }
                 }
