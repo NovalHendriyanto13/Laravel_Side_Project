@@ -15,7 +15,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('home') }}">
+        <a class="nav-link" href="{{ route('admin.home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Home</span></a>
     </li>
@@ -30,7 +30,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('blood.index') }}">
+        <a class="nav-link" href="{{ route('admin.blood.index') }}">
             <i class="fas fa-fw fa-cog"></i>
             <span>Darah</span>
         </a>
@@ -38,7 +38,7 @@
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('bloodStock.index') }}">
+        <a class="nav-link" href="{{ route('admin.bloodStock.index') }}">
             <i class="fas fa-fw fa-box"></i>
             <span>Stock Darah</span>
         </a>
@@ -53,7 +53,7 @@
     </div>
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('user.index') }}">
+        <a class="nav-link" href="{{ route('admin.user.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Users</span></a>
     </li>

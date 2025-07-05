@@ -10,7 +10,7 @@ $(document).ready(function() {
             if (response != null) {
                 localStorage.setItem("_token", response.token);
                 
-                return redirectWithToken('/');
+                return redirectWithToken('/admin');
             }
         })
     }

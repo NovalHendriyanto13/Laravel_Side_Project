@@ -49,7 +49,7 @@ $(document).ready(async function() {
                     render: function(data, type, row) {
                         const token = localStorage.getItem('_token');
                         return `
-                            <a class="btn btn-sm btn-info view-btn" data-id="${row.id}" href="${_appUrl}/blood-stock/${row.id}?token=${token}">
+                            <a class="btn btn-sm btn-info view-btn" data-id="${row.id}" href="${_appUrl}/admin/blood-stock/${row.id}?token=${token}">
                                 View
                             </a>
                         `;

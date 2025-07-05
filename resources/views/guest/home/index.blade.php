@@ -22,20 +22,20 @@
             <div class="col-lg-5">
             <div class="booking-form-wrapper" data-aos="fade-left" data-aos-delay="200">
                 <div class="booking-form">
-                <h3 class="form-title">Masuk</h3>
-                <form action="" class="">
-                    <div class="form-group mb-3">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" required="">
-                    </div>
+                    <h3 class="form-title">Masuk</h3>
+                    <form action="" class="">
+                        <div class="form-group mb-3">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" class="form-control" required="">
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" required="">
-                    </div>
+                        <div class="form-group mb-3">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" class="form-control" required="">
+                        </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
                 </div>
             </div>
             </div>

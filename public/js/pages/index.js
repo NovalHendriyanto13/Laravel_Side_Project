@@ -7,11 +7,11 @@ $(document).ready(function() {
             const url = $(this).attr('href');
 
             const response = await logout(url) || null;
-
+console.log(response);
             if (response != null) {
                 localStorage.removeItem("_token");
                 
-                return redirect('/auth/login');
+                return redirect('/admin');
             } 
         });
 

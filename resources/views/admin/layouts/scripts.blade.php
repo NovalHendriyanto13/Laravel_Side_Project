@@ -17,7 +17,7 @@
 <script src="{{ asset('js/pages/index.js') }}"></script>
 <script>
     const _appUrl = "{{config('app.url')}}";
-    const _apiAppUrl = "{{config('app.api_app_url')}}";
+    const _apiBaseUrl = "{{config('app.api_app_url')}}";
 </script>
 
 @stack('scripts')
