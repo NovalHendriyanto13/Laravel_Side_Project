@@ -31,7 +31,7 @@
         <div class="row mb-5" data-aos="fade-up" data-aos-delay="200">
             <div class="col-12">
                 <div class="tour-filters">
-                    <form>
+                    <form action="{{ route('api.auth.registerGuest') }}" method="POST" class="form-register">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 mb-3">
                                 
@@ -89,7 +89,7 @@
                             </div>
                         </div>
                         <div class="d-flex">
-                            <button type="submit" class="btn btn-primary m-3">Daftar</button>
+                            <button type="submit" class="btn btn-primary m-3 btn-submit">Daftar</button>
                             <a class="btn btn-warning m-3" href="{{ route('home') }}">Batal</a>
                         </div>
                     </form>
@@ -101,3 +101,7 @@
 </section><!-- /Travel Tours Section -->
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/guest/auth.js') }}"></script>
+@endpush

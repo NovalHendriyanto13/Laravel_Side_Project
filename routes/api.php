@@ -8,7 +8,8 @@ use App\Http\Controllers\Api\BloodController;
 
 Route::prefix('auth')->group(function() {
     Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
-    Route::post('/register-action', [AuthController::class, 'registerAction'])->name('api.auth.register-action'); 
+    Route::post('/login-guest', [AuthController::class, 'loginGuest'])->name('api.auth.loginGuest');
+    Route::post('/register-guest', [AuthController::class, 'registerAction'])->name('api.auth.registerGuest'); 
 });
 
 Route::middleware(['jwt'])->group(function() {

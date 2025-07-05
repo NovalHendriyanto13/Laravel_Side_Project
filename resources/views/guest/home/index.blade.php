@@ -23,7 +23,7 @@
             <div class="booking-form-wrapper" data-aos="fade-left" data-aos-delay="200">
                 <div class="booking-form">
                     <h3 class="form-title">Masuk</h3>
-                    <form action="" class="">
+                    <form action="{{ route('api.auth.loginGuest') }}" method="POST" class="form-submit">
                         <div class="form-group mb-3">
                             <label for="username">Username</label>
                             <input type="text" name="username" id="username" class="form-control" required="">

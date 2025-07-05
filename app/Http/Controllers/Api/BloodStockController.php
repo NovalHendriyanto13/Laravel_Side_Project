@@ -44,6 +44,7 @@ class BloodStockController extends ApiBaseController {
                 'blood_group' => $request->blood_group,
                 'blood_rhesus' => $request->blood_rhesus,
                 'status' => $request->status,
+                'created_by' => auth()->user()->id,
             ]);
 
             if (!$data) {
@@ -93,6 +94,7 @@ class BloodStockController extends ApiBaseController {
             $data->blood_group = $request->blood_group;
             $data->blood_rhesus = $request->blood_rhesus;
             $data->status = $request->status;
+            $data->updated_by = auth()->user()->id;
             $data->save();
 
             if (!$data) {
