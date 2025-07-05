@@ -6,7 +6,6 @@ $(document).ready(function() {
             e.preventDefault();
 
             const response = await submitPostFormToken('.form-blood-stock-create') || null;
-console.log(response);
 
             if (response != null) {
                 if (response?.error) {
@@ -17,9 +16,17 @@ console.log(response);
                         confirmButtonText: 'OK'
                     })
                     return false;
-                }
-                
-                // return redirectWithToken('/blood-stock');
+                } else {
+                    Swal.fire({
+                        title: "Success",
+                        text: "Blood Stock Data is created",
+                        icon: "success",
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "OK"
+                        }).then((result) => {
+                            return redirectWithToken('/blood-stock');
+                        });
+                }                
             }
         })
     }

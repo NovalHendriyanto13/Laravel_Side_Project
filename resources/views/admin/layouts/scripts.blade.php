@@ -15,5 +15,9 @@
 <script src="{{ asset('js/helpers/api_helper.js') }}"></script>
 <script src="{{ asset('js/app/default.js') }}"></script>
 <script src="{{ asset('js/pages/index.js') }}"></script>
+<script>
+    const _appUrl = "{{config('app.url')}}";
+    const _apiAppUrl = "{{config('app.api_app_url')}}";
+</script>
 
 @stack('scripts')

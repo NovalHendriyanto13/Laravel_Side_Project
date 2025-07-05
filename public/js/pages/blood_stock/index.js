@@ -35,14 +35,23 @@ $(document).ready(async function() {
                     } 
                 },
                 { data: 'unit_volume' },
-                { data: 'status' },
+                { 
+                    data: null,
+                    render: function(data, type, row) {
+                        const status = ['Tidak Tersedia', 'Tersedia', 'Kadaluarsa'];
+                        return status[row.status];
+                    } 
+                },
                 {
                     data: null,
                     orderable: false,
                     searchable: false,
                     render: function(data, type, row) {
+                        const token = localStorage.getItem('_token');
                         return `
-                            <button class="btn btn-sm btn-info view-btn" data-id="${row.id}">View</button>
+                            <a class="btn btn-sm btn-info view-btn" data-id="${row.id}" href="${_appUrl}/blood-stock/${row.id}?token=${token}">
+                                View
+                            </a>
                         `;
                     }
                 }
