@@ -55,6 +55,54 @@ class BloodStockController extends ApiBaseController {
         } catch (\Exception $e) {
             return $this->errorApiResponse(500, $e->getMessage());
         }
+    }
 
+    public function detail(int $id, Request $request) {
+        try {
+            $data = BloodStock::find($id);
+
+            if (!($data)) {
+                return new \Exception('No data found');
+            }
+
+            return $this->successApiResponse($data);
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage()); 
+        }
+    }
+    public function update(int $id, Request $request) {
+        $request->validate([
+            'expiry_date' => 'required',
+            'blood_id' => 'required',
+            'unit_volume' => 'required',
+            'blood_group' => 'required',
+            'blood_rhesus' => 'required',
+        ]);
+
+        try {
+            $data = BloodStock::find($id);
+
+            if (!$data) {
+                throw new \Exception('Data is not found');
+            }
+
+            $data->stock_no = $request->stock_no;
+            $data->expiry_date = date('Y-m-d', strtotime($request->expiry_date));
+            $data->blood_id = $request->blood_id;
+            $data->unit_volume = $request->unit_volume;
+            $data->blood_group = $request->blood_group;
+            $data->blood_rhesus = $request->blood_rhesus;
+            $data->status = $request->status;
+            $data->save();
+
+            if (!$data) {
+                throw new \Exception('Add New Blood Stock is failed');
+            }
+
+            return $this->successApiResponse($data);
+
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
+        }
     }
 }

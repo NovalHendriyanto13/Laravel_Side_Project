@@ -10,7 +10,7 @@ use Illuminate\Auth\AuthenticationException;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
-class JwtMiddleware
+class AuthMiddleware
 {
     /**
      * Handle an incoming request.
