@@ -15,7 +15,12 @@
                     </ul>
                 </li>
                 @auth
-                <li><a href="{{ route('order.index') }}">Pemesanan</a></li>
+                <li class="dropdown"><a href="#"><span>Pemesanan</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="{{ route('order.create') }}" class="a-auth">Tambah Baru</a></li>
+                        <li><a href="{{ route('order.index') }}" class="a-auth">Riwayat</a></li>
+                    </ul>
+                </li>
                 @endauth
                 <li><a href="#">Contact</a></li>
             </ul>

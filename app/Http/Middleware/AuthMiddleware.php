@@ -25,9 +25,9 @@ class AuthMiddleware
                 throw new \Exception('User is not valid');
             }
         } catch (AuthenticationException $e) {
-            return redirect()->guest(route('auth.login'));
+            return redirect()->guest(route('home'));
         } catch (Exception $e) {
-            return redirect()->guest(route('auth.login'));
+            return redirect()->guest(route('home'));
         }
 
         return $next($request);
@@ -39,10 +39,8 @@ class AuthMiddleware
             $guards = [null];
         }
 
-        foreach ($guards as $guard) {
-            if ($user = JWTAuth::parseToken()->authenticate()) {
-                return $user;
-            }
+        if ($user = JWTAuth::parseToken()->authenticate()) {
+            return $user;
         }
 
         throw new AuthenticationException('Unauthenticated.', $guards);

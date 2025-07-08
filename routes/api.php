@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BloodStockController;
 use App\Http\Controllers\Api\BloodController;
+use App\Http\Controllers\Api\OrderController;
 
 Route::prefix('auth')->group(function() {
     Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
@@ -28,5 +29,12 @@ Route::middleware(['jwt'])->group(function() {
 
     Route::prefix('blood')->group(function() {
         Route::get('/', [BloodController::class, 'index'])->name('api.blood.index');
+    });
+});
+
+Route::middleware(['auth'])->group(function() {
+    Route::prefix('order')->group(function() {
+        Route::get('/', [OrderController::class, 'index'])->name('api.order.index');
+        Route::post('/create', [OrderController::class, 'create'])->name('api.order.create');
     });
 });

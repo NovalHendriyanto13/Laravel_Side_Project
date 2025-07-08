@@ -183,11 +183,21 @@
       const response = await logout(url, '_token_guest') || null;
       if (response != null) {
           localStorage.removeItem("_token_guest");
+          localStorage.removeItem("_user_guest");
           return redirect('/');
       } else {
          localStorage.removeItem("_token_guest");
+         localStorage.removeItem("_user_guest");
          return redirect('/');
       }
+  });
+
+  $('.a-auth').click(function(e) {
+      e.preventDefault();
+      const url = $(this).attr('href');
+      const token = localStorage.getItem('_token_guest') || '';
+
+      return window.location.href = `${url}?token=${token}`;
   });
 
 })();

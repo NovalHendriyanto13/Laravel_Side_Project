@@ -58,6 +58,8 @@ $(document).ready(function() {
                     return false;
                 }                
                 localStorage.setItem("_token_guest", response.token);
+                localStorage.setItem("_user_guest", JSON.stringify(response.user));
+
                 return redirectWithToken(`/`, "_token_guest");
             }
             
