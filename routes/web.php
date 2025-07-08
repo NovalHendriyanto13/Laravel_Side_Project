@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\BloodStockController;
 use App\Http\Controllers\Web\BloodController;
 
 use App\Http\Controllers\Guest\IndexController as GuestIndexController;
+use App\Http\Controllers\Guest\OrderController as GuestOrderController;
 
 // admin site
 Route::prefix('admin')->group(function() {
@@ -64,26 +65,9 @@ Route::prefix('auth')->group(function() {
 
 Route::middleware(['auth'])->group(function() {
     
-
-    Route::prefix('auth')->group(function() {
-        Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::prefix('order')->group(function() {
+        Route::get('/', [GuestOrderController::class, 'index'])->name('order.index');
+        Route::get('/create', [GuestOrderController::class, 'create'])->name('order.create');
     });
 
-    Route::prefix('user')->group(function() {
-        Route::get('/', [UserController::class, 'index'])->name('user.index');
-        Route::get('/create', [UserController::class, 'create'])->name('user.create');
-        Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
-        Route::post('/profile', [UserController::class, 'profileAction'])->name('user.profile-action');
-        Route::post('/change-password', [UserController::class, 'changePassword'])->name('user.change-password');
-    });
-
-    Route::prefix('blood-stock')->group(function() {
-        Route::get('/', [BloodStockController::class, 'index'])->name('bloodStock.index');
-        Route::get('/create', [BloodStockController::class, 'create'])->name('bloodStock.create');
-        Route::get('/{id}', [BloodStockController::class, 'detail'])->name('bloodStock.detail');
-    });
-
-    Route::prefix('blood')->group(function() {
-        Route::get('/', [BloodController::class, 'index'])->name('blood.index');
-    });
 });

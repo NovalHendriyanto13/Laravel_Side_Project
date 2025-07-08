@@ -20,7 +20,10 @@ class JwtMiddleware
     public function handle(Request $request, Closure $next, ...$guards): Response
     {
         try {
-            $this->authenticate($request, $guards);
+            $user = $this->authenticate($request, $guards);
+            if ($user->role == 'guest') {
+                throw new \Exception('User is not valid');
+            }
         } catch (AuthenticationException $e) {
             return redirect()->guest(route('auth.login'));
         } catch (Exception $e) {
@@ -41,8 +44,8 @@ class JwtMiddleware
             //     Auth::shouldUse($guard);
             //     return;
             // }
-            if (JWTAuth::parseToken()->authenticate()) {
-                return;
+            if ($user = JWTAuth::parseToken()->authenticate()) {
+                return $user;
             }
         }
 

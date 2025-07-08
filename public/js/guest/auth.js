@@ -42,5 +42,25 @@ $(document).ready(function() {
             }
             
         })
+
+        $('.btn-login').click(async function(e) {
+            e.preventDefault();
+
+            const response = await submitPostFormToken('.form-login') || null;
+            if (response != null) {
+                if (response?.error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response?.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    })
+                    return false;
+                }                
+                localStorage.setItem("_token_guest", response.token);
+                return redirectWithToken(`/`, "_token_guest");
+            }
+            
+        })
     }
 });

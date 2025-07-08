@@ -177,4 +177,17 @@
     });
   });
 
+  $('.btn-logout').click(async function(e) {
+      e.preventDefault();
+      const url = $(this).attr('href');
+      const response = await logout(url, '_token_guest') || null;
+      if (response != null) {
+          localStorage.removeItem("_token_guest");
+          return redirect('/');
+      } else {
+         localStorage.removeItem("_token_guest");
+         return redirect('/');
+      }
+  });
+
 })();

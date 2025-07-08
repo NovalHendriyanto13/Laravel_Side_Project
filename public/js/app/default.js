@@ -64,8 +64,8 @@ async function submitPutFormToken(form) {
     }
 }
 
-async function logout(url) {
-    const response = await httpGet(url) || null;
+async function logout(url, tokenName = '_token') {
+    const response = await httpGet(url, {}, tokenName) || null;
     if (response?.error != null) {
         if (response?.error == true) {
             Swal.fire({

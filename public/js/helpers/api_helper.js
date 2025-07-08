@@ -78,9 +78,9 @@ async function httpPut(url, data) {
     }
 }
 
-async function httpGet(url, data = {}) {
+async function httpGet(url, data = {}, tokenName = '_token') {
     try {
-        const token = localStorage.getItem('_token') || '';
+        const token = localStorage.getItem(tokenName) || '';
         const response = await new Promise((resolve, reject) => {
             $.ajax({
                 url,
@@ -106,8 +106,8 @@ async function httpGet(url, data = {}) {
     }
 }
 
-async function redirectWithToken(url) {
-    const token = localStorage.getItem('_token');
+async function redirectWithToken(url, tokenName='_token') {
+    const token = localStorage.getItem(tokenName);
 
     return window.location.replace( `${url}?token=${encodeURIComponent(token)}`);
 }

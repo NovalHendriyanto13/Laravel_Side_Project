@@ -14,13 +14,19 @@
                         <li><a href="tour-details.html">Non BDRS</a></li>
                     </ul>
                 </li>
-                
+                @auth
+                <li><a href="{{ route('order.index') }}">Pemesanan</a></li>
+                @endauth
                 <li><a href="#">Contact</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-
+        @guest
         <a class="btn-getstarted" href="{{ route('register') }}">Daftar</a>
-        
+        @endguest
+
+        @auth
+        <a class="btn-getstarted btn-logout" href="{{ route('api.auth.logout') }}">Logout</a>
+        @endauth
     </div>
 </header>

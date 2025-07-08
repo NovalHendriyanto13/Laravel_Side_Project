@@ -39,11 +39,18 @@ class AuthController extends ApiBaseController {
         ]);
 
         try {
-            if (!$token = Auth::attempt($credentials)) {
+            if (!$token = JWTAuth::attempt($credentials)) {
                 return $this->errorApiResponse(401, 'Invalid credentials');
+            }
+
+            $user = Auth::user();
+            if ($user->role != 'guest') {
+                throw new \Exception('User is not allowed');
             }
         } catch (JWTException $e) {
             return $this->errorApiResponse(401, 'Could not create token');
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(401, $e->getMessage());
         }
  
         return $this->successApiResponse(['token' => $token, 'user' => Auth::user()]);

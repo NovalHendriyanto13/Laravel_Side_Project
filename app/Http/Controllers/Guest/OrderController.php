@@ -1,0 +1,20 @@
+<?php 
+namespace App\Http\Controllers\Guest;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+class IndexController extends Controller {
+    public function index(Request $request) {
+        return view('guest.order.index');
+    }
+
+    public function create(Request $request) {
+        return view('guest.order.create');
+    }
+
+    public function update(int $id, Request $request) {
+        return view('guest.order.update');
+    }
+}

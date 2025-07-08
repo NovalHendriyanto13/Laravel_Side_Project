@@ -23,10 +23,10 @@
             <div class="booking-form-wrapper" data-aos="fade-left" data-aos-delay="200">
                 <div class="booking-form">
                     <h3 class="form-title">Masuk</h3>
-                    <form action="{{ route('api.auth.loginGuest') }}" method="POST" class="form-submit">
+                    <form action="{{ route('api.auth.loginGuest') }}" method="POST" class="form-login">
                         <div class="form-group mb-3">
-                            <label for="username">Username</label>
-                            <input type="text" name="username" id="username" class="form-control" required="">
+                            <label for="email">Username</label>
+                            <input type="text" name="email" id="email" class="form-control" required="">
                         </div>
 
                         <div class="form-group mb-3">
@@ -34,7 +34,7 @@
                             <input type="password" name="password" id="password" class="form-control" required="">
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <button type="submit" class="btn btn-primary w-100 btn-login">Login</button>
                     </form>
                 </div>
             </div>
@@ -123,3 +123,7 @@
     </div>
 </section><!-- /Call To Action Section -->
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/guest/auth.js') }}"></script>
+@endpush
