@@ -47,13 +47,20 @@ class AuthController extends ApiBaseController {
             if ($user->role != 'guest') {
                 throw new \Exception('User is not allowed');
             }
+
+            $hospital = Hospital::select([
+                'id', 'kode_rs', 'nama_rs', 'email'
+            ])
+                ->where('email', $user->username)
+                ->first();
+
         } catch (JWTException $e) {
             return $this->errorApiResponse(401, 'Could not create token');
         } catch (\Exception $e) {
             return $this->errorApiResponse(401, $e->getMessage());
         }
  
-        return $this->successApiResponse(['token' => $token, 'user' => Auth::user()]);
+        return $this->successApiResponse(['token' => $token, 'user' => Auth::user(), 'hospital' => $hospital ]);
     }
 
     public function logout(Request $request) {

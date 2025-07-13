@@ -59,6 +59,7 @@ $(document).ready(function() {
                 }                
                 localStorage.setItem("_token_guest", response.token);
                 localStorage.setItem("_user_guest", JSON.stringify(response.user));
+                localStorage.setItem("_user_hospital", JSON.stringify(response.hospital));
 
                 return redirectWithToken(`/`, "_token_guest");
             }

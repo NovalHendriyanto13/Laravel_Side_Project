@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="d-flex align-items-center">
-                <a href="{{ route('bloodStock.index') }}" class="btn btn-danger btn-icon-split m-2">
+                <a href="{{ route('admin.bloodStock.index') }}" class="btn btn-danger btn-icon-split m-2">
                     <span class="icon text-white-50">
                         <i class="fas fa-arrow-left"></i>
                     </span>

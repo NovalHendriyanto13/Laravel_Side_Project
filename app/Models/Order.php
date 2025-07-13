@@ -26,6 +26,7 @@ class Order extends Model
         "trombosit",
         "berat_badan",
         "nama_pasien",
+        "jenis_kelamin",
         "nama_pasangan",
         "tempat_lahir",
         "tanggal_lahir",

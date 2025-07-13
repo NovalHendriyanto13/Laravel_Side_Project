@@ -9,6 +9,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Auth\AuthenticationException;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Hospital;
 
 class AuthMiddleware
 {
@@ -21,9 +22,13 @@ class AuthMiddleware
     {
         try {
             $user = $this->authenticate($request, $guards);
+            
             if ($user->role != 'guest') {
                 throw new \Exception('User is not valid');
             }
+            $hospital = Hospital::where('email', $user->username)->first();
+
+            $user->hospital = $hospital;
         } catch (AuthenticationException $e) {
             return redirect()->guest(route('home'));
         } catch (Exception $e) {

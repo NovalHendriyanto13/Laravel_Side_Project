@@ -184,10 +184,12 @@
       if (response != null) {
           localStorage.removeItem("_token_guest");
           localStorage.removeItem("_user_guest");
+          localStorage.removeItem("_user_hospital");
           return redirect('/');
       } else {
          localStorage.removeItem("_token_guest");
          localStorage.removeItem("_user_guest");
+         localStorage.removeItem("_user_hospital");
          return redirect('/');
       }
   });

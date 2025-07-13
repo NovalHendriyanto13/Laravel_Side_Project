@@ -8416,6 +8416,10 @@ section,
   transform: translateX(3px);
 }
 
+.accordion-button {
+  background-color: #0ABAB5;
+}
+
 @keyframes float {
 
   0%,

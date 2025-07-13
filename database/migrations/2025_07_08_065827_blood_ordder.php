@@ -27,11 +27,12 @@ return new class extends Migration
             $table->string('berat_badan')->nullable();
             $table->string('nama_pasien');
             $table->string('nama_pasangan')->nullable();
+            $table->string('jenis_kelamin');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('alamat');
             $table->string('no_telp');
-            $table->string('transfusi_sebelumnya')->nullable();
+            $table->boolean('transfusi_sebelumnya')->default(0);
             $table->date('tgl_transfusi_sebelumnya')->nullable();
             $table->string('gejala_reaksi')->nullable();
             $table->string('tempat_serologi')->nullable();

@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form class="user" action="{{ route('create.action-action') }}" method="POST">
+        <form class="user" action="{{ route('admin.user.create') }}" method="POST">
             @csrf
             @if ($errors->any())
                 <div class="alert alert-danger">
