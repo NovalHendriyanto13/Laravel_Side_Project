@@ -96,7 +96,6 @@ class UserController extends ApiBaseController {
         $request->validate([
             'email' => 'required',
             'name' => 'required',
-            'role' => 'required',
         ]);
 
         try {
@@ -109,7 +108,6 @@ class UserController extends ApiBaseController {
 
             $data->email = $request->email;
             $data->name = $request->name;
-            $data->role = $request->role;
             $data->save();
 
             if (!$data) {
@@ -124,6 +122,23 @@ class UserController extends ApiBaseController {
     }
 
     public function changePassword(Request $request) {
+        try {
+            $user = auth()->user();
 
+            if (!Hash::check($request->old_password, $user->password)) {
+                throw new \Exception('The old password is incorrect');
+            }
+
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return $this->successApiResponse($user);
+
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
+        }
+        
+
+        dd($user);
     }
 }

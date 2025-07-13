@@ -38,6 +38,14 @@
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.hospital.index') }}">
+            <i class="fas fa-fw fa-box"></i>
+            <span>Rumah Sakit</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.bloodStock.index') }}">
             <i class="fas fa-fw fa-box"></i>
             <span>Stock Darah</span>

@@ -7,6 +7,8 @@ use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\BloodStockController;
 use App\Http\Controllers\Web\BloodController;
+use App\Http\Controllers\Web\HospitalController;
+use App\Http\Controllers\Web\OrderController;
 
 use App\Http\Controllers\Guest\IndexController as GuestIndexController;
 use App\Http\Controllers\Guest\OrderController as GuestOrderController;
@@ -48,9 +50,15 @@ Route::prefix('admin')->group(function() {
         });
 
         Route::prefix('order')->group(function() {
-            Route::get('/', [BloodStockController::class, 'index'])->name('admin.order.index');
-            Route::get('/create', [BloodStockController::class, 'create'])->name('admin.order.create');
-            Route::get('/{id}', [BloodStockController::class, 'detail'])->name('admin.order.detail');
+            Route::get('/', [OrderController::class, 'index'])->name('admin.order.index');
+            Route::get('/create', [OrderController::class, 'create'])->name('admin.order.create');
+            Route::get('/{id}', [OrderController::class, 'detail'])->name('admin.order.detail');
+        });
+
+        Route::prefix('hospital')->group(function() {
+            Route::get('/', [HospitalController::class, 'index'])->name('admin.hospital.index');
+            Route::get('/create', [HospitalController::class, 'create'])->name('admin.hospital.create');
+            Route::get('/{id}', [HospitalController::class, 'detail'])->name('admin.hospital.detail');
         });
     });
 });

@@ -30,6 +30,48 @@ $(document).ready(function() {
                 }
                 
             }
+        });
+
+        $('.btn-change-password').click(async function(e) {
+            e.preventDefault();
+
+            const password = $('#password').val();
+            const rePassword = $('#repeat_password').val();
+
+            if (password !== rePassword) {
+                Swal.fire({
+                        title: 'Error!',
+                        text: 'Password tidak cocok',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    })
+                    return false;
+            } 
+
+            const response = await submitPutFormToken('.form-change-password') || null;
+
+            if (response != null) {
+                if (response?.error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response?.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    })
+                    return false;
+                } else {
+                    Swal.fire({
+                        title: "Success",
+                        text: response?.message,
+                        icon: 'success',
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "OK"
+                        }).then((result) => {
+                            return true;
+                    });
+                }
+                
+            }
         })
     }
 

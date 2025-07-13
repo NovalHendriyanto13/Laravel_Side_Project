@@ -30,21 +30,8 @@ class OrderController extends BaseController {
     }
 
     public function detail(int $id, Request $request) {
-        $bloods = Blood::query()
-            ->select([
-                'id', 'name', 'blood_type', 'blood_type_alias'
-            ])
-            ->orderBy('blood_type')
-            ->get();
-
-        $dropdownBloods = [];
-        foreach($bloods as $data) {
-            $dropdownBloods[$data->id] = $data->name . ' - ' . $data->blood_type;
-        }
-
-        return view('admin.blood_stock.update', [
+        return view('admin.order.update', [
             'title' => 'Detail Stock Darah',
-            'bloods' => $dropdownBloods,
             'id' => $id,
         ]);
     }

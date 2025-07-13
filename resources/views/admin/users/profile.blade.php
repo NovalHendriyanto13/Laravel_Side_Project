@@ -23,20 +23,10 @@
                     <form class="user form-user-update" action="{{ route('api.user.update-profile') }}" method="POST" data-id="{{ $id }}">
                         @csrf
                         <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
                                 <label class="form-label">NIK</label>
                                 <input type="text" class="form-control" id="nik"
                                     placeholder="NIK" name="nik" readonly>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label">Role</label>
-                                <select class="form-control" id="role"
-                                    placeholder="Role" name="role">
-                                    <option value="">Select Role</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="guest">Guest</option>
-                                    <option value="checker">Checker</option>
-                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -72,7 +62,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <form class="user" action="{{ route('api.user.change-password') }}" method="POST">
+                    <form class="user form-change-password" action="{{ route('api.user.change-password') }}" method="POST">
                         @csrf
                        
                         <div class="form-group row">
@@ -89,10 +79,10 @@
                             <div class="col-sm-12">
                                 <label class="form-label">Validasi Password</label>
                                 <input type="password" class="form-control"
-                                    id="re_password" placeholder="Repeat Password" name="password_confirmation">
+                                    id="repeat_password" placeholder="Repeat Password" name="password_confirmation">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">
+                        <button type="submit" class="btn btn-primary btn-block btn-change-password">
                             Change Password
                         </button>
                         <hr>

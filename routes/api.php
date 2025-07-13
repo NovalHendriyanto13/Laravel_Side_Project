@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BloodStockController;
 use App\Http\Controllers\Api\BloodController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\HospitalController;
 
 Route::prefix('auth')->group(function() {
     Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
@@ -39,6 +40,16 @@ Route::middleware(['jwt'])->group(function() {
         Route::put('/change-password', [UserController::class, 'changePassword'])->name('api.user.change-password');
         Route::get('/{id}', [UserController::class, 'detail'])->name('api.user.detail');
         Route::put('/{id}', [UserController::class, 'update'])->name('api.user.update');
+    });
+
+    Route::prefix('hospital')->group(function() {
+        Route::get('/', [HospitalController::class, 'index'])->name('api.hospital.index');
+        Route::get('/{id}', [HospitalController::class, 'detail'])->name('api.hospital.detail');
+    });
+
+    Route::prefix('admin-order')->group(function() {
+        Route::get('/', [OrderController::class, 'index'])->name('api.admin.order.index');
+        Route::post('/update', [OrderController::class, 'update'])->name('api.admin.order.update');
     });
 });
 
