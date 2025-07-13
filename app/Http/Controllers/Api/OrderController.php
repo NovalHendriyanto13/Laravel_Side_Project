@@ -9,7 +9,38 @@ class OrderController extends ApiBaseController {
         $user = auth()->user();
         $hospital = $user->hospital ?? null;
 
-        dd($hospital);
+        $datas = Order::query()
+            ->select([
+                'pemesanan.id',
+                'pemesanan.kode_pemesanan',
+                'pemesanan.rs_id',
+                'pemesanan.tipe',
+                'pemesanan.dokter',
+                'pemesanan.tgl_pemesanan',
+                'pemesanan.tgl_diperlukan',
+                'pemesanan.nama_pasien',
+                'pemesanan.diagnosis',
+                'pemesanan.jenis_kelamin',
+                'pemesanan.tempat_lahir',
+                'pemesanan.tanggal_lahir',
+                'pemesanan.no_telp',
+                'pemesanan.status',
+                'rumah_sakit.nama_rs',
+                'rumah_sakit.kode_rs'
+            ])
+            ->leftJoin('rumah_sakit', 'pemesanan.rs_id', 'rumah_sakit.id')
+            ->when(!empty($hospital), function($q) use ($hospital) {
+                return $q->where('pemesanan.rs_id', $hospital->id);
+            })
+            ->orderBy('pemesanan.id', 'DESC')
+            ->get();
+
+        $datas->map(function($item) {
+            $item->status = Order::$_status[$item->status];
+            return $item;
+        });
+
+        return $this->successApiResponse($datas);
     }
 
     public function create(Request $request) {

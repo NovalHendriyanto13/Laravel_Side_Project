@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('admin.layouts.main')
 
 @section('content')
 <!-- Begin Page Content -->
@@ -6,7 +6,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ $title }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">Update Profile</h1>
     </div>
 
     <div class="row">
@@ -20,42 +20,40 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <form class="user" action="{{ route('user.profile-action') }}" method="POST">
+                    <form class="user form-user-update" action="{{ route('api.user.update-profile') }}" method="POST" data-id="{{ $id }}">
                         @csrf
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                    placeholder="NIK" name="nik" value="{{ $data['user']['nik'] }}" readonly>
+                                <label class="form-label">NIK</label>
+                                <input type="text" class="form-control" id="nik"
+                                    placeholder="NIK" name="nik" readonly>
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control form-control-user" id="exampleLastName"
+                                <label class="form-label">Role</label>
+                                <select class="form-control" id="role"
                                     placeholder="Role" name="role">
                                     <option value="">Select Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="guest">Guest</option>
+                                    <option value="checker">Checker</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12 mb-3 mb-sm-0">
-                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                    placeholder="Email Address" name="email" value="{{ $data['user']['email'] }}" >
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email"
+                                    placeholder="Email Address" name="email">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                    placeholder="Name" name="name" value="{{ $data['user']['name'] }}" required>
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name"
+                                    placeholder="Name" name="name" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">
+                        <button type="submit" class="btn btn-primary btn-block btn-submit">
                             Edit Profile
                         </button>
                         <hr>
@@ -74,29 +72,24 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <form class="user" action="{{ route('user.change-password') }}" method="POST">
+                    <form class="user" action="{{ route('api.user.change-password') }}" method="POST">
                         @csrf
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                       
                         <div class="form-group row">
                             <div class="col-sm-12 mb-3">
-                                <input type="password" class="form-control form-control-user"
-                                    id="exampleInputPassword" placeholder="Old Password" name="old_password">
+                                <label class="form-label">Password Lama</label>
+                                <input type="password" class="form-control"
+                                    id="old_password" placeholder="Old Password" name="old_password">
                             </div>
                             <div class="col-sm-12 mb-3">
-                                <input type="password" class="form-control form-control-user"
-                                    id="exampleInputPassword" placeholder="Password" name="password">
+                                <label class="form-label">Password baru</label>
+                                <input type="password" class="form-control"
+                                    id="password" placeholder="Password" name="password">
                             </div>
                             <div class="col-sm-12">
-                                <input type="password" class="form-control form-control-user"
-                                    id="exampleRepeatPassword" placeholder="Repeat Password" name="password_confirmation">
+                                <label class="form-label">Validasi Password</label>
+                                <input type="password" class="form-control"
+                                    id="re_password" placeholder="Repeat Password" name="password_confirmation">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">
@@ -113,3 +106,7 @@
 <!-- /.container-fluid -->
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/pages/user/update.js') }}"></script>
+@endpush

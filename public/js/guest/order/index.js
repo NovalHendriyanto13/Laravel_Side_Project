@@ -25,14 +25,23 @@ $(document).ready(async function() {
                 }
             },
             columns: [
-                { data: 'code' },
-                { data: 'name' },
+                { data: 'kode_pemesanan' },
+                { data: 'tipe' },
+                { data: 'dokter' },
+                { data: 'tgl_pemesanan' },
+                { data: 'tgl_diperlukan' },
+                { data: 'nama_pasien' },
+                { data: 'jenis_kelamin' },
                 {
                     data: null,
                     render: function(data, type, row) {
-                        return row.blood_type + ' ' + row.blood_type_alias;
+                        return row.tempat_lahir + ', ' + row.tanggal_lahir;
                     } 
                 },
+                { data: 'no_telp' },
+                { data: 'diagnosis' },
+                { data: 'status' },
+                
             ]
         })
     }

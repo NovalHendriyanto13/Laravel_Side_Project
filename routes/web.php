@@ -34,6 +34,7 @@ Route::prefix('admin')->group(function() {
             Route::get('/profile', [UserController::class, 'profile'])->name('admin.user.profile');
             Route::post('/profile', [UserController::class, 'profileAction'])->name('admin.user.profile-action');
             Route::post('/change-password', [UserController::class, 'changePassword'])->name('admin.user.change-password');
+            Route::get('/{id}', [UserController::class, 'detail'])->name('admin.user.detail');            
         });
 
         Route::prefix('blood-stock')->group(function() {
@@ -44,6 +45,12 @@ Route::prefix('admin')->group(function() {
 
         Route::prefix('blood')->group(function() {
             Route::get('/', [BloodController::class, 'index'])->name('admin.blood.index');
+        });
+
+        Route::prefix('order')->group(function() {
+            Route::get('/', [BloodStockController::class, 'index'])->name('admin.order.index');
+            Route::get('/create', [BloodStockController::class, 'create'])->name('admin.order.create');
+            Route::get('/{id}', [BloodStockController::class, 'detail'])->name('admin.order.detail');
         });
     });
 });

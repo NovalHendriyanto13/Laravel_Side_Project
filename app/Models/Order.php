@@ -45,4 +45,14 @@ class Order extends Model
         "created_by",
         "updated_by"
     ];
+
+    public static $_status = [
+        'Ditolak',
+        'Dikirim',
+        'Diproses',
+        'Dicek Sample',
+        'Cocok',
+        'Dikirim',
+        'Selesai'
+    ];
 }

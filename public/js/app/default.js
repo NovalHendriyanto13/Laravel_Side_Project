@@ -1,4 +1,15 @@
 async function submitPostForm(form) {
+    const isNotValid = requiredInput(form);
+    if (isNotValid) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please input required field',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+        return false;
+    }
+
     const payload = $(form).serializeArray();
     const url = $(form).attr('action');
 
@@ -21,6 +32,17 @@ async function submitPostForm(form) {
 }
 
 async function submitPostFormToken(form) {
+    const isNotValid = requiredInput(form);
+    if (isNotValid) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please input required field',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+        return false;
+    }
+
     const payload = $(form).serializeArray();
     const url = $(form).attr('action');
 
@@ -43,6 +65,17 @@ async function submitPostFormToken(form) {
 }
 
 async function submitPutFormToken(form) {
+    const isNotValid = requiredInput(form);
+    if (isNotValid) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please input required field',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+        return false;
+    }
+
     const payload = $(form).serializeArray();
     const url = $(form).attr('action');
 
@@ -65,6 +98,17 @@ async function submitPutFormToken(form) {
 }
 
 async function submitPostFormGuestToken(form, additionalPayload = {}) {
+    const isNotValid = requiredInput(form);
+    if (isNotValid) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please input required field',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+        return false;
+    }
+
     let payload = $(form).serializeArray();
     const url = $(form).attr('action');
 
@@ -89,6 +133,17 @@ async function submitPostFormGuestToken(form, additionalPayload = {}) {
 }
 
 async function submitPutFormGuestToken(form) {
+    const isNotValid = requiredInput(form);
+    if (isNotValid) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please input required field',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+        return false;
+    }
+    
     const payload = $(form).serializeArray();
     const url = $(form).attr('action');
 
@@ -127,4 +182,18 @@ async function logout(url, tokenName = '_token') {
             return response?.data;
         }
     }
+}
+
+function requiredInput(form) {
+    let valid = [];
+    $(`${form} [required]`).each(function () {
+        if (!$(this).val()) {
+            valid.push(false);
+            $(this).addClass('required-invalid');
+        } else {
+            $(this).removeClass('required-invalid');
+        }
+    });
+
+    return valid.includes(false);
 }

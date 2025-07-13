@@ -98,7 +98,7 @@ class BloodStockController extends ApiBaseController {
             $data->save();
 
             if (!$data) {
-                throw new \Exception('Add New Blood Stock is failed');
+                throw new \Exception('Update Blood Stock is failed');
             }
 
             return $this->successApiResponse($data);

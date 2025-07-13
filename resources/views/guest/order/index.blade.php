@@ -37,22 +37,23 @@
                 <div class="tour-filters">
                     <div class="table-responsive">
                         <table class="table table-bordered table-order" id="dataTable" width="100%" cellspacing="0"
-                            data-url="{{ route('api.blood.index') }}"
+                            data-url="{{ route('api.order.index') }}"
                         >
                             <thead>
                                 <tr>
-                                    <th>Kode Darah</th>
-                                    <th>Nama</th>
-                                    <th>Jenis Darah</th>
+                                    <th>Kode Pemesanan</th>
+                                    <th>Tipe</th>
+                                    <th>Dokter</th>
+                                    <th>Tanggal Pemesanan</th>
+                                    <th>Tanggal Di perlukan</th>
+                                    <th>Pasien</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>TTL</th>
+                                    <th>No Telp</th>
+                                    <th>Diagnosis</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Kode Darah</th>
-                                    <th>Nama</th>
-                                    <th>Jenis Darah</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 
                             </tbody>

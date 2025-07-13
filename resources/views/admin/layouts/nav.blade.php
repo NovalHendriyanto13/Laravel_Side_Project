@@ -49,6 +49,20 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
+        Transaksi
+    </div>
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.order.index') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Pemesanan</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
         Settings
     </div>
     <!-- Nav Item - Charts -->
@@ -56,13 +70,6 @@
         <a class="nav-link" href="{{ route('admin.user.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Users</span></a>
-    </li>
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
     </li>
 
     <!-- Divider -->
