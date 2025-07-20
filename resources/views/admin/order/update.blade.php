@@ -236,5 +236,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/pages/blood_stock/update.js') }}"></script>
+<script src="{{ asset('js/pages/order/update.js') }}"></script>
 @endpush

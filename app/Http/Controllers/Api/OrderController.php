@@ -91,4 +91,18 @@ class OrderController extends ApiBaseController {
             return $this->errorApiResponse(500, $e->getMessage());
         }
     }
+
+    public function detail(int $id, Request $request) {
+        try {
+            $data = Order::find($id);
+
+            if (!($data)) {
+                return new \Exception('No data found');
+            }
+
+            return $this->successApiResponse($data);
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage()); 
+        }
+    }
 }

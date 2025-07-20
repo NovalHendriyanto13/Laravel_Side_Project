@@ -1,5 +1,5 @@
 <footer id="footer" class="footer position-relative dark-background">
-    <div class="footer-newsletter">
+    <!-- <div class="footer-newsletter">
         <div class="container">
             <div class="row justify-content-center text-center">
             <div class="col-lg-6">
@@ -68,6 +68,6 @@
         <p>© <span>Copyright</span> <strong class="px-1 sitename">MyWebsite</strong> <span>All Rights Reserved</span></p>
         <div class="credits">
         </div>
-    </div>
+    </div> -->
 
 </footer>

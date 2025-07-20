@@ -1,7 +1,11 @@
 @extends('guest.layouts.main')
 
+@push('css')
+<link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
-<div class="page-title dark-background" data-aos="fade">
+<div class="page-title dark-background" data-aos="fade" style="background-image: url({{ asset('images/about_2.jpeg') }});">
     <div class="container position-relative">
         <h1>Tahun Berganti Dedikasi Tak Terhenti</h1>
         <p>Bergabunglah dalam misi kami untuk memberikan bantuan dan harapan yang menyelamatkan jiwa 
@@ -97,7 +101,7 @@
 
                                                 <div class="form-group mb-3">
                                                     <label for="nama_pasangan">Nama Pasangan</label>
-                                                    <input type="text" name="nama_pasangan" id="nama_pasangan" class="form-control" required="">
+                                                    <input type="text" name="nama_pasangan" id="nama_pasangan" class="form-control" disabled>
                                                 </div>
 
                                                 <div class="form-group mb-3">
@@ -126,6 +130,15 @@
                                             </div>
                                             <div class="col-lg-6 col-md-6 mb-3">
                                                 <div class="form-group mb-3">
+                                                    <label for="status_nikah">Status</label>
+                                                    <select name="status_nikah" class="form-control" id="status_nikah">
+                                                        <option value="lajang">Lajang</option>
+                                                        <option value="menikah">Menikah</option>
+                                                        <option value="cerai">Cerai</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group mb-3">
                                                     <label for="tempat_lahir">Tempat Lahir</label>
                                                     <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control" required="">
                                                 </div>
@@ -142,12 +155,12 @@
                                                 
                                                 <div class="form-group mb-3">
                                                     <label for="berat_badan">Berat Badan</label>
-                                                    <input type="text" name="berat_badan" id="berat_badan" class="form-control" required>
+                                                    <input type="number" name="berat_badan" id="berat_badan" class="form-control" required>
                                                 </div>
 
                                                 <div class="form-group mb-3">
                                                     <label for="no_telp">No Telp</label>
-                                                    <input type="text" name="no_telp" id="no_telp" class="form-control" required>
+                                                    <input type="number" name="no_telp" id="no_telp" class="form-control" required>
                                                 </div>
                                                 
                                             </div>
@@ -236,6 +249,54 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                                        <b>Informasi Pemesanan</b>
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 mb-3">                                                
+                                                <div class="form-group mb-3">
+                                                    <label for="item">Item</label>
+                                                    <select class="form-control" id="item" name="item" data-url="{{ route('api.blood.index') }}"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 mb-3">
+                                                <div class="form-group mb-3">
+                                                    <label for="jumlah">Jumlah (unit/mL)</label>
+                                                    <input type="number" name="jumlah" id="jumlah" class="form-control" >
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 mb-3 mt-3">
+                                                <div class="form-group mb-3">
+                                                    <button type="button" class="btn btn-primary" id="select_item">Pilih</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-item" id="dataTable" width="100%" cellspacing="0"
+                                                data-url="{{ route('api.order.index') }}"
+                                            >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Item</th>
+                                                        <th>Jumlah</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="d-flex text-center">
@@ -257,5 +318,7 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('js/guest/order/create.js') }}"></script>
 @endpush

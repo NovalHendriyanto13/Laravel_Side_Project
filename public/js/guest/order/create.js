@@ -1,5 +1,7 @@
 $(document).ready(async function() {
 
+    let selectedItems = [];
+    let selectedTable;
     await _init();
     _gesture();
 
@@ -14,6 +16,45 @@ $(document).ready(async function() {
 
         // $('input').val("");
         $('#tgl_pemesanan').val(formattedDate);
+
+        const item = $('#item');
+        const itemUrl = item.data('url');
+        let responseItem = [];
+        const items = await httpGetGuest(itemUrl);
+        if (items?.error == false) {
+            item.empty()
+            responseItem = items?.data;
+            responseItem.forEach(function(value) {
+                $(item).append(
+                    $('<option>', {
+                        value: value?.id,
+                        text: (value?.blood_type + ' - '+ value?.name)
+                    })
+                );
+            });
+        }
+
+        const table = $('.table-item');
+        selectedTable = table.DataTable({
+            data: selectedItems,
+            columns: [
+                { data: 'name' },
+                { data: 'jumlah' },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return `
+                            <a class="btn btn-sm btn-danger btn-delete-item" data-id="${row.id}" data-index="${row.index}">
+                                Hapus
+                            </a>
+                        `;
+                    }
+                }
+                
+            ]
+        })
     }
 
     function _gesture() {
@@ -34,12 +75,55 @@ $(document).ready(async function() {
             }
         });
 
+        $('#status_nikah').change(function(e) {
+            const value = $(this).val();
+            const namaPasangan = $('#nama_pasangan');
+
+            if (value == 'menikah') {
+                namaPasangan.removeAttr("disabled");
+            } else {
+                namaPasangan.attr("disabled", true);
+            }
+        });
+
+        $('#select_item').click(function() {
+            const item = $('#item').find(':selected');
+            const jml = $('#jumlah');
+
+            if (jml.val() == "") {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Jumlah harus diisi',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+
+                return false;
+            }
+
+            const lenSelectedItem = selectedItems.length;
+            selectedItems.push({
+                index: (lenSelectedItem),
+                name: item.text(),
+                jumlah: jml.val(),
+                id: item.val(), 
+            });
+
+            selectedTable.clear().rows.add(selectedItems).draw();
+        });
+
+        $('.table-item tbody').on('click', '.btn-delete-item', function () {
+            const data = selectedTable.row($(this).closest('tr')).data();
+            selectedItems = selectedItems.filter(item => !((item.index === data.index) && (item.id === data.id)));
+            selectedTable.clear().rows.add(selectedItems).draw();
+        });
+
         $('.btn-submit').click(async function(e) {
             e.preventDefault();
             const getHospital = localStorage.getItem('_user_hospital') || "{}";
             const hospital = JSON.parse(getHospital);
 
-            const payload = { "name": "rs_id", "value" : hospital.id }
+            const payload = { "name": "rs_id", "value" : hospital.id, "items": selectedItems }
 
             const response = await submitPostFormGuestToken('.form-order-create', payload) || null;
 
@@ -64,6 +148,6 @@ $(document).ready(async function() {
                         });
                 }                
             }
-        })
+        });
     }
 });

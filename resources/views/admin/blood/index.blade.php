@@ -14,7 +14,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-blood" id="dataTable" width="100%" cellspacing="0"
-                data-url="{{ route('api.blood.index') }}"
+                data-url="{{ route('api.admin.blood.index') }}"
             >
                 <thead>
                     <tr>

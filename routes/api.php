@@ -30,7 +30,7 @@ Route::middleware(['jwt'])->group(function() {
     });
 
     Route::prefix('blood')->group(function() {
-        Route::get('/', [BloodController::class, 'index'])->name('api.blood.index');
+        Route::get('/', [BloodController::class, 'index'])->name('api.admin.blood.index');
     });
 
     Route::prefix('user')->group(function() {
@@ -49,7 +49,8 @@ Route::middleware(['jwt'])->group(function() {
 
     Route::prefix('admin-order')->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('api.admin.order.index');
-        Route::post('/update', [OrderController::class, 'update'])->name('api.admin.order.update');
+        Route::put('/{id}', [OrderController::class, 'update'])->name('api.admin.order.update');
+        Route::get('/{id}', [OrderController::class, 'detail'])->name('api.admin.order.detail');
     });
 });
 
@@ -57,5 +58,9 @@ Route::middleware(['auth'])->group(function() {
     Route::prefix('order')->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('api.order.index');
         Route::post('/create', [OrderController::class, 'create'])->name('api.order.create');
+    });
+
+    Route::prefix('blood')->group(function() {
+        Route::get('/', [BloodController::class, 'index'])->name('api.blood.index');
     });
 });

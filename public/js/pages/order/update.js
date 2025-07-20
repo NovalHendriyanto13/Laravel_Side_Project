@@ -2,8 +2,8 @@ $(document).ready(function() {
     _init();
 
     async function _init() {
-        const id = $('.form-hospital-update').data('id');
-        const url = `${_apiBaseUrl}/api/hospital/${id}`;
+        const id = $('.form-order-update').data('id');
+        const url = `${_apiBaseUrl}/api/admin-order/${id}`;
         const response = await httpGet(url) || null;
 
         if (response != null) {

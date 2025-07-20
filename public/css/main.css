@@ -47,7 +47,8 @@
 }
 
 .dark-background {
-  --background-color: #031013;
+  /* --background-color: #031013; */
+  --background-color: #CE2127;
   --default-color: #ffffff;
   --heading-color: #ffffff;
   --surface-color: #252525;
@@ -8418,6 +8419,15 @@ section,
 
 .accordion-button {
   background-color: #0ABAB5;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #CE2127;
+  color: #FFFF;
+}
+
+.form-control {
+  appearance: auto;
 }
 
 @keyframes float {

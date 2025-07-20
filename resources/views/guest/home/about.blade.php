@@ -1,6 +1,6 @@
 @extends('guest.layouts.main')
 @section('content')
-<div class="page-title dark-background" data-aos="fade" style="background-image: url(assets/img/travel/showcase-8.webp);">
+<div class="page-title dark-background" data-aos="fade" style="background-image: url({{ asset('images/about_2.jpeg') }});">
     <div class="container position-relative">
         <h1>Tahun Berganti Dedikasi Tak Terhenti</h1>
         <p>Bergabunglah dalam misi kami untuk memberikan bantuan dan harapan yang menyelamatkan jiwa 
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-                            <div class="content">
+                            <!-- <div class="content">
                                 <h3>Palang Merah Indonesia ( PMI )</h3>
                                 <p>
                                     unit donor darah PMI adalah fasilitas pelayanan kesehatan yang menyelenggarakan pengerahan dan pelestarian pendonor darah, penyedia darah 
@@ -48,7 +48,7 @@
                                     Berdasarkan peraturan Organisasi PMI nomor 001/PO/PP.PMI/I/2016 dan Peraturan Menteri Kesehatan No. 83
                                     tahun 2014 maka UDD PMI Kota Tangerang masuk ke dalam UDD Madya.
                                 </p>
-                            </div>
+                            </div> -->
                         </div>
                     </div><!-- End About Us Content -->
             </div>
