@@ -29,8 +29,9 @@ Route::middleware(['jwt'])->group(function() {
         Route::put('/{id}', [BloodStockController::class, 'update'])->name('api.bloodStock.update');
     });
 
-    Route::prefix('blood')->group(function() {
+    Route::prefix('admin-blood')->group(function() {
         Route::get('/', [BloodController::class, 'index'])->name('api.admin.blood.index');
+        Route::post('/create', [BloodController::class, 'create'])->name('api.admin.blood.create');
     });
 
     Route::prefix('user')->group(function() {

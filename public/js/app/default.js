@@ -31,7 +31,7 @@ async function submitPostForm(form) {
     }
 }
 
-async function submitPostFormToken(form) {
+async function submitPostFormToken(form, additionalPayload = {}) {
     const isNotValid = requiredInput(form);
     if (isNotValid) {
         Swal.fire({
@@ -43,8 +43,10 @@ async function submitPostFormToken(form) {
         return false;
     }
 
-    const payload = $(form).serializeArray();
+    let payload = $(form).serializeArray();
     const url = $(form).attr('action');
+
+    payload.push(...additionalPayload);
 
     const response = await httpPost(url, payload) || null;
     if (response?.error != null) {
@@ -112,7 +114,7 @@ async function submitPostFormGuestToken(form, additionalPayload = {}) {
     let payload = $(form).serializeArray();
     const url = $(form).attr('action');
 
-    payload.push(additionalPayload);
+    payload.push(...additionalPayload);
 
     const response = await httpPostGuest(url, payload) || null;
     if (response?.error != null) {
@@ -189,6 +191,7 @@ function requiredInput(form) {
     $(`${form} [required]`).each(function () {
         if (!$(this).val()) {
             valid.push(false);
+            console.log($(this).attr('id'));
             $(this).addClass('required-invalid');
         } else {
             $(this).removeClass('required-invalid');

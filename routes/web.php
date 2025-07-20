@@ -47,6 +47,7 @@ Route::prefix('admin')->group(function() {
 
         Route::prefix('blood')->group(function() {
             Route::get('/', [BloodController::class, 'index'])->name('admin.blood.index');
+            Route::get('/create', [BloodController::class, 'create'])->name('admin.blood.create');
         });
 
         Route::prefix('order')->group(function() {

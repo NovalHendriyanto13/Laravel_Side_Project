@@ -36,7 +36,7 @@ $(document).ready(function() {
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"
                         }).then((result) => {
-                            return redirectWithToken('/');
+                            return redirect('/');
                         });
                 }                
             }

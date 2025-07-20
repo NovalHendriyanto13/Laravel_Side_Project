@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
@@ -27,6 +28,7 @@ class Order extends Model
         "berat_badan",
         "nama_pasien",
         "jenis_kelamin",
+        "status_nikah",
         "nama_pasangan",
         "tempat_lahir",
         "tanggal_lahir",
@@ -55,4 +57,8 @@ class Order extends Model
         'Dikirim',
         'Selesai'
     ];
+
+    public function orderDetail(): HasMany {
+        return $this->hasMany(OrderDetail::class, 'pemesanan_id', 'id');
+    }
 }

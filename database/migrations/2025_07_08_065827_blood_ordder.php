@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('trombosit');
             $table->string('berat_badan')->nullable();
             $table->string('nama_pasien');
+            $table->string('status_nikah');
             $table->string('nama_pasangan')->nullable();
             $table->string('jenis_kelamin');
             $table->string('tempat_lahir');

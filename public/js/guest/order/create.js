@@ -123,7 +123,23 @@ $(document).ready(async function() {
             const getHospital = localStorage.getItem('_user_hospital') || "{}";
             const hospital = JSON.parse(getHospital);
 
-            const payload = { "name": "rs_id", "value" : hospital.id, "items": selectedItems }
+            if (selectedItems.length <= 0) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Harap lengkapi data di INFORMASI PEMESANAN',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+                return false;
+            }
+
+            const payload = [{ 
+                name: "rs_id",
+                value: hospital.id,
+            }, {
+                name: "items",
+                value: JSON.stringify(selectedItems)
+            }];
 
             const response = await submitPostFormGuestToken('.form-order-create', payload) || null;
 

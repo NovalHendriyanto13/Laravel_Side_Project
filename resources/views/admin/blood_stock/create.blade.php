@@ -8,11 +8,11 @@
         </div>
     </div>
     <div class="card-body">
-        <form class="form-blood-stock-create" action="{{ route('api.bloodStock.create') }}" method="POST">
+        <form class="form-blood-stock-create" action="{{ route('api.admin.blood.create') }}" method="POST">
             @csrf
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <label class="form-label">No Stock</label>
+                    <label class="form-label">Nama</label>
                     <input type="text" class="form-control" id="stock_no"
                         placeholder="No Stock" name="stock_no">
                 </div>

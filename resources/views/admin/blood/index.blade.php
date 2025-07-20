@@ -9,6 +9,12 @@
     <div class="card-header py-3">
         <div class="d-flex align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Master Data Darah</h6>
+            <a href="{{ route('admin.blood.create') }}" class="btn btn-primary btn-icon-split ml-3">
+                <span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">New</span>
+            </a>
         </div>
     </div>
     <div class="card-body">

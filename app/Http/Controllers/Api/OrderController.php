@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\OrderDetail;
 
 class OrderController extends ApiBaseController {
     public function index() {
@@ -10,6 +11,7 @@ class OrderController extends ApiBaseController {
         $hospital = $user->hospital ?? null;
 
         $datas = Order::query()
+            ->with('orderDetail')
             ->select([
                 'pemesanan.id',
                 'pemesanan.kode_pemesanan',
@@ -49,12 +51,13 @@ class OrderController extends ApiBaseController {
                 'bdrs' => 'BD0',
                 'non_bdrs' => 'NBD'
             ];
+            
             $data = Order::create([
                 'rs_id' => $request->rs_id,
                 'kode_pemesanan' => $code[$request->tipe].(date('dmyhis')).'/'.date('Y'),
                 'tipe' => $request->tipe,
                 'dokter' => $request->dokter,
-                'tgl_pemesanan' => date('Y-m-d', strtotime($request->tgl_pemesanan)),
+                'tgl_pemesanan' => date('Y-m-d'),
                 'tgl_diperlukan' => date('Y-m-d', strtotime($request->tgl_diperlukan)),
                 'diagnosis' => $request->diagnosis,
                 'alasan_transfusi' => $request->alasan_transfusi,
@@ -62,6 +65,7 @@ class OrderController extends ApiBaseController {
                 'trombosit' => $request->trombosit,
                 'berat_badan' => $request->berat_badan,
                 'nama_pasien' => $request->nama_pasien,
+                'status_nikah' => $request->status_nikah,
                 'jenis_kelamin' => $request->jenis_kelamin,
                 'nama_pasangan' => $request->nama_pasangan,
                 'tempat_lahir' => $request->tempat_lahir,
@@ -80,6 +84,18 @@ class OrderController extends ApiBaseController {
                 'status' => 1,
                 'created_by' => auth()->user()->id,
             ]);
+
+            $items = json_decode($request->items);
+            $payloadItems = array_map(function($item) use($data) {
+                return [
+                    'blood_id' => $item->id,
+                    'jumlah' => $item->jumlah,
+                    'status' => 0,
+                    'pemesanan_id' => $data->id, 
+                ];
+            }, $items);
+
+            $orderDetail = OrderDetail::insert($payloadItems);
 
             if (!$data) {
                 throw new \Exception('Add New Order is failed');

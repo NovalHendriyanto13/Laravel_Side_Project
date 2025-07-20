@@ -16,7 +16,12 @@ class IndexController extends Controller {
     }
 
     public function about(Request $request) {
-        return view('guest.home.about');
+        $user = null;
+        if ($request->query('token')) {
+            $user = JWTAuth::parseToken()->authenticate();
+        }
+
+        return view('guest.home.about', [ 'user' => $user ]);
     }
 
     public function register(Request $register) {

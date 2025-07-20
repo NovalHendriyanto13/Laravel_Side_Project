@@ -9,4 +9,10 @@ class BloodController extends BaseController {
             'title' => 'Master Data Darah'
         ]);
     }
+
+    public function create(Request $request) {
+        return view('admin.blood.create', [
+            'title' => 'Tambah Data Darah'
+        ]);
+    }
 };

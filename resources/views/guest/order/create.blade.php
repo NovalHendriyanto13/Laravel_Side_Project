@@ -303,9 +303,9 @@
                             <button type="submit"class="btn btn-primary w-50 btn-submit mt-5 ml-2">
                                 <span class="text">Submit</span>
                             </button>
-                            <button type="button"class="btn btn-danger w-50 mt-5 mr-2">
-                                <span class="text">Cancel</span>
-                            </button>
+                            <a type="button"class="btn btn-danger w-50 mt-5 mr-2 a-auth" href="{{ route('order.index') }}">
+                                <span class="text"><b>Cancel</b></span>
+                            </a>
                         </div>
                     </form>
                 </div>
