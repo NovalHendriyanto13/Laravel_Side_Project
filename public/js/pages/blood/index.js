@@ -20,7 +20,13 @@ $(document).ready(async function() {
                 }
             },
             columns: [
-                { data: 'code' },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        const token = localStorage.getItem('_token');
+                        return `<a href="${_appUrl}/admin/blood/${row.id}?token=${token}" class="a-auth">${row.code}</a>`;
+                    } 
+                },
                 { data: 'name' },
                 {
                     data: null,

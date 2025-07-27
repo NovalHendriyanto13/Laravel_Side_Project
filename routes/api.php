@@ -32,6 +32,8 @@ Route::middleware(['jwt'])->group(function() {
     Route::prefix('admin-blood')->group(function() {
         Route::get('/', [BloodController::class, 'index'])->name('api.admin.blood.index');
         Route::post('/create', [BloodController::class, 'create'])->name('api.admin.blood.create');
+        Route::put('/{id}', [BloodController::class, 'update'])->name('api.admin.blood.update');
+        Route::get('/{id}', [BloodController::class, 'detail'])->name('api.admin.blood.detail');
     });
 
     Route::prefix('user')->group(function() {
@@ -59,6 +61,8 @@ Route::middleware(['auth'])->group(function() {
     Route::prefix('order')->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('api.order.index');
         Route::post('/create', [OrderController::class, 'create'])->name('api.order.create');
+        Route::put('/update/{id}', [OrderController::class, 'update'])->name('api.order.update');
+        Route::get('/{id}', [OrderController::class, 'detail'])->name('api.order.detail');
     });
 
     Route::prefix('blood')->group(function() {

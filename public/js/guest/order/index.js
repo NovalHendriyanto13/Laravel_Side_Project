@@ -25,7 +25,13 @@ $(document).ready(async function() {
                 }
             },
             columns: [
-                { data: 'kode_pemesanan' },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        const token = localStorage.getItem('_token_guest');
+                        return `<a href="${_appUrl}/order/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
+                    } 
+                },
                 { data: 'tipe' },
                 { data: 'dokter' },
                 { data: 'tgl_pemesanan' },

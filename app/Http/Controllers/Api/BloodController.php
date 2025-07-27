@@ -87,11 +87,10 @@ class BloodController extends ApiBaseController {
                 throw new \Exception('Data is not found');
             }
             $data->name = $request->name;
-            $data->updated_by = auth()->user()->id;
             $data->save();
 
             if (!$data) {
-                throw new \Exception('Update Blood Stock is failed');
+                throw new \Exception('Update Blood is failed');
             }
 
             return $this->successApiResponse($data);

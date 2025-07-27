@@ -14,7 +14,9 @@ class OrderController extends Controller {
         return view('guest.order.create');
     }
 
-    public function update(int $id, Request $request) {
-        return view('guest.order.update');
+    public function detail(int $id, Request $request) {
+        return view('guest.order.update', [
+            'id' => $id,
+        ]);
     }
 }

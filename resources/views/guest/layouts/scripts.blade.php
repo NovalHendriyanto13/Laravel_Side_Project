@@ -14,4 +14,8 @@
 
 <!-- Main JS File -->
 <script src="{{ asset('js/main.js') }}"></script>
+<script>
+    const _appUrl = "{{config('app.url')}}";
+    const _apiBaseUrl = "{{config('app.api_app_url')}}";
+</script>
 @stack('scripts')

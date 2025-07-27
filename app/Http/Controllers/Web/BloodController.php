@@ -15,4 +15,11 @@ class BloodController extends BaseController {
             'title' => 'Tambah Data Darah'
         ]);
     }
+
+    public function detail($id, Request $request) {
+        return view('admin.blood.update', [
+            'title' => 'Update Data Darah',
+            'id' => $id
+        ]);
+    }
 };

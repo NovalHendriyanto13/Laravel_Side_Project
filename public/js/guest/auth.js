@@ -46,7 +46,7 @@ $(document).ready(function() {
         $('.btn-login').click(async function(e) {
             e.preventDefault();
 
-            const response = await submitPostFormToken('.form-login') || null;
+            const response = await submitPostForm('.form-login') || null;
             if (response != null) {
                 if (response?.error) {
                     Swal.fire({

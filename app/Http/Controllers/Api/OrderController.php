@@ -110,7 +110,9 @@ class OrderController extends ApiBaseController {
 
     public function detail(int $id, Request $request) {
         try {
-            $data = Order::find($id);
+            $data = Order::with('orderDetail')
+                ->where('id', $id)
+                ->first();
 
             if (!($data)) {
                 return new \Exception('No data found');
@@ -119,6 +121,80 @@ class OrderController extends ApiBaseController {
             return $this->successApiResponse($data);
         } catch (\Exception $e) {
             return $this->errorApiResponse(500, $e->getMessage()); 
+        }
+    }
+
+    public function update($id, Request $request) {
+        try {
+            $code = [
+                'bdrs' => 'BD0',
+                'non_bdrs' => 'NBD'
+            ];
+
+            $data = Order::find($id);
+            if (!$data || empty($data)) {
+                throw new \Exception('Data is not found');
+            }
+
+            if ($data->status != 1) {
+                throw new \Exception('Data tidak bisa di update, status sedang di process');
+            }
+            
+            $data->tipe = $request->tipe;
+            $data->dokter = $request->dokter;
+            $data->tgl_diperlukan = date('Y-m-d', strtotime($request->tgl_diperlukan));
+            $data->diagnosis = $request->diagnosis;
+            $data->alasan_transfusi = $request->alasan_transfusi;
+            $data->hb = $request->hb;
+            $data->trombosit = $request->trombosit;
+            $data->berat_badan = $request->berat_badan;
+            $data->nama_pasien = $request->nama_pasien;
+            $data->status_nikah = $request->status_nikah;
+            $data->jenis_kelamin = $request->jenis_kelamin;
+            $data->nama_pasangan = $request->nama_pasangan;
+            $data->tempat_lahir = $request->tempat_lahir;
+            $data->tanggal_lahir = date('Y-m-d', strtotime($request->tanggal_lahir));
+            $data->alamat = $request->alamat;
+            $data->no_telp = $request->no_telp;
+            $data->transfusi_sebelumnya = $request->transfusi_sebelumnya;
+            $data->tgl_transfusi_sebelumnya = date('Y-m-d', strtotime($request->tgl_transfusi_sebelumnya));
+            $data->gejala_reaksi = $request->gejala_reaksi;
+            $data->tempat_serologi = $request->tempat_serologi;
+            $data->tgl_serologi = $request->tgl_serologi;
+            $data->hasil_serologi = $request->hasil_serologi;
+            $data->hamil = $request->hamil ?? 0;
+            $data->jumlah_kehamilan = $request->jumlah_kehamilan;
+            $data->pernah_aborsi = $request->pernah_aborsi ?? 0;
+            $data->status = 1;
+            $data->updated_by = auth()->user()->id;
+            $data->save();
+
+            $items = json_decode($request->items);
+            foreach($items as $item) {
+                $orderDetail = OrderDetail::find($item->pid);
+                if ($orderDetail) {
+                    $orderDetail->blood_id = $item->id;
+                    $orderDetail->jumlah = $item->jumlah;
+                    $orderDetail->status = 0;
+                    $orderDetail->pemesanan_id = $data->id;
+                    $orderDetail->save(); 
+                } else {
+                    OrderDetail::create([
+                        'blood_id' => $item->id,
+                        'jumlah' => $item->jumlah,
+                        'status' => 0,
+                        'pemesanan_id' => $data->id, 
+                    ]);
+                }
+            }
+            if (!$data) {
+                throw new \Exception('Add New Order is failed');
+            }
+
+            return $this->successApiResponse($data);
+
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
         }
     }
 }

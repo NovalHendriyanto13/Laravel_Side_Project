@@ -66,7 +66,7 @@ async function submitPostFormToken(form, additionalPayload = {}) {
     }
 }
 
-async function submitPutFormToken(form) {
+async function submitPutFormToken(form, additionalPayload = {}) {
     const isNotValid = requiredInput(form);
     if (isNotValid) {
         Swal.fire({
@@ -80,6 +80,8 @@ async function submitPutFormToken(form) {
 
     const payload = $(form).serializeArray();
     const url = $(form).attr('action');
+
+    payload.push(...additionalPayload);
 
     const response = await httpPut(url, payload) || null;
     if (response?.error != null) {
@@ -134,7 +136,7 @@ async function submitPostFormGuestToken(form, additionalPayload = {}) {
     }
 }
 
-async function submitPutFormGuestToken(form) {
+async function submitPutFormGuestToken(form, additionalPayload) {
     const isNotValid = requiredInput(form);
     if (isNotValid) {
         Swal.fire({
@@ -148,6 +150,8 @@ async function submitPutFormGuestToken(form) {
     
     const payload = $(form).serializeArray();
     const url = $(form).attr('action');
+
+    payload.push(...additionalPayload);
 
     const response = await httpPutGuest(url, payload) || null;
     if (response?.error != null) {

@@ -1,5 +1,21 @@
 $(document).ready(function() {
+    _init();
     _gesture();
+
+    async function _init() {
+        const id = $('.form-blood-update').data('id');
+        const url = `${_apiBaseUrl}/api/admin-blood/${id}`;
+        const response = await httpGet(url) || null;
+
+        if (response != null) {
+             if (response?.error == false) {
+                const data = response?.data || null;
+                $('#code').val(data.code || '');
+                $('#name').val(data.name || '');
+                $('#blood_type_alias').val(data.blood_type_alias || '');
+            }
+        }
+    }
 
     async function _gesture() {
         $('.btn-submit').click(async function(e) {
@@ -9,8 +25,8 @@ $(document).ready(function() {
                 name: "blood_type",
                 value: $("#blood_type_alias").find(':selected').text(),
             }]
-
-            const response = await submitPostFormToken('.form-blood-create', additionalPayload) || null;
+            
+            const response = await submitPutFormToken('.form-blood-update', additionalPayload) || null;
 
             if (response != null) {
                 if (response?.error) {
@@ -24,7 +40,7 @@ $(document).ready(function() {
                 } else {
                     Swal.fire({
                         title: "Success",
-                        text: "Master Data is created",
+                        text: "Master Data is updated",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"

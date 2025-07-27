@@ -48,6 +48,7 @@ Route::prefix('admin')->group(function() {
         Route::prefix('blood')->group(function() {
             Route::get('/', [BloodController::class, 'index'])->name('admin.blood.index');
             Route::get('/create', [BloodController::class, 'create'])->name('admin.blood.create');
+            Route::get('/{id}', [BloodController::class, 'detail'])->name('admin.blood.detail');
         });
 
         Route::prefix('order')->group(function() {
@@ -84,6 +85,7 @@ Route::middleware(['auth'])->group(function() {
     Route::prefix('order')->group(function() {
         Route::get('/', [GuestOrderController::class, 'index'])->name('order.index');
         Route::get('/create', [GuestOrderController::class, 'create'])->name('order.create');
+        Route::get('/{id}', [GuestOrderController::class, 'detail'])->name('order.detail');
     });
 
 });
