@@ -50,7 +50,7 @@ class Order extends Model
 
     public static $_status = [
         'Ditolak',
-        'Dikirim',
+        'Permintaan',
         'Diproses',
         'Dicek Sample',
         'Cocok',

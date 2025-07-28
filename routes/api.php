@@ -52,6 +52,7 @@ Route::middleware(['jwt'])->group(function() {
 
     Route::prefix('admin-order')->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('api.admin.order.index');
+        Route::post('/report', [OrderController::class, 'report'])->name('api.admin.order.report');
         Route::put('/{id}', [OrderController::class, 'update'])->name('api.admin.order.update');
         Route::get('/{id}', [OrderController::class, 'detail'])->name('api.admin.order.detail');
     });

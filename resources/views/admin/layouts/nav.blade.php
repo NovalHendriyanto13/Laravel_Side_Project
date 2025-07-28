@@ -71,6 +71,20 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
+        Laporan
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.order.report') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Laporan Pemesanan</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
         Settings
     </div>
     <!-- Nav Item - Charts -->

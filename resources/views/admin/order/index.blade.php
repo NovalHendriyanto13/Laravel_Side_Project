@@ -32,22 +32,6 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Kode</th>
-                        <th>Tipe</th>
-                        <th>Dokter</th>
-                        <th>Tanggal Pemesanan</th>
-                        <th>Tanggal Di perlukan</th>
-                        <th>Pasien</th>
-                        <th>Jenis Kelamin</th>
-                        <th>TTL</th>
-                        <th>No Telp</th>
-                        <th>Diagnosis</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
 
             </table>
         </div>

@@ -2,19 +2,19 @@ $(document).ready(async function() {
 
     let selectedItems = [];
     let selectedTable;
+
+    let processedItems = [];
+    let processedTable;
+
     await _init();
     _gesture();
 
     async function _init() {
-        const user = localStorage.getItem('_user_guest') || "{}";
-        const userLogged = JSON.parse(user);
-        
-        $('#hospital-name').text(userLogged.name);
-
         const item = $('#item');
         const itemUrl = item.data('url');
         let responseItem = [];
-        const items = await httpGetGuest(itemUrl);
+        const items = await httpGet(itemUrl);
+
         if (items?.error == false) {
             item.empty()
             responseItem = items?.data;
@@ -34,18 +34,6 @@ $(document).ready(async function() {
             columns: [
                 { data: 'name' },
                 { data: 'jumlah' },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        return `
-                            <a class="btn btn-sm btn-danger btn-delete-item" data-id="${row.id}" data-index="${row.index}">
-                                Hapus
-                            </a>
-                        `;
-                    }
-                }
                 
             ]
         });
@@ -55,8 +43,8 @@ $(document).ready(async function() {
     }
 
     async function _getDetail(id, additionalParam = {}) {
-        const url = `${_apiBaseUrl}/api/order/${id}`;
-        const response = await httpGetGuest(url);
+        const url = `${_apiBaseUrl}/api/admin-order/${id}`;
+        const response = await httpGet(url);
 
         if (response?.error == false) {
             const data = response?.data || null;
@@ -108,7 +96,24 @@ $(document).ready(async function() {
             
 
             selectedTable.clear().rows.add(selectedItems).draw();
+
+            await _detailProcessTab(selectedItems);
         }
+
+    }
+
+    async function _detailProcessTab(defaultItem) {
+
+        processedItems = defaultItem;
+        const table = $('.table-receive-item');
+        processedTable = table.DataTable({
+            data: processedItems,
+            columns: [
+                { data: 'name' },
+                { data: 'jumlah' },
+                
+            ]
+        });
 
     }
 

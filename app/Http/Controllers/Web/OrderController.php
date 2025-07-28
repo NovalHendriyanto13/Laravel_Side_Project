@@ -35,4 +35,10 @@ class OrderController extends BaseController {
             'id' => $id,
         ]);
     }
+
+    public function report(Request $request) {
+       return view('admin.order.report', [
+            'title' => 'Laporan Permintaan',
+        ]);
+    }
 };

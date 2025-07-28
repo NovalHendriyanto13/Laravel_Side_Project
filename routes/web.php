@@ -54,6 +54,7 @@ Route::prefix('admin')->group(function() {
         Route::prefix('order')->group(function() {
             Route::get('/', [OrderController::class, 'index'])->name('admin.order.index');
             Route::get('/create', [OrderController::class, 'create'])->name('admin.order.create');
+            Route::get('/report', [OrderController::class, 'report'])->name('admin.order.report');
             Route::get('/{id}', [OrderController::class, 'detail'])->name('admin.order.detail');
         });
 
