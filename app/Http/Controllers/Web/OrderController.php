@@ -24,14 +24,14 @@ class OrderController extends BaseController {
             $dropdownBloods[$data->id] = $data->name . ' - ' . $data->blood_type;
         }
         return view('admin.blood_stock.create', [
-            'title' => 'Tambah Stock Darah',
+            'title' => 'Tambah Pemesanan',
             'bloods' => $dropdownBloods,
         ]);
     }
 
     public function detail(int $id, Request $request) {
         return view('admin.order.update', [
-            'title' => 'Detail Stock Darah',
+            'title' => 'Detail Pemesanan',
             'id' => $id,
         ]);
     }

@@ -97,12 +97,12 @@ $(document).ready(async function() {
 
             selectedTable.clear().rows.add(selectedItems).draw();
 
-            await _detailProcessTab(selectedItems);
+            await _detailProcessTab(selectedItems, id);
         }
 
     }
 
-    async function _detailProcessTab(defaultItem) {
+    async function _detailProcessTab(defaultItem, id) {
 
         processedItems = defaultItem;
         const table = $('.table-receive-item');
@@ -115,37 +115,33 @@ $(document).ready(async function() {
             ]
         });
 
+        const steps = [
+            'ambil_sampel', 'terima_sampel', 'periksa_sampel'
+        ];
+
+        const url = `${_apiBaseUrl}/api/admin-receipt/${id}`;
+        const response = await httpGet(url);
+
+        if (response?.error == false) {
+            const data = response?.data || null;
+            const urlStep = `${_apiBaseUrl}/api/admin-receipt/process/${data.id}`;
+            
+            $('.form-order-update').attr('action', urlStep);
+            $('.form-order-update').data('receipt', data.id);
+            $('.form-order-update').data('step', steps[data.status]);
+
+            $('#kode_penerimaan').val(data.kode_penerimaan);
+            $('#tgl_penerimaan').val(data.tgl_penerimaan);
+            $('#tgl_ambil_sampel').val(`${data.tgl_ambil_sampel} ${data.jam_ambil_sampel}`);
+            
+        } else {
+            console.log('No Data Found');
+        }
+
     }
 
     function _gesture() {
-        $('#jenis_kelamin').change(function(e) {
-            const value = $(this).val();
-            const hamil = $('#hamil');
-            const jmlHamil = $('#jumlah_kehamilan');
-            const aborsi = $('#pernah_aborsi');
-
-            if (value == 'perempuan') {
-                hamil.removeAttr("disabled");
-                jmlHamil.removeAttr("readonly");
-                aborsi.removeAttr("disabled");
-            } else {
-                hamil.attr("disabled", true);
-                jmlHamil.attr("readonly", true);
-                aborsi.attr("disabled", true);
-            }
-        });
-
-        $('#status_nikah').change(function(e) {
-            const value = $(this).val();
-            const namaPasangan = $('#nama_pasangan');
-
-            if (value == 'menikah') {
-                namaPasangan.removeAttr("disabled");
-            } else {
-                namaPasangan.attr("disabled", true);
-            }
-        });
-
+        
         $('#select_item').click(function() {
             const item = $('#item').find(':selected');
             const jml = $('#jumlah');
@@ -181,8 +177,9 @@ $(document).ready(async function() {
 
         $('.btn-submit').click(async function(e) {
             e.preventDefault();
-            const getHospital = localStorage.getItem('_user_hospital') || "{}";
-            const hospital = JSON.parse(getHospital);
+
+            const form = $('.form-order-update');
+            const orderId = form.data('id');
 
             if (selectedItems.length <= 0) {
                 Swal.fire({
@@ -194,12 +191,20 @@ $(document).ready(async function() {
                 return false;
             }
 
+            const step = form.data('step') || null;
+
             const payload = [{
                 name: "items",
                 value: JSON.stringify(selectedItems)
+            }, {
+                name: "order_id",
+                value: orderId
+            }, {
+                name: "type",
+                value: step
             }];
 
-            const response = await submitPutFormGuestToken('.form-order-update', payload) || null;
+            const response = await submitPostFormToken('.form-order-update', payload) || null;
 
             if (response != null) {
                 if (response?.error) {
@@ -213,13 +218,15 @@ $(document).ready(async function() {
                 } else {
                     Swal.fire({
                         title: "Success",
-                        text: "Blood Stock Data is created",
+                        text: "Order is Processed",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"
                         }).then((result) => {
-                            // return redirectWithToken('/admin/blood-stock');
+                            
                         });
+
+                    await _detailProcessTab(selectedItems, orderId);
                 }                
             }
         });

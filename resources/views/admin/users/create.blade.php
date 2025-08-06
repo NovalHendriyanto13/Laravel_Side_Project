@@ -35,8 +35,8 @@
                         placeholder="Role" name="role">
                         <option value="">Select Role</option>
                         <option value="admin">Admin</option>
-                        <option value="guest">Guest</option>
-                        <option value="checker">Checker</option>
+                        <option value="taker">Taker</option>
+                        <option value="checker">Cross Match</option>
                     </select>
                 </div>
             </div>

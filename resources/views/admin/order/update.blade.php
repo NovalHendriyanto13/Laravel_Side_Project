@@ -12,8 +12,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form class="form-order-update" action="{{ route('api.admin.order.update', ['id' => $id])}}" method="POST" data-id="{{$id}}
-        ">
+        <form class="form-order-update" action="{{ route('api.admin.receipt.create')}}" method="POST" data-id="{{$id}}">
             @csrf
             <ul class="nav nav-tabs" id="order-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -308,41 +307,60 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 mb-3">
                                             <div class="form-group mb-3">
-                                                <label for="kode_pemesanan">Kode Pemesanan</label>
-                                                <input type="text" name="kode_pemesanan" id="kode_pemesanan" class="form-control" disabled>
+                                                <label for="kode_penerimaan">Kode Penerimaan</label>
+                                                <input type="text" name="kode_penerimaan" id="kode_penerimaan" class="form-control" disabled>
                                             </div>
 
                                             <div class="form-group mb-3">
-                                                <label for="tipe">Tipe</label>
-                                                <select id="tipe" name="tipe" class="form-control" disabled>
-                                                    <option value="bdrs">BDRS</option>
-                                                    <option value="non_bdrs">NON BDRS</option>
-                                                </select>
+                                                <label for="tgl_ambil_sampel">Waktu Pengambilan Sampel</label>
+                                                <input type="text" name="tgl_ambil_sampel" id="tgl_ambil_sampel" class="form-control" disabled>
                                             </div>
 
                                             <div class="form-group mb-3">
-                                                <label for="tgl_pemesanan">Tanggal Pemesanan</label>
-                                                <input type="text" name="tgl_pemesanan" id="tgl_pemesanan" class="form-control" 
-                                                    value="{{ date('d / m / Y') }}" disabled
-                                                >
+                                                <label for="tgl_terima_sampel">Waktu Penerimaan Sampel</label>
+                                                <input type="text" name="tgl_terima_sampel" id="tgl_terima_sampel" class="form-control" disabled>
                                             </div>
 
+                                            <div class="form-group mb-3">
+                                                <label for="tgl_periksa_sampel">Waktu Pemeriksaan Sampel</label>
+                                                <input type="text" name="tgl_periksa_sampel" id="tgl_periksa_sampel" class="form-control" disabled>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="hasil_pemeriksaan">Hasil Pemeriksaan Sampel</label>
+                                                <input type="text" name="hasil_pemeriksaan" id="hasil_pemeriksaan" class="form-control">
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="hasil_golongan_sampel">Hasil Golongan Sampel</label>
+                                                <input type="text" name="hasil_golongan_sampel" id="hasil_golongan_sampel" class="form-control" >
+                                            </div>
                                             
                                         </div>
                                         <div class="col-lg-6 col-md-6 mb-3">
                                             <div class="form-group mb-3">
-                                                <label for="dokter">Dokter yang meminta</label>
-                                                <input type="text" name="dokter" id="dokter" class="form-control"  disabled>
+                                                <label for="tgl_penerimaan">Tanggal Proses</label>
+                                                <input type="text" name="tgl_penerimaan" id="tgl_penerimaan" class="form-control" disabled>
                                             </div>
 
                                             <div class="form-group mb-3">
-                                                <label for="tgl_diperlukan">Tanggal Diperlukan</label>
-                                                <input type="date" name="tgl_diperlukan" id="tgl_diperlukan" class="form-control"  disabled>
+                                                <label for="ambil_sampel_oleh">Pengambilan Sampel Oleh</label>
+                                                <input type="text" name="ambil_sampel_oleh" id="ambil_sampel_oleh" class="form-control" disabled>
                                             </div>
-                                            
+
                                             <div class="form-group mb-3">
-                                                <label for="status">Status</label>
-                                                <input type="text" name="status" id="status" class="form-control"  disabled>
+                                                <label for="terima_sampel_oleh">Penerimaan Sampel Oleh</label>
+                                                <input type="text" name="terima_sampel_oleh" id="terima_sampel_oleh" class="form-control" disabled>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="periksa_sampel_oleh">Pemeriksaan Sampel Oleh</label>
+                                                <input type="text" name="periksa_sampel_oleh" id="periksa_sampel_oleh" class="form-control" disabled>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="hasil_rhesus_sampel">Hasil Rhesus Sampel</label>
+                                                <input type="text" name="hasil_rhesus_sampel" id="hasil_rhesus_sampel" class="form-control" >
                                             </div>
                                         </div>
 
@@ -364,7 +382,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Item</th>
-                                                    <th>Jumlah</th>
+                                                    <th>Jumlah Permintaan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -380,7 +398,7 @@
             </div>
 
             <div class="d-flex align-items-center">
-                <a href="{{ route('admin.bloodStock.index') }}" class="btn btn-danger btn-icon-split m-2">
+                <a href="{{ route('admin.order.index') }}" class="btn btn-danger btn-icon-split m-2">
                     <span class="icon text-white-50">
                         <i class="fas fa-arrow-left"></i>
                     </span>
@@ -390,7 +408,7 @@
                     <span class="icon text-white-50">
                         <i class="fas fa-check"></i>
                     </span>
-                    <span class="text">Submit</span>
+                    <span class="text">Process</span>
                 </button>
             </div>
             <hr>

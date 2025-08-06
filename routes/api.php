@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\BloodController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\HospitalController;
+use App\Http\Controllers\Api\ReceiptController;
 
 Route::prefix('auth')->group(function() {
     Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
@@ -55,6 +56,12 @@ Route::middleware(['jwt'])->group(function() {
         Route::post('/report', [OrderController::class, 'report'])->name('api.admin.order.report');
         Route::put('/{id}', [OrderController::class, 'update'])->name('api.admin.order.update');
         Route::get('/{id}', [OrderController::class, 'detail'])->name('api.admin.order.detail');
+    });
+
+    Route::prefix('admin-receipt')->group(function() {
+        Route::post('/create', [ReceiptController::class, 'create'])->name('api.admin.receipt.create');
+        Route::post('/process/{id}', [ReceiptController::class, 'process'])->name('api.admin.receipt.process');
+        Route::get('/{id}', [ReceiptController::class, 'detail'])->name('api.admin.receipt.detail');
     });
 });
 
