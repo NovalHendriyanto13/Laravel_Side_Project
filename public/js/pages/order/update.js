@@ -96,6 +96,17 @@ $(document).ready(async function() {
 
             selectedTable.clear().rows.add(selectedItems).draw();
 
+            const patientTab = $('.patient-info');
+            const additionalTab = $('.additional-info');
+
+            if (data.tipe == 'bdrs') {
+                patientTab.css("display", "none");
+                additionalTab.css("display", "none");
+            } else {
+                patientTab.css("display", "block");
+                additionalTab.css("display", "block");
+            }
+
             await _detailProcessTab(selectedItems, id);
         }
 

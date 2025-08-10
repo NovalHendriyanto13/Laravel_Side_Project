@@ -106,13 +106,37 @@ $(document).ready(async function() {
                 ix = ix + 1;
             });
             
-
             selectedTable.clear().rows.add(selectedItems).draw();
+
+            const patientTab = $('.patient-info');
+            const additionalTab = $('.additional-info');
+
+            if (data.tipe == 'bdrs') {
+                patientTab.css("display", "none");
+                additionalTab.css("display", "none");
+            } else {
+                patientTab.css("display", "block");
+                additionalTab.css("display", "block");
+            }
         }
 
     }
 
     function _gesture() {
+        $('#tipe').change(function(e) {
+            const value = $(this).val();
+            const patientTab = $('.patient-info');
+            const additionalTab = $('.additional-info');
+
+            if (value == 'bdrs') {
+                patientTab.css("display", "none");
+                additionalTab.css("display", "none");
+            } else {
+                patientTab.css("display", "block");
+                additionalTab.css("display", "block");
+            }
+        });
+
         $('#jenis_kelamin').change(function(e) {
             const value = $(this).val();
             const hamil = $('#hamil');
@@ -194,7 +218,12 @@ $(document).ready(async function() {
                 value: JSON.stringify(selectedItems)
             }];
 
-            const response = await submitPutFormGuestToken('.form-order-update', payload) || null;
+            let validation = false;
+            if ($('#tipe').val() == 'non_bdrs') {
+                validation = true;
+            }
+
+            const response = await submitPutFormGuestToken('.form-order-update', payload, validation) || null;
 
             if (response != null) {
                 if (response?.error) {

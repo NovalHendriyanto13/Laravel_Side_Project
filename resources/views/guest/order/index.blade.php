@@ -52,6 +52,7 @@
                                     <th>No Telp</th>
                                     <th>Diagnosis</th>
                                     <th>Status</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>

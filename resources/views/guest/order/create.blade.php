@@ -83,7 +83,7 @@
                                 </div>
                             </div>
 
-                            <div class="accordion-item">
+                            <div class="accordion-item patient-info" style="display:none">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
                                         <b>Informasi Pasien</b>
@@ -119,12 +119,12 @@
 
                                                 <div class="form-group mb-3">
                                                     <label for="hb">HB</label>
-                                                    <input type="text" name="hb" id="hb" class="form-control" required>
+                                                    <input type="number" name="hb" id="hb" class="form-control" required>
                                                 </div>
 
                                                 <div class="form-group mb-3">
                                                     <label for="trombosit">Trombosit</label>
-                                                    <input type="text" name="trombosit" id="trombosit" class="form-control" required>
+                                                    <input type="number" name="trombosit" id="trombosit" class="form-control" required>
                                                 </div>
                                                 
                                             </div>
@@ -176,7 +176,7 @@
                                 </div>
                             </div>
 
-                            <div class="accordion-item">
+                            <div class="accordion-item additional-info" style="display:none">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
                                         <b>Informasi Tambahan</b>

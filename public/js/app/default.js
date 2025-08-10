@@ -31,16 +31,18 @@ async function submitPostForm(form) {
     }
 }
 
-async function submitPostFormToken(form, additionalPayload = []) {
-    const isNotValid = requiredInput(form);
-    if (isNotValid) {
-        Swal.fire({
-            title: 'Error!',
-            text: 'Please input required field',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        })
-        return false;
+async function submitPostFormToken(form, additionalPayload = [], validation = true) {
+    if (validation == true) {
+        const isNotValid = requiredInput(form);
+        if (isNotValid) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Please input required field',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+            return false;
+        }
     }
 
     let payload = $(form).serializeArray();
@@ -101,16 +103,18 @@ async function submitPutFormToken(form, additionalPayload = []) {
     }
 }
 
-async function submitPostFormGuestToken(form, additionalPayload = []) {
-    const isNotValid = requiredInput(form);
-    if (isNotValid) {
-        Swal.fire({
-            title: 'Error!',
-            text: 'Please input required field',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        })
-        return false;
+async function submitPostFormGuestToken(form, additionalPayload = [], validation = true) {
+    if (validation == true) {
+        const isNotValid = requiredInput(form);
+        if (isNotValid) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Please input required field',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+            return false;
+        }
     }
 
     let payload = $(form).serializeArray();
@@ -136,16 +140,18 @@ async function submitPostFormGuestToken(form, additionalPayload = []) {
     }
 }
 
-async function submitPutFormGuestToken(form, additionalPayload = []) {
-    const isNotValid = requiredInput(form);
-    if (isNotValid) {
-        Swal.fire({
-            title: 'Error!',
-            text: 'Please input required field',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        })
-        return false;
+async function submitPutFormGuestToken(form, additionalPayload = [], validation = true) {
+    if (validation == true) {
+        const isNotValid = requiredInput(form);
+        if (isNotValid) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Please input required field',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+            return false;
+        }
     }
     
     const payload = $(form).serializeArray();

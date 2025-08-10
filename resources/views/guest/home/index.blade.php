@@ -47,45 +47,6 @@
 
 </section>
 
-<!-- Why Us Section -->
-<section id="why-us" class="why-us section">
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <!-- About Us Content -->
-        <div class="row align-items-center mb-5">
-            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-                <!-- <div class="content">
-                    <h3>Bersama untuk kemanusiaan</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    <div class="stats-row">
-                        <div class="stat-item">
-                            <span data-purecounter-start="0" data-purecounter-end="791" data-purecounter-duration="2" class="purecounter">0</span>
-                            <div class="stat-label">Total Pengunjung Hari ini</div>
-                        </div>
-                        <div class="stat-item">
-                            <span data-purecounter-start="0" data-purecounter-end="20747" data-purecounter-duration="2" class="purecounter">0</span>
-                            <div class="stat-label">Total Pengunjung Sepanjang Waktu</div>
-                        </div>
-                        <div class="stat-item">
-                            <span data-purecounter-start="0" data-purecounter-end="1784" data-purecounter-duration="2" class="purecounter">0</span>
-                            <div class="stat-label">Total Unduhan</div>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-                <div class="about-image">
-                    <img src="{{ asset('images/about_1.jpeg') }}" alt="" class="img-fluid rounded-4">
-                </div>
-            </div>
-        </div><!-- End About Us Content -->
-
-    </div>
-
-</section><!-- /Why Us Section -->
-
 @endsection
 
 @push('scripts')
