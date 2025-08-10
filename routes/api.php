@@ -23,11 +23,11 @@ Route::middleware(['jwt'])->group(function() {
         Route::get('/logout', [AuthController::class, 'logout'])->name('api.auth.logout');
     });
 
-    Route::prefix('blood-stock')->group(function() {
-        Route::get('/', [BloodStockController::class, 'index'])->name('api.bloodStock.index');
-        Route::post('/create', [BloodStockController::class, 'create'])->name('api.bloodStock.create');
-        Route::get('/{id}', [BloodStockController::class, 'detail'])->name('api.bloodStock.detail');
-        Route::put('/{id}', [BloodStockController::class, 'update'])->name('api.bloodStock.update');
+    Route::prefix('admin-blood-stock')->group(function() {
+        Route::get('/', [BloodStockController::class, 'index'])->name('api.admin.bloodStock.index');
+        Route::post('/create', [BloodStockController::class, 'create'])->name('api.admin.bloodStock.create');
+        Route::get('/{id}', [BloodStockController::class, 'detail'])->name('api.admin.bloodStock.detail');
+        Route::put('/{id}', [BloodStockController::class, 'update'])->name('api.admin.bloodStock.update');
     });
 
     Route::prefix('admin-blood')->group(function() {
@@ -75,5 +75,9 @@ Route::middleware(['auth'])->group(function() {
 
     Route::prefix('blood')->group(function() {
         Route::get('/', [BloodController::class, 'index'])->name('api.blood.index');
+    });
+
+    Route::prefix('blood-stock')->group(function() {
+        Route::get('/', [BloodStockController::class, 'index'])->name('api.bloodStock.index');
     });
 });

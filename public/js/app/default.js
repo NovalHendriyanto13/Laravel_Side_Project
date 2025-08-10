@@ -31,7 +31,7 @@ async function submitPostForm(form) {
     }
 }
 
-async function submitPostFormToken(form, additionalPayload = {}) {
+async function submitPostFormToken(form, additionalPayload = []) {
     const isNotValid = requiredInput(form);
     if (isNotValid) {
         Swal.fire({
@@ -66,7 +66,7 @@ async function submitPostFormToken(form, additionalPayload = {}) {
     }
 }
 
-async function submitPutFormToken(form, additionalPayload = {}) {
+async function submitPutFormToken(form, additionalPayload = []) {
     const isNotValid = requiredInput(form);
     if (isNotValid) {
         Swal.fire({
@@ -101,7 +101,7 @@ async function submitPutFormToken(form, additionalPayload = {}) {
     }
 }
 
-async function submitPostFormGuestToken(form, additionalPayload = {}) {
+async function submitPostFormGuestToken(form, additionalPayload = []) {
     const isNotValid = requiredInput(form);
     if (isNotValid) {
         Swal.fire({
@@ -136,7 +136,7 @@ async function submitPostFormGuestToken(form, additionalPayload = {}) {
     }
 }
 
-async function submitPutFormGuestToken(form, additionalPayload) {
+async function submitPutFormGuestToken(form, additionalPayload = []) {
     const isNotValid = requiredInput(form);
     if (isNotValid) {
         Swal.fire({

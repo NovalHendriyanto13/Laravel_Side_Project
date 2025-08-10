@@ -19,6 +19,18 @@ class BloodStockController extends ApiBaseController {
                 'blood.blood_type'
             ])
             ->leftJoin('blood', 'blood_stock.blood_id', 'blood.id')
+            ->when(!empty($request->blood_id), function ($q) use ($request) {
+                return $q->where('blood_stock.blood_id', $request->blood_id);
+            })
+            ->when(!empty($request->status) || $request->status == 0, function ($q) use ($request) {
+                return $q->where('blood_stock.status', $request->status);
+            })
+            ->when(!empty($request->blood_group), function ($q) use ($request) {
+                return $q->where('blood_stock.blood_group', $request->blood_group);
+            })
+            ->when(!empty($request->blood_rhesus), function ($q) use ($request) {
+                return $q->where('blood_stock.blood_rhesus', $request->blood_rhesus);
+            })
             ->orderBy('blood_stock.expiry_date', 'DESC')
             ->get();
 

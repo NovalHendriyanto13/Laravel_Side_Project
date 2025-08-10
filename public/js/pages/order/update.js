@@ -33,8 +33,7 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
-                { data: 'jumlah' },
-                
+                { data: 'jumlah' },     
             ]
         });
 
@@ -106,12 +105,30 @@ $(document).ready(async function() {
 
         processedItems = defaultItem;
         const table = $('.table-receive-item');
+
+        if ( $.fn.dataTable.isDataTable('.table-receive-item') ) {
+            table.DataTable().clear().destroy(); // optional
+        }
         processedTable = table.DataTable({
             data: processedItems,
             columns: [
                 { data: 'name' },
                 { data: 'jumlah' },
-                
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        return 0;
+                    } 
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        const dataRow = JSON.stringify(row);
+                        return `
+                            <a class="btn btn-sm btn-info view-btn-fulfill" data-row='${dataRow}' href="#">Detail</a>
+                        `;
+                    } 
+                },
             ]
         });
 
@@ -141,38 +158,40 @@ $(document).ready(async function() {
     }
 
     function _gesture() {
-        
-        $('#select_item').click(function() {
-            const item = $('#item').find(':selected');
-            const jml = $('#jumlah');
+        $('.table-receive-item tbody').on('click', '.view-btn-fulfill', async function (e){
+            e.preventDefault();
+            const data = $(this).data('row');
+            console.log(data);
+            let modalEl = $('#fulfillment-modal');
 
-            if (jml.val() == "") {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Jumlah harus diisi',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
+            const table = $('.table-fulfillment');
+            if ( $.fn.dataTable.isDataTable('.table-fulfillment') ) {
+                table.DataTable().clear().destroy(); // optional
+            }
+            const url = `${_apiBaseUrl}/api/blood-stock`;
+            const payload = {
+                "blood_id": data.id,
+                "status": 0,
+            }
+            const response = await httpGet(url, payload);
+
+            if (response?.error == false) {
+                const data = response?.data || null;
+                processedTable = table.DataTable({
+                    data: data,
+                    columns: [
+                        { data: 'stock_no' },
+                        { data: 'expiry_date' },
+                        { data: 'name' },
+                        { data: 'blood_group' },
+                        { data: 'blood_rhesus' },
+                        { data: 'unit_volume' },
+                    ]
                 });
-
-                return false;
             }
 
-            const lenSelectedItem = selectedItems.length;
-            selectedItems.push({
-                index: (lenSelectedItem),
-                name: item.text(),
-                jumlah: jml.val(),
-                id: item.val(), 
-                pid: null,
-            });
-
-            selectedTable.clear().rows.add(selectedItems).draw();
-        });
-
-        $('.table-item tbody').on('click', '.btn-delete-item', function () {
-            const data = selectedTable.row($(this).closest('tr')).data();
-            selectedItems = selectedItems.filter(item => !((item.index === data.index) && (item.id === data.id)));
-            selectedTable.clear().rows.add(selectedItems).draw();
+            let modal = new bootstrap.Modal(modalEl[0]);
+            modal.show();
         });
 
         $('.btn-submit').click(async function(e) {

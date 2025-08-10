@@ -383,6 +383,8 @@
                                                 <tr>
                                                     <th>Item</th>
                                                     <th>Jumlah Permintaan</th>
+                                                    <th>Jumlah Terpenuhi</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -414,6 +416,38 @@
             <hr>
         </form>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="fulfillment-modal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Fulfillment</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-fulfillment">
+                <thead>
+                <tr>
+                    <td>Stock No</td>
+                    <td>Tgl Kadaluarsa</td>
+                    <td>Deskripsi</td>
+                    <td>Golongan</td>
+                    <td>Rhesus</td>
+                    <td>Volume</td>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div> 
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 

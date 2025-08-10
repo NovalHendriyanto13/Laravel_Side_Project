@@ -20,7 +20,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-stock" id="dataTable" width="100%" cellspacing="0"
-                data-url="{{ route('api.bloodStock.index') }}"
+                data-url="{{ route('api.admin.bloodStock.index') }}"
             >
                 <thead>
                     <tr>
@@ -33,17 +33,6 @@
                         <th> </th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Tanggal Kadaluarsa</th>
-                        <th>Nomor Stock</th>
-                        <th>Jenis Darah</th>
-                        <th>Golongan Darah</th>
-                        <th>Volume (ml)</th>
-                        <th>Status</th>
-                        <th> </th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     
                 </tbody>

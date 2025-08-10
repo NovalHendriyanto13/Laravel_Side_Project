@@ -12,6 +12,7 @@ use App\Http\Controllers\Web\OrderController;
 
 use App\Http\Controllers\Guest\IndexController as GuestIndexController;
 use App\Http\Controllers\Guest\OrderController as GuestOrderController;
+use App\Http\Controllers\Guest\BloodStockController as GuestBloodStockController;
 
 // admin site
 Route::prefix('admin')->group(function() {
@@ -87,6 +88,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/', [GuestOrderController::class, 'index'])->name('order.index');
         Route::get('/create', [GuestOrderController::class, 'create'])->name('order.create');
         Route::get('/{id}', [GuestOrderController::class, 'detail'])->name('order.detail');
+    });
+
+    Route::prefix('blood-stock')->group(function() {
+        Route::get('/', [GuestBloodStockController::class, 'index'])->name('bloodStock.index');
     });
 
 });

@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form class="form-blood-stock-create" action="{{ route('api.admin.blood.create') }}" method="POST">
+        <form class="form-blood-stock-create" action="{{ route('api.bloodStock.create') }}" method="POST">
             @csrf
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">

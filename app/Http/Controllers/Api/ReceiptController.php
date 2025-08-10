@@ -67,48 +67,15 @@ class ReceiptController extends ApiBaseController {
         try {
 
             $order = Order::where('id', $request->order_id)->first();
-            if ($order->tipe == 'bdrs') {
-                throw new \Exception('Transaksi tipe adalah BDRS, silakan isi stok');
+
+            if (in_array($order->status, ['Ditolak', 'Selesai'])) {
+                throw new \Exception('Pemesanan sudah Selesai/ Di tolak');
             }
-
-            $processStatus = [
-                'ambil_sampel' => [
-                    'status' => 1,
-                    'tgl_ambil_sampel' => date('Y-m-d'),
-                    'jam_ambil_sampel' => date('H:i:s'),
-                    'ambil_sampel_oleh' => auth()->user()->id,
-                ], 
-                'terima_sampel' => [
-                    'status' => 2,
-                    'tgl_terima_sampel' => date('Y-m-d'),
-                    'jam_terima_sampel' => date('H:i:s'),
-                    'terima_sampel_oleh' => auth()->user()->id,
-                ], 
-                'periksa_sampel' => [
-                    'status' => 3,
-                    'tgl_periksa_sampel' => date('Y-m-d'),
-                    'jam_periksa_sampel' => date('H:i:s'),
-                    'periksa_sampel_oleh' => auth()->user()->id,
-                    'hasil_pemeriksaan' => $request->hasil_pemeriksaan,
-                    'hasil_golongan_sampel' => $request->hasil_golongan_sampel,
-                    'hasil_rhesus_sampel' => $request->hasil_rhesus_sampel
-                ],
-            ];
-
-            $type = $request->type;
-
-            $data = Receipt::where('id', $id)
-                ->update($processStatus[$type]);
-
-            $orderStatusArr = [
-                'ambil_sampel' => 3,
-                'terima_sampel' => 3,
-                'periksa_sampel' => 4,
-            ];
-
-            $order->status = $orderStatusArr[$type];
-            $order->save();
-
+            if ($order->tipe == 'bdrs') {
+                $data = $this->bdrs($id, $request, $order);
+            } else {
+                $data = $this->nonBdrs($id, $request, $order);
+            }
             return $this->successApiResponse($data);
 
         } catch (\Exception $e) {
@@ -116,56 +83,55 @@ class ReceiptController extends ApiBaseController {
         }
     }
 
-    public function processBdrs(int $id, Request $request) {
-        try {
+    private function bdrs(int $id, Request $request, Order $order) {
+        $type = $request->type;
 
-            $order = Order::where('id', $request->order_id)->first();
-            if ($order->tipe == 'bdrs') {
-                throw new \Exception('Transaksi tipe adalah BDRS, silakan isi stok');
-            }
+        $data = Receipt::where('id', $id)
+            ->update($processStatus[$type]);
 
-            $processStatus = [
-                'ambil_sampel' => [
-                    'status' => 1,
-                    'tgl_ambil_sampel' => date('Y-m-d'),
-                    'jam_ambil_sampel' => date('H:i:s'),
-                    'ambil_sampel_oleh' => auth()->user()->id,
-                ], 
-                'terima_sampel' => [
-                    'status' => 2,
-                    'tgl_terima_sampel' => date('Y-m-d'),
-                    'jam_terima_sampel' => date('H:i:s'),
-                    'terima_sampel_oleh' => auth()->user()->id,
-                ], 
-                'periksa_sampel' => [
-                    'status' => 3,
-                    'tgl_periksa_sampel' => date('Y-m-d'),
-                    'jam_periksa_sampel' => date('H:i:s'),
-                    'periksa_sampel_oleh' => auth()->user()->id,
-                    'hasil_pemeriksaan' => $request->hasil_pemeriksaan,
-                    'hasil_golongan_sampel' => $request->hasil_golongan_sampel,
-                    'hasil_rhesus_sampel' => $request->hasil_rhesus_sampel
-                ],
-            ];
 
-            $type = $request->type;
+        $order->status = 4;
+        $order->save();
+    }
+    private function nonBdrs(int $id, Request $request, Order $order) {
+        $processStatus = [
+            'ambil_sampel' => [
+                'status' => 1,
+                'tgl_ambil_sampel' => date('Y-m-d'),
+                'jam_ambil_sampel' => date('H:i:s'),
+                'ambil_sampel_oleh' => auth()->user()->id,
+            ], 
+            'terima_sampel' => [
+                'status' => 2,
+                'tgl_terima_sampel' => date('Y-m-d'),
+                'jam_terima_sampel' => date('H:i:s'),
+                'terima_sampel_oleh' => auth()->user()->id,
+            ], 
+            'periksa_sampel' => [
+                'status' => 3,
+                'tgl_periksa_sampel' => date('Y-m-d'),
+                'jam_periksa_sampel' => date('H:i:s'),
+                'periksa_sampel_oleh' => auth()->user()->id,
+                'hasil_pemeriksaan' => $request->hasil_pemeriksaan,
+                'hasil_golongan_sampel' => $request->hasil_golongan_sampel,
+                'hasil_rhesus_sampel' => $request->hasil_rhesus_sampel
+            ],
+        ];
 
-            $data = Receipt::where('id', $id)
-                ->update($processStatus[$type]);
+        $type = $request->type;
 
-            $orderStatusArr = [
-                'ambil_sampel' => 3,
-                'terima_sampel' => 3,
-                'periksa_sampel' => 4,
-            ];
+        $data = Receipt::where('id', $id)
+            ->update($processStatus[$type]);
 
-            $order->status = $orderStatusArr[$type];
-            $order->save();
+        $orderStatusArr = [
+            'ambil_sampel' => 3,
+            'terima_sampel' => 3,
+            'periksa_sampel' => 4,
+        ];
 
-            return $this->successApiResponse($data);
+        $order->status = $orderStatusArr[$type];
+        $order->save();
 
-        } catch (\Exception $e) {
-            return $this->errorApiResponse(500, $e->getMessage());
-        }
+        return $data;
     }
 }
