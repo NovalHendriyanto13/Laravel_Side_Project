@@ -7,7 +7,7 @@
             <!-- <i class="fas fa-laugh-wink"></i> -->
             <i class="fas fa-hand-holding-heart"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">DONOR DARAH<sup></sup></div>
+        <div class="sidebar-brand-text mx-3">UPD PMI Kota Tangerang<sup></sup></div>
     </a>
 
     <!-- Divider -->

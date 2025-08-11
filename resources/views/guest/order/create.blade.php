@@ -259,19 +259,27 @@
                                 <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
                                     <div class="accordion-body">
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 mb-3">                                                
+                                            <div class="col-lg-3 col-md-3 mb-3">                                                
                                                 <div class="form-group mb-3">
                                                     <label for="item">Item</label>
-                                                    <select class="form-control" id="item" name="item" data-url="{{ route('api.blood.index') }}"></select>
+                                                    <select class="form-control" id="item" name="item" data-url="{{ route('api.blood.index') }}">
+                                                        <option value="">Pilih</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 mb-3">
+                                            <div class="col-lg-3 col-md-3 mb-3">
                                                 <div class="form-group mb-3">
                                                     <label for="jumlah">Jumlah (unit/mL)</label>
-                                                    <input type="number" name="jumlah" id="jumlah" class="form-control" >
+                                                    <select name="jumlah_ml" id="jumlah_ml" class="form-control" data-url="{{ route('api.bloodStock.ml') }}"></select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 mb-3 mt-3">
+                                            <div class="col-lg-3 col-md-3 mb-3">
+                                                <div class="form-group mb-3">
+                                                    <label for="jumlah">Jumlah</label>
+                                                    <input type="number" name="jumlah" id="jumlah" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 mb-3">
                                                 <div class="form-group mb-3">
                                                     <button type="button" class="btn btn-primary" id="select_item">Pilih</button>
                                                 </div>
@@ -285,6 +293,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Item</th>
+                                                        <th>Jumlah (ml)</th>
                                                         <th>Jumlah</th>
                                                         <th></th>
                                                     </tr>

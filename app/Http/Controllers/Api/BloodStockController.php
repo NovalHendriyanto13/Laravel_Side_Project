@@ -37,6 +37,20 @@ class BloodStockController extends ApiBaseController {
         return $this->successApiResponse($datas);
     }
 
+    public function ml(Request $request) {
+        $bloodId = $request->blood_id;
+        $datas = BloodStock::query()
+            ->select([
+                'unit_volume',
+            ])
+            ->where('blood_id', $bloodId)
+            ->where('status', 1)
+            ->groupBy('unit_volume')
+            ->get();
+
+        return $this->successApiResponse($datas);
+    }
+
     public function create(Request $request) {
         $request->validate([
             'stock_no' => 'required|string|max:20|unique:blood_stock,stock_no',

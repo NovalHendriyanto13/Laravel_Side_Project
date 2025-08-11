@@ -24,6 +24,12 @@ $(document).ready(async function() {
         if (items?.error == false) {
             item.empty()
             responseItem = items?.data;
+            $(item).append(
+                $('<option>', {
+                    value: "",
+                    text: "Pilih"
+                })
+            );
             responseItem.forEach(function(value) {
                 $(item).append(
                     $('<option>', {
@@ -39,6 +45,7 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
+                { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
                     data: null,
@@ -100,8 +107,38 @@ $(document).ready(async function() {
             }
         });
 
+        $('#item').change(async function(e) {
+            const value = $(this).val();
+            const jumlahMl = $('#jumlah_ml');
+            const itemUrl = jumlahMl.data('url');
+            const payload = {
+                "blood_id": value,
+            }        
+
+            const items = await httpGetGuest(itemUrl, payload);
+            if (items?.error == false) {
+                jumlahMl.empty()
+                responseItem = items?.data;
+                $(jumlahMl).append(
+                    $('<option>', {
+                        value: "",
+                        text: "Pilih"
+                    })
+                );
+                responseItem.forEach(function(value) {
+                    $(jumlahMl).append(
+                        $('<option>', {
+                            value: value?.unit_volume,
+                            text: (value?.unit_volume)
+                        })
+                    );
+                });
+            }
+        });
+
         $('#select_item').click(function() {
             const item = $('#item').find(':selected');
+            const jmlMl = $('#jumlahMl').find(':selected');
             const jml = $('#jumlah');
 
             if (jml.val() == "") {
@@ -119,6 +156,7 @@ $(document).ready(async function() {
             selectedItems.push({
                 index: (lenSelectedItem),
                 name: item.text(),
+                jumlah_ml: jmlMl.val(),
                 jumlah: jml.val(),
                 id: item.val(), 
             });

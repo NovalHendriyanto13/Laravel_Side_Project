@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('pemesanan_id');
             $table->integer('blood_id');
+            $table->integer('jumlah_ml');
             $table->integer('jumlah');
             $table->integer('status');
             $table->timestamps();

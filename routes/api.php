@@ -79,5 +79,6 @@ Route::middleware(['auth'])->group(function() {
 
     Route::prefix('blood-stock')->group(function() {
         Route::get('/', [BloodStockController::class, 'index'])->name('api.bloodStock.index');
+        Route::get('/ml', [BloodStockController::class, 'ml'])->name('api.bloodStock.ml');
     });
 });
