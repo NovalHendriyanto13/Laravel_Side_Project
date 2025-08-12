@@ -54,7 +54,6 @@ class Order extends Model
         'Diproses',
         'Dicek Sample',
         'Hasil Sample',
-        'Dikirim',
         'Selesai'
     ];
 

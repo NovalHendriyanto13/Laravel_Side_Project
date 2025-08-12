@@ -254,26 +254,6 @@
                             </h2>
                             <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
                                 <div class="accordion-body">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 mb-3">                                                
-                                            <div class="form-group mb-3">
-                                                <label for="item">Item</label>
-                                                <select class="form-control" id="item" name="item" data-url="{{ route('api.admin.blood.index') }}" disabled></select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 mb-3">
-                                            <div class="form-group mb-3">
-                                                <label for="jumlah">Jumlah (unit/mL)</label>
-                                                <input type="number" name="jumlah" id="jumlah" class="form-control" disabled >
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 mb-3 mt-3">
-                                            <div class="form-group mb-3">
-                                                <button type="button" class="btn btn-primary" id="select_item" disabled>Pilih</button>
-                                            </div>
-                                        </div>
-
-                                    </div>
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-item" id="dataTable" width="100%" cellspacing="0"
                                             data-url="{{ route('api.order.index') }}"
@@ -281,6 +261,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Item</th>
+                                                    <th>Jumlah (ml)</th>
                                                     <th>Jumlah</th>
                                                 </tr>
                                             </thead>
@@ -382,6 +363,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Item</th>
+                                                    <th>Jumlah(ml)</th>
                                                     <th>Jumlah Permintaan</th>
                                                     <th>Jumlah Terpenuhi</th>
                                                     <th></th>
@@ -428,7 +410,29 @@
       </div>
       <div class="modal-body">
         <div class="row">
+            <div class="col-lg-6 col-md-6 mb-3">
+                <div class="form-group mb-3">
+                    <label for="item">Item</label>
+                    <input type="text" name="item" id="item" class="form-control" disabled>
+                </div>
 
+                <div class="form-group mb-3">
+                    <label for="jumlah">Jumlah Permintaan</label>
+                    <input type="text" name="jumlah" id="jumlah" class="form-control" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 mb-3">
+                <div class="form-group mb-3">
+                    <label for="jumlah_ml">Jumlah(ml)</label>
+                    <input type="text" name="jumlah_ml" id="jumlah_ml" class="form-control" disabled>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="jumlah_terpenuhi">Jumlah Terpenuhi (ml)</label>
+                    <input type="text" name="jumlah_terpenuhi" id="jumlah_terpenuhi" class="form-control" disabled>
+                </div>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-fulfillment">
@@ -440,6 +444,7 @@
                     <td>Golongan</td>
                     <td>Rhesus</td>
                     <td>Volume</td>
+                    <td></td>
                 </tr>
                 </thead>
                 <tbody></tbody>

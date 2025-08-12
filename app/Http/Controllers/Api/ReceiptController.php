@@ -2,8 +2,11 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Models\BloodStock;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Receipt;
+use App\Models\ReceiptDetail;
 
 class ReceiptController extends ApiBaseController {
 
@@ -68,13 +71,17 @@ class ReceiptController extends ApiBaseController {
 
             $order = Order::where('id', $request->order_id)->first();
 
-            if (in_array($order->status, ['Ditolak', 'Selesai'])) {
+            if (in_array($order->status, [0, 5])) {
                 throw new \Exception('Pemesanan sudah Selesai/ Di tolak');
             }
             if ($order->tipe == 'bdrs') {
                 $data = $this->bdrs($id, $request, $order);
             } else {
                 $data = $this->nonBdrs($id, $request, $order);
+            }
+
+            if (is_string($data)) {
+                throw new \Exception($data);
             }
             return $this->successApiResponse($data);
 
@@ -84,14 +91,53 @@ class ReceiptController extends ApiBaseController {
     }
 
     private function bdrs(int $id, Request $request, Order $order) {
-        $type = $request->type;
+        $type = 4;
+        $items = json_decode($request->items);
 
-        $data = Receipt::where('id', $id)
-            ->update($processStatus[$type]);
+        if (count($items) <= 0) {
+            return "Item penerimaan tidak boleh kosong";
+        }
+        
+        if (count($items) > 0) {
+            $orderDetailId = array_map(function($i) {
+                return $i->pemesanan_detail_id;
+            }, $items);
+            $total = OrderDetail::selectRaw('SUM(jumlah_ml * jumlah) AS total_ml')
+                ->whereIn('id', $orderDetailId)
+                ->first();
 
+            $totalMl = $total->total_ml ?? 0;
 
-        $order->status = 4;
+            $proposedQty = array_sum(array_map(fn($i) => $i->unit_volume, $items));
+            
+            if ($proposedQty != $totalMl) {
+                return "Total item tidak sama dengan total permintaan";
+            }
+
+            $totalSisa = $totalMl;
+            foreach ($items as $item) {
+                $totalSisa = $totalSisa - $item->unit_volume;
+
+                ReceiptDetail::create([
+                    'penerimaan_id' => $id,
+                    'pemesanan_detail_id' => $item->pemesanan_detail_id,
+                    'blood_stock_id' => $item->id,
+                    'sisa' => $totalSisa,
+                    'status' => $item->status,
+                ]);
+
+                BloodStock::where('id', $item->id)
+                    ->update(['status' => 2]);
+            }
+
+            $data = Receipt::where('id', $id)
+                ->update([ 'status' => $type ]);
+        }
+
+        $order->status = 5;
         $order->save();
+
+        return true;
     }
     private function nonBdrs(int $id, Request $request, Order $order) {
         $processStatus = [

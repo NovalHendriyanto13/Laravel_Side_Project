@@ -107,6 +107,7 @@
                                                 <div class="form-group mb-3">
                                                     <label for="jenis_kelamin">Jenis Kelamin</label>
                                                     <select name="jenis_kelamin" class="form-control" id="jenis_kelamin">
+                                                        <option value="">Pilih</option>
                                                         <option value="laki-laki">Laki-Laki</option>
                                                         <option value="perempuan">Perempuan</option>
                                                     </select>
@@ -132,6 +133,7 @@
                                                 <div class="form-group mb-3">
                                                     <label for="status_nikah">Status</label>
                                                     <select name="status_nikah" class="form-control" id="status_nikah">
+                                                        <option value="">Pilih</option>
                                                         <option value="lajang">Lajang</option>
                                                         <option value="menikah">Menikah</option>
                                                         <option value="cerai">Cerai</option>

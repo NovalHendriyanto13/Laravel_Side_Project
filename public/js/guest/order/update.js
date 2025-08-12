@@ -33,6 +33,7 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
+                { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
                     data: null,
@@ -99,6 +100,7 @@ $(document).ready(async function() {
                 selectedItems.push({
                     index: (ix),
                     name: `${blood.blood_type} - ${blood.name}`,
+                    jumlah_ml: item.jumlah_ml,
                     jumlah: item.jumlah,
                     id: item.blood_id, 
                     pid: item.id,
@@ -237,7 +239,7 @@ $(document).ready(async function() {
                 } else {
                     Swal.fire({
                         title: "Success",
-                        text: "Blood Stock Data is created",
+                        text: "Blood Stock Data is updated",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"

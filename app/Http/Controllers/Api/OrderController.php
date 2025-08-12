@@ -89,6 +89,7 @@ class OrderController extends ApiBaseController {
             $payloadItems = array_map(function($item) use($data) {
                 return [
                     'blood_id' => $item->id,
+                    'jumlah_ml' => $item->jumlah_ml,
                     'jumlah' => $item->jumlah,
                     'status' => 0,
                     'pemesanan_id' => $data->id, 

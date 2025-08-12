@@ -138,7 +138,7 @@ $(document).ready(async function() {
 
         $('#select_item').click(function() {
             const item = $('#item').find(':selected');
-            const jmlMl = $('#jumlahMl').find(':selected');
+            const jmlMl = $('#jumlah_ml').find(':selected');
             const jml = $('#jumlah');
 
             if (jml.val() == "") {
@@ -160,6 +160,7 @@ $(document).ready(async function() {
                 jumlah: jml.val(),
                 id: item.val(), 
             });
+            
 
             selectedTable.clear().rows.add(selectedItems).draw();
         });

@@ -6,26 +6,18 @@ $(document).ready(async function() {
     let processedItems = [];
     let processedTable;
 
+    let fulfillmentItems = [];
+
     await _init();
     _gesture();
 
     async function _init() {
-        const item = $('#item');
-        const itemUrl = item.data('url');
+        const itemUrl = `${_apiBaseUrl}/api/admin-blood`;
         let responseItem = [];
         const items = await httpGet(itemUrl);
 
         if (items?.error == false) {
-            item.empty()
             responseItem = items?.data;
-            responseItem.forEach(function(value) {
-                $(item).append(
-                    $('<option>', {
-                        value: value?.id,
-                        text: (value?.blood_type + ' - '+ value?.name)
-                    })
-                );
-            });
         }
 
         const table = $('.table-item');
@@ -33,6 +25,7 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
+                { data: 'jumlah_ml' },
                 { data: 'jumlah' },     
             ]
         });
@@ -86,6 +79,7 @@ $(document).ready(async function() {
                 selectedItems.push({
                     index: (ix),
                     name: `${blood.blood_type} - ${blood.name}`,
+                    jumlah_ml: item.jumlah_ml,
                     jumlah: item.jumlah,
                     id: item.blood_id, 
                     pid: item.id,
@@ -102,9 +96,17 @@ $(document).ready(async function() {
             if (data.tipe == 'bdrs') {
                 patientTab.css("display", "none");
                 additionalTab.css("display", "none");
+
+                $('#hasil_pemeriksaan').attr("disabled", true);
+                $('#hasil_golongan_sampel').attr("disabled", true);
+                $('#hasil_rhesus_sampel').attr("disabled", true);
             } else {
                 patientTab.css("display", "block");
                 additionalTab.css("display", "block");
+
+                $('#hasil_pemeriksaan').remoteAttr("disabled");
+                $('#hasil_golongan_sampel').remoteAttr("disabled");
+                $('#hasil_rhesus_sampel').remoteAttr("disabled");
             }
 
             await _detailProcessTab(selectedItems, id);
@@ -124,6 +126,7 @@ $(document).ready(async function() {
             data: processedItems,
             columns: [
                 { data: 'name' },
+                { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
                     data: null,
@@ -160,36 +163,52 @@ $(document).ready(async function() {
 
             $('#kode_penerimaan').val(data.kode_penerimaan);
             $('#tgl_penerimaan').val(data.tgl_penerimaan);
-            $('#tgl_ambil_sampel').val(`${data.tgl_ambil_sampel} ${data.jam_ambil_sampel}`);
+
+            if (data.tgl_ambil_sampel != null) {
+                $('#tgl_ambil_sampel').val(data.tgl_ambil_sampel + ' ' + data.jam_ambil_sampel);
+            }
+            if (data.tgl_terima_sampel != null) {
+                $('#tgl_terima_sampel').val(data.tgl_terima_sampel + ' ' + data.jam_terima_sampel);
+            }
+            if (data.tgl_periksa_sampel != null) {
+                $('#tgl_periksa_sampel').val(data.tgl_periksa_sampel + ' ' + data.jam_periksa_sampel);
+            }
+            $('#ambil_sampel_oleh').val(data.ambil_sampel_oleh);
+            $('#terima_sampel_oleh').val(data.terima_sampel_oleh);
+            $('#periksa_sampel_oleh').val(data.periksa_sampel_oleh);
             
         } else {
             console.log('No Data Found');
         }
-
     }
 
     function _gesture() {
         $('.table-receive-item tbody').on('click', '.view-btn-fulfill', async function (e){
             e.preventDefault();
             const data = $(this).data('row');
-            console.log(data);
+
             let modalEl = $('#fulfillment-modal');
 
             const table = $('.table-fulfillment');
             if ( $.fn.dataTable.isDataTable('.table-fulfillment') ) {
                 table.DataTable().clear().destroy(); // optional
             }
-            const url = `${_apiBaseUrl}/api/blood-stock`;
+            const url = `${_apiBaseUrl}/api/admin-blood-stock`;
             const payload = {
                 "blood_id": data.id,
-                "status": 0,
+                "status": 1,
             }
             const response = await httpGet(url, payload);
 
             if (response?.error == false) {
-                const data = response?.data || null;
+                const responseData = response?.data || null;
+
+                $('#item').val(data.name);
+                $('#jumlah_ml').val(data.jumlah_ml);
+                $('#jumlah').val(data.jumlah);
+                
                 processedTable = table.DataTable({
-                    data: data,
+                    data: responseData,
                     columns: [
                         { data: 'stock_no' },
                         { data: 'expiry_date' },
@@ -197,6 +216,17 @@ $(document).ready(async function() {
                         { data: 'blood_group' },
                         { data: 'blood_rhesus' },
                         { data: 'unit_volume' },
+                        {
+                            data: null,
+                            render: function(dataObj, type, row) {
+                                row.pemesanan_detail_id = data.pid;
+                                const dataRow = JSON.stringify(row);
+                                
+                                return `
+                                    <a class="btn btn-sm btn-info view-btn-fulfillment" data-row='${dataRow}' href="#">Pilih</a>
+                                `;
+                            } 
+                        },
                     ]
                 });
             }
@@ -205,27 +235,52 @@ $(document).ready(async function() {
             modal.show();
         });
 
+        $('.table-fulfillment tbody').on('click', '.view-btn-fulfillment', async function (e){
+            e.preventDefault();
+            const data = $(this).data('row');
+            $(this).parent().closest('tr').attr('style', 'background-color: #ffeeba !important; ')
+
+            fulfillmentItems.push(data);
+console.log(fulfillmentItems);
+            $(this).html('Hapus');
+
+            $(this).addClass('remove-btn-fulfillment');
+            $(this).addClass('btn-danger');
+
+            $(this).removeClass('view-btn-fulfillment');
+            $(this).removeClass('btn-info');
+
+        });
+
+        $('.table-fulfillment tbody').on('click', '.remove-btn-fulfillment', async function (e){
+            e.preventDefault();
+            const data = $(this).data('row');
+            $(this).parent().closest('tr').attr('style', 'background-color: #ffeeba !important; ')
+
+            const index = fulfillmentItems.findIndex(item => item.id === data.id);
+            if (index !== -1) {
+                fulfillmentItems.splice(index, 1);
+            }
+            $(this).html('Pilih');
+
+            $(this).addClass('view-btn-fulfillment');
+            $(this).addClass('btn-info');
+
+            $(this).removeClass('remove-btn-fulfillment');
+            $(this).removeClass('btn-danger');
+        });
+
         $('.btn-submit').click(async function(e) {
             e.preventDefault();
 
             const form = $('.form-order-update');
             const orderId = form.data('id');
 
-            if (selectedItems.length <= 0) {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Harap lengkapi data di INFORMASI PEMESANAN',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                })
-                return false;
-            }
-
             const step = form.data('step') || null;
 
             const payload = [{
                 name: "items",
-                value: JSON.stringify(selectedItems)
+                value: JSON.stringify(fulfillmentItems)
             }, {
                 name: "order_id",
                 value: orderId
@@ -253,7 +308,7 @@ $(document).ready(async function() {
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"
                         }).then((result) => {
-                            
+                            return redirectWithToken('/admin/order');
                         });
 
                     await _detailProcessTab(selectedItems, orderId);
