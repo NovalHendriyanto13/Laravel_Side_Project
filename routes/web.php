@@ -86,7 +86,8 @@ Route::middleware(['auth'])->group(function() {
     
     Route::prefix('order')->group(function() {
         Route::get('/', [GuestOrderController::class, 'index'])->name('order.index');
-        Route::get('/create', [GuestOrderController::class, 'create'])->name('order.create');
+        Route::get('/create', [GuestOrderController::class, 'create'])->name('order.create.bdrs');
+        Route::get('/create/non-bdrs', [GuestOrderController::class, 'createNonBdrs'])->name('order.create.non-bdrs');
         Route::get('/{id}', [GuestOrderController::class, 'detail'])->name('order.detail');
     });
 

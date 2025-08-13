@@ -14,6 +14,10 @@ class OrderController extends Controller {
         return view('guest.order.create');
     }
 
+    public function createNonBdrs(Request $request) {
+        return view('guest.order.create_non_bdrs');
+    }
+
     public function detail(int $id, Request $request) {
         return view('guest.order.update', [
             'id' => $id,

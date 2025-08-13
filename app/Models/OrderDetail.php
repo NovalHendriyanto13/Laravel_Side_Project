@@ -16,6 +16,8 @@ class OrderDetail extends Model
     protected $fillable = [
         "pemesanan_id",
         "blood_id",
+        "golongan",
+        "rhesus",
         "jumlah_ml",
         "jumlah",
         "status",

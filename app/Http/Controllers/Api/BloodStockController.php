@@ -44,6 +44,12 @@ class BloodStockController extends ApiBaseController {
                 'unit_volume',
             ])
             ->where('blood_id', $bloodId)
+            ->when(!empty($request->blood_group), function($q) use ($request) {
+                return $q->where('blood_group', $request->blood_group);
+            })
+            ->when(!empty($request->blood_rhesus), function($q) use ($request) {
+                return $q->where('blood_rhesus', $request->blood_rhesus);
+            })
             ->where('status', 1)
             ->groupBy('unit_volume')
             ->get();

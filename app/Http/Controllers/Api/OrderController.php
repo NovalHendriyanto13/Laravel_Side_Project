@@ -72,7 +72,7 @@ class OrderController extends ApiBaseController {
                 'tanggal_lahir' => date('Y-m-d', strtotime($request->tanggal_lahir)),
                 'alamat' => $request->alamat,
                 'no_telp' => $request->no_telp,
-                'transfusi_sebelumnya' => $request->transfusi_sebelumnya,
+                'transfusi_sebelumnya' => $request->transfusi_sebelumnya ?? 0,
                 'tgl_transfusi_sebelumnya' => date('Y-m-d', strtotime($request->tgl_transfusi_sebelumnya)),
                 'gejala_reaksi' => $request->gejala_reaksi,
                 'tempat_serologi' => $request->tempat_serologi,
@@ -87,8 +87,14 @@ class OrderController extends ApiBaseController {
 
             $items = json_decode($request->items);
             $payloadItems = array_map(function($item) use($data) {
+                $bloodGroup = [];
+                if (!empty($item->golongan)) {
+                    $bloodGroup = explode('_', $item->golongan);
+                }
                 return [
                     'blood_id' => $item->id,
+                    'golongan' => $bloodGroup[0] ?? null,
+                    'rhesus' => $bloodGroup[1] ?? null,
                     'jumlah_ml' => $item->jumlah_ml,
                     'jumlah' => $item->jumlah,
                     'status' => 0,

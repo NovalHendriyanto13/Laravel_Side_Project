@@ -51,9 +51,8 @@
                                                 
                                                 <div class="form-group mb-3">
                                                     <label for="tipe">Tipe</label>
-                                                    <select id="tipe" name="tipe" class="form-control">
+                                                    <select id="tipe" name="tipe" class="form-control" disabled>
                                                         <option value="bdrs">BDRS</option>
-                                                        <option value="non_bdrs">NON BDRS</option>
                                                     </select>
                                                 </div>
 
@@ -83,175 +82,6 @@
                                 </div>
                             </div>
 
-                            <div class="accordion-item patient-info" style="display:none">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        <b>Informasi Pasien</b>
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 mb-3">
-                                                
-                                                <div class="form-group mb-3">
-                                                    <label for="nama_pasien">Nama Pasien</label>
-                                                    <input type="text" name="nama_pasien" id="nama_pasien" class="form-control" required="">
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="nama_pasangan">Nama Pasangan</label>
-                                                    <input type="text" name="nama_pasangan" id="nama_pasangan" class="form-control" disabled>
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="jenis_kelamin">Jenis Kelamin</label>
-                                                    <select name="jenis_kelamin" class="form-control" id="jenis_kelamin">
-                                                        <option value="">Pilih</option>
-                                                        <option value="laki-laki">Laki-Laki</option>
-                                                        <option value="perempuan">Perempuan</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="diagnosis">Diagnosis</label>
-                                                    <input type="text" name="diagnosis" id="diagnosis" class="form-control" required>
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="hb">HB</label>
-                                                    <input type="number" name="hb" id="hb" class="form-control" required>
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="trombosit">Trombosit</label>
-                                                    <input type="number" name="trombosit" id="trombosit" class="form-control" required>
-                                                </div>
-                                                
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 mb-3">
-                                                <div class="form-group mb-3">
-                                                    <label for="status_nikah">Status</label>
-                                                    <select name="status_nikah" class="form-control" id="status_nikah">
-                                                        <option value="">Pilih</option>
-                                                        <option value="lajang">Lajang</option>
-                                                        <option value="menikah">Menikah</option>
-                                                        <option value="cerai">Cerai</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="tempat_lahir">Tempat Lahir</label>
-                                                    <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control" required="">
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="tanggal_lahir">Tanggal Lahir</label>
-                                                    <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required="">
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="alasan_transfusi">Alasan Transfusi</label>
-                                                    <input type="text" name="alasan_transfusi" id="alasan_transfusi" class="form-control" required="">
-                                                </div>
-                                                
-                                                <div class="form-group mb-3">
-                                                    <label for="berat_badan">Berat Badan</label>
-                                                    <input type="number" name="berat_badan" id="berat_badan" class="form-control" required>
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="no_telp">No Telp</label>
-                                                    <input type="number" name="no_telp" id="no_telp" class="form-control" required>
-                                                </div>
-                                                
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 mb-3">
-                                                <div class="form-group mb-3">
-                                                    <label for="alamat">Alamat</label>
-                                                    <textarea name="alamat" id="alamat" class="form-control" required=""></textarea>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item additional-info" style="display:none">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                        <b>Informasi Tambahan</b>
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 mb-3">
-                                                
-                                                <div class="form-group mb-3">
-                                                    <label for="transfusi_sebelumnya">Transfusi Sebelumnya</label>
-                                                    <select class="form-control" id="transfusi_sebelumnya" name="transfusi_sebelumnya">
-                                                        <option value="0">Tidak</option>
-                                                        <option value="1">Ya</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="tgl_transfusi_sebelumnya">Tanggal Transfusi Sebelumnya</label>
-                                                    <input type="date" name="tgl_transfusi_sebelumnya" id="tgl_transfusi_sebelumnya" class="form-control" >
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="tempat_serologi">Tempat Serologi</label>
-                                                    <input type="text" name="tempat_serologi" id="tempat_serologi" class="form-control">
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="tgl_serologi">Tanggal Serologi</label>
-                                                    <input type="date" name="tgl_serologi" id="tgl_serologi" class="form-control">
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="hasil_serologi">Hasil Serologi</label>
-                                                    <input type="text" name="hasil_serologi" id="hasil_serologi" class="form-control">
-                                                </div>
-                                                
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 mb-3">
-                                                <div class="form-group mb-3">
-                                                    <label for="gejala_reaksi">Gejala Reaksi</label>
-                                                    <input type="text" name="gejala_reaksi" id="gejala_reaksi" class="form-control">
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="tempat_serologi">Pernah Hamil</label>
-                                                    <select class="form-control" id="hamil" name="hamil" disabled>
-                                                        <option value="0">Tidak</option>
-                                                        <option value="1">Ya</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group mb-3">
-                                                    <label for="jumlah_kehamilan">Jumlah Kehamilan</label>
-                                                    <input type="text" name="jumlah_kehamilan" id="jumlah_kehamilan" class="form-control" readonly>
-                                                </div>
-                                                
-                                                <div class="form-group mb-3">
-                                                    <label for="tempat_serologi">Pernah Aborsi</label>
-                                                    <select class="form-control" id="pernah_aborsi" name="pernah_aborsi" disabled>
-                                                        <option value="0">Tidak</option>
-                                                        <option value="1">Ya</option>
-                                                    </select>
-                                                </div>
-                                                
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
@@ -266,6 +96,22 @@
                                                     <label for="item">Item</label>
                                                     <select class="form-control" id="item" name="item" data-url="{{ route('api.blood.index') }}">
                                                         <option value="">Pilih</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 mb-3">
+                                                <div class="form-group mb-3">
+                                                    <label for="golongan">Jumlah (unit/mL)</label>
+                                                    <select name="golongan" id="golongan" class="form-control">
+                                                        <option value=""></option>
+                                                        <option value="a_positif">A+</option>
+                                                        <option value="a_negatif">A-</option>
+                                                        <option value="b_positif">B+</option>
+                                                        <option value="b_negatif">B-</option>
+                                                        <option value="ab_positif">AB+</option>
+                                                        <option value="ab_negatif">AB-</option>
+                                                        <option value="o_positif">O+</option>
+                                                        <option value="o_negatif">O-</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -295,6 +141,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Item</th>
+                                                        <th>Golongan</th>
                                                         <th>Jumlah (ml)</th>
                                                         <th>Jumlah</th>
                                                         <th></th>

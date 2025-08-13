@@ -36,16 +36,6 @@ $(document).ready(async function() {
                 { data: 'dokter' },
                 { data: 'tgl_pemesanan' },
                 { data: 'tgl_diperlukan' },
-                { data: 'nama_pasien' },
-                { data: 'jenis_kelamin' },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        return row.tempat_lahir + ', ' + row.tanggal_lahir;
-                    } 
-                },
-                { data: 'no_telp' },
-                { data: 'diagnosis' },
                 { data: 'status' },
                 {
                     data: null,

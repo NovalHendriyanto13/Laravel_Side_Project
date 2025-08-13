@@ -45,17 +45,6 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        let str = data.golongan;
-                        str = str.replace(/_/g, ' ');
-                        str = str.charAt(0).toUpperCase() + str.slice(1);
-                        return str;
-                    }
-                },
                 { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
@@ -76,7 +65,6 @@ $(document).ready(async function() {
     }
 
     function _gesture() {
-
         $('#jenis_kelamin').change(function(e) {
             const value = $(this).val();
             const hamil = $('#hamil');
@@ -105,23 +93,12 @@ $(document).ready(async function() {
             }
         });
 
-        $('#golongan').change(async function(e) {
+        $('#item').change(async function(e) {
             const value = $(this).val();
-            const bloodId = $('#item').val();
             const jumlahMl = $('#jumlah_ml');
             const itemUrl = jumlahMl.data('url');
-
-            let golongan = '';
-            let rhesus = '';
-            if (value != '') {
-                let parts = value.split("_");
-                golongan = parts[0];
-                rhesus = parts[1];
-            }
             const payload = {
-                "blood_id": bloodId,
-                "blood_group": golongan,
-                "blood_rhesus": rhesus,
+                "blood_id": value,
             }        
 
             const items = await httpGetGuest(itemUrl, payload);
@@ -148,7 +125,6 @@ $(document).ready(async function() {
         $('#select_item').click(function() {
             const item = $('#item').find(':selected');
             const jmlMl = $('#jumlah_ml').find(':selected');
-            const gol = $('#golongan').find(':selected');
             const jml = $('#jumlah');
 
             if (jml.val() == "") {
@@ -166,7 +142,6 @@ $(document).ready(async function() {
             selectedItems.push({
                 index: (lenSelectedItem),
                 name: item.text(),
-                golongan: gol.val(),
                 jumlah_ml: jmlMl.val(),
                 jumlah: jml.val(),
                 id: item.val(), 
@@ -202,13 +177,13 @@ $(document).ready(async function() {
                 value: hospital.id,
             }, {
                 name: "tipe",
-                value: "bdrs",
+                value: "non_bdrs",
             }, {
                 name: "items",
                 value: JSON.stringify(selectedItems)
             }];
 
-            const response = await submitPostFormGuestToken('.form-order-create', payload, false) || null;
+            const response = await submitPostFormGuestToken('.form-order-create', payload) || null;
 
             if (response != null) {
                 if (response?.error) {

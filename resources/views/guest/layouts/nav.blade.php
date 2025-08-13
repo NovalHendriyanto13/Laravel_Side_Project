@@ -13,7 +13,8 @@
                 <li><a href="{{ route('bloodStock.index') }}" class="a-auth">Stok Darah</a></li>
                 <li class="dropdown"><a href="#"><span>Pemesanan</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
-                        <li><a href="{{ route('order.create') }}" class="a-auth">Tambah Baru</a></li>
+                        <li><a href="{{ route('order.create.bdrs') }}" class="a-auth">Tambah Baru BDRS</a></li>
+                        <li><a href="{{ route('order.create.non-bdrs') }}" class="a-auth">Tambah Baru NON BDRS</a></li>
                         <li><a href="{{ route('order.index') }}" class="a-auth">Riwayat</a></li>
                     </ul>
                 </li>
