@@ -33,17 +33,6 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        let str = data.golongan;
-                        str = str.replace(/_/g, ' ');
-                        str = str.charAt(0).toUpperCase() + str.slice(1);
-                        return str;
-                    }
-                },
                 { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
@@ -77,7 +66,30 @@ $(document).ready(async function() {
             $('#dokter').val(data.dokter);
             $('#tgl_pemesanan').val(data.tgl_pemesanan);
             $('#tgl_diperlukan').val(data.tgl_diperlukan);
-            
+            $('#diagnosis').val(data.diagnosis);
+            $('#alasan_transfusi').val(data.alasan_transfusi);
+            $('#hb').val(data.hb);
+            $('#trombosit').val(data.trombosit);
+            $('#berat_badan').val(data.berat_badan);
+            $('#nama_pasien').val(data.nama_pasien);
+            $('#status_nikah').val(data.status_nikah);
+            $('#nama_pasangan').val(data.nama_pasangan);
+            $('#jenis_kelamin').val(data.jenis_kelamin);
+            $('#tempat_lahir').val(data.tempat_lahir);
+            $('#tanggal_lahir').val(data.tanggal_lahir);
+            $('#alamat').val(data.alamat);
+            $('#no_telp').val(data.no_telp);
+            $('#transfusi_sebelumnya').val(data.transfusi_sebelumnya);
+            $('#tgl_transfusi_sebelumnya').val(data.tgl_transfusi_sebelumnya);
+            $('#gejala_reaksi').val(data.gejala_reaksi);
+            $('#tempat_serologi').val(data.tempat_serologi);
+            $('#tgl_serologi').val(data.tgl_serologi);
+            $('#hasil_serologi').val(data.hasil_serologi);
+            $('#hamil').val(data.hamil);
+            $('#jumlah_kehamilan').val(data.jumlah_kehamilan);
+            $('#pernah_aborsi').val(data.pernah_aborsi);
+            $('#status').val(data.status);
+
             const lenSelectedItem = selectedItems.length;
             const orderDetail = data.order_detail;
 
@@ -88,7 +100,6 @@ $(document).ready(async function() {
                 selectedItems.push({
                     index: (ix),
                     name: `${blood.blood_type} - ${blood.name}`,
-                    golongan: `${item.golongan} - ${item.rhesus}`,
                     jumlah_ml: item.jumlah_ml,
                     jumlah: item.jumlah,
                     id: item.blood_id, 
@@ -99,68 +110,65 @@ $(document).ready(async function() {
             
             selectedTable.clear().rows.add(selectedItems).draw();
 
-            if (data.status.toLowerCase() == 'selesai') {
-                $('.btn-submit').attr('disabled', true);
-                Swal.fire({
-                    title: 'Info!',
-                    text: 'Pemesanan sudah selesai',
-                    icon: 'info',
-                    confirmButtonText: 'OK'
-                });
+            const patientTab = $('.patient-info');
+            const additionalTab = $('.additional-info');
 
-                return false;
+            if (data.tipe == 'bdrs') {
+                patientTab.css("display", "none");
+                additionalTab.css("display", "none");
+            } else {
+                patientTab.css("display", "block");
+                additionalTab.css("display", "block");
             }
-
         }
 
     }
 
     function _gesture() {
-        
-        $('#golongan').change(async function(e) {
+        $('#tipe').change(function(e) {
             const value = $(this).val();
-            const bloodId = $('#item').val();
-            const jumlahMl = $('#jumlah_ml');
-            const itemUrl = jumlahMl.data('url');
+            const patientTab = $('.patient-info');
+            const additionalTab = $('.additional-info');
 
-            let golongan = '';
-            let rhesus = '';
-            if (value != '') {
-                let parts = value.split("_");
-                golongan = parts[0];
-                rhesus = parts[1];
+            if (value == 'bdrs') {
+                patientTab.css("display", "none");
+                additionalTab.css("display", "none");
+            } else {
+                patientTab.css("display", "block");
+                additionalTab.css("display", "block");
             }
-            const payload = {
-                "blood_id": bloodId,
-                "blood_group": golongan,
-                "blood_rhesus": rhesus,
-            }        
+        });
 
-            const items = await httpGetGuest(itemUrl, payload);
-            if (items?.error == false) {
-                jumlahMl.empty()
-                responseItem = items?.data;
-                $(jumlahMl).append(
-                    $('<option>', {
-                        value: "",
-                        text: "Pilih"
-                    })
-                );
-                responseItem.forEach(function(value) {
-                    $(jumlahMl).append(
-                        $('<option>', {
-                            value: value?.unit_volume,
-                            text: (value?.unit_volume)
-                        })
-                    );
-                });
+        $('#jenis_kelamin').change(function(e) {
+            const value = $(this).val();
+            const hamil = $('#hamil');
+            const jmlHamil = $('#jumlah_kehamilan');
+            const aborsi = $('#pernah_aborsi');
+
+            if (value == 'perempuan') {
+                hamil.removeAttr("disabled");
+                jmlHamil.removeAttr("readonly");
+                aborsi.removeAttr("disabled");
+            } else {
+                hamil.attr("disabled", true);
+                jmlHamil.attr("readonly", true);
+                aborsi.attr("disabled", true);
+            }
+        });
+
+        $('#status_nikah').change(function(e) {
+            const value = $(this).val();
+            const namaPasangan = $('#nama_pasangan');
+
+            if (value == 'menikah') {
+                namaPasangan.removeAttr("disabled");
+            } else {
+                namaPasangan.attr("disabled", true);
             }
         });
 
         $('#select_item').click(function() {
             const item = $('#item').find(':selected');
-            const jmlMl = $('#jumlah_ml').find(':selected');
-            const gol = $('#golongan').find(':selected');
             const jml = $('#jumlah');
 
             if (jml.val() == "") {
@@ -178,12 +186,10 @@ $(document).ready(async function() {
             selectedItems.push({
                 index: (lenSelectedItem),
                 name: item.text(),
-                golongan: gol.val(),
-                jumlah_ml: jmlMl.val(),
                 jumlah: jml.val(),
                 id: item.val(), 
+                pid: null,
             });
-            
 
             selectedTable.clear().rows.add(selectedItems).draw();
         });
@@ -211,13 +217,13 @@ $(document).ready(async function() {
 
             const payload = [{
                 name: "tipe",
-                value: "bdrs",
+                value: "non_bdrs",
             }, {
                 name: "items",
                 value: JSON.stringify(selectedItems)
             }];
 
-            const response = await submitPutFormGuestToken('.form-order-update', payload, false) || null;
+            const response = await submitPutFormGuestToken('.form-order-update', payload, true) || null;
 
             if (response != null) {
                 if (response?.error) {

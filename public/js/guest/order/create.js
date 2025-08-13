@@ -77,34 +77,6 @@ $(document).ready(async function() {
 
     function _gesture() {
 
-        $('#jenis_kelamin').change(function(e) {
-            const value = $(this).val();
-            const hamil = $('#hamil');
-            const jmlHamil = $('#jumlah_kehamilan');
-            const aborsi = $('#pernah_aborsi');
-
-            if (value == 'perempuan') {
-                hamil.removeAttr("disabled");
-                jmlHamil.removeAttr("readonly");
-                aborsi.removeAttr("disabled");
-            } else {
-                hamil.attr("disabled", true);
-                jmlHamil.attr("readonly", true);
-                aborsi.attr("disabled", true);
-            }
-        });
-
-        $('#status_nikah').change(function(e) {
-            const value = $(this).val();
-            const namaPasangan = $('#nama_pasangan');
-
-            if (value == 'menikah') {
-                namaPasangan.removeAttr("disabled");
-            } else {
-                namaPasangan.attr("disabled", true);
-            }
-        });
-
         $('#golongan').change(async function(e) {
             const value = $(this).val();
             const bloodId = $('#item').val();

@@ -165,7 +165,7 @@ class OrderController extends ApiBaseController {
             $data->tanggal_lahir = date('Y-m-d', strtotime($request->tanggal_lahir));
             $data->alamat = $request->alamat;
             $data->no_telp = $request->no_telp;
-            $data->transfusi_sebelumnya = $request->transfusi_sebelumnya;
+            $data->transfusi_sebelumnya = $request->transfusi_sebelumnya ?? 0;
             $data->tgl_transfusi_sebelumnya = date('Y-m-d', strtotime($request->tgl_transfusi_sebelumnya));
             $data->gejala_reaksi = $request->gejala_reaksi;
             $data->tempat_serologi = $request->tempat_serologi;
@@ -180,16 +180,27 @@ class OrderController extends ApiBaseController {
 
             $items = json_decode($request->items);
             foreach($items as $item) {
-                $orderDetail = OrderDetail::find($item->pid);
-                if ($orderDetail) {
+                $bloodGroup = [];
+                if (!empty($item->golongan)) {
+                    $bloodGroup = explode('_', $item->golongan);
+                }
+                $orderDetails = !empty($item->pid) ?? null;
+                if (!empty($orderDetails)) {
+                    $orderDetail = OrderDetail::find($item->pid);
                     $orderDetail->blood_id = $item->id;
                     $orderDetail->jumlah = $item->jumlah;
+                    $orderDetail->jumlah_ml = $item->jumlah_ml;
+                    $orderDetail->golongan = $bloodGroup[0] ?? null;
+                    $orderDetail->rhesus = $bloodGroup[1] ?? null;
                     $orderDetail->status = 0;
                     $orderDetail->pemesanan_id = $data->id;
                     $orderDetail->save(); 
                 } else {
                     OrderDetail::create([
                         'blood_id' => $item->id,
+                        'jumlah_ml' => $item->jumlah_ml,
+                        'golongan' => $bloodGroup[0] ?? null,
+                        'rhesus' => $bloodGroup[1] ?? null,
                         'jumlah' => $item->jumlah,
                         'status' => 0,
                         'pemesanan_id' => $data->id, 

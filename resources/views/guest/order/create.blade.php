@@ -101,7 +101,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 mb-3">
                                                 <div class="form-group mb-3">
-                                                    <label for="golongan">Jumlah (unit/mL)</label>
+                                                    <label for="golongan">Gologan</label>
                                                     <select name="golongan" id="golongan" class="form-control">
                                                         <option value=""></option>
                                                         <option value="a_positif">A+</option>

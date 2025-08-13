@@ -29,7 +29,10 @@ $(document).ready(async function() {
                     data: null,
                     render: function(data, type, row) {
                         const token = localStorage.getItem('_token_guest');
-                        return `<a href="${_appUrl}/order/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
+                        if (data.tipe == 'bdrs') {
+                            return `<a href="${_appUrl}/order/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
+                        }
+                                                return `<a href="${_appUrl}/order/non-bdrs/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
                     } 
                 },
                 { data: 'tipe' },
