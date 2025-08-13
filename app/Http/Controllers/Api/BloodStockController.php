@@ -22,7 +22,7 @@ class BloodStockController extends ApiBaseController {
             ->when(!empty($request->blood_id), function ($q) use ($request) {
                 return $q->where('blood_stock.blood_id', $request->blood_id);
             })
-            ->when(!empty($request->status) || $request->status == 0, function ($q) use ($request) {
+            ->when(!empty($request->status) || $request->status === 0, function ($q) use ($request) {
                 return $q->where('blood_stock.status', $request->status);
             })
             ->when(!empty($request->blood_group), function ($q) use ($request) {

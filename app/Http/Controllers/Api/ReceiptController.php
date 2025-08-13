@@ -90,6 +90,31 @@ class ReceiptController extends ApiBaseController {
         }
     }
 
+    public function detailItem(int $id, Request $request) {
+        try {
+
+            $data = ReceiptDetail::select([
+                'penerimaan_detail.id',
+                'blood_stock.stock_no',
+                'blood_stock.expiry_date',
+                'blood_stock.blood_group',
+                'blood_stock.blood_rhesus',
+                'blood_stock.unit_volume',
+                'blood.name',
+                'blood.blood_type',
+            ])
+                ->join('blood_stock', 'blood_stock.id', '=', 'penerimaan_detail.blood_stock_id')
+                ->join('blood', 'blood_stock.blood_id', '=', 'blood.id')
+                ->where('pemesanan_detail_id', $id)
+                ->get();
+
+            return $this->successApiResponse($data);
+
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
+        }
+    }
+
     private function bdrs(int $id, Request $request, Order $order) {
         $type = 4;
         $items = json_decode($request->items);
@@ -134,7 +159,7 @@ class ReceiptController extends ApiBaseController {
                 ->update([ 'status' => $type ]);
         }
 
-        $order->status = 5;
+        $order->status = $totalSisa > 0 ? 5 : 2;
         $order->save();
 
         return true;

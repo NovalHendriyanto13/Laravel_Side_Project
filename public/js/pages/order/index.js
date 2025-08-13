@@ -25,16 +25,6 @@ $(document).ready(async function() {
                 { data: 'dokter' },
                 { data: 'tgl_pemesanan' },
                 { data: 'tgl_diperlukan' },
-                { data: 'nama_pasien' },
-                { data: 'jenis_kelamin' },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        return row.tempat_lahir + ', ' + row.tanggal_lahir;
-                    } 
-                },
-                { data: 'no_telp' },
-                { data: 'diagnosis' },
                 { data: 'status' },
                 {
                     data: null,
@@ -42,8 +32,15 @@ $(document).ready(async function() {
                     searchable: false,
                     render: function(data, type, row) {
                         const token = localStorage.getItem('_token');
+                        if (data.tipe == 'bdrs') {
+                            return `
+                                <a class="btn btn-sm btn-info view-btn" data-id="${row.id}" href="${_appUrl}/admin/order/${row.id}?token=${token}">
+                                    View
+                                </a>
+                            `;
+                        }
                         return `
-                            <a class="btn btn-sm btn-info view-btn" data-id="${row.id}" href="${_appUrl}/admin/order/${row.id}?token=${token}">
+                            <a class="btn btn-sm btn-info view-btn" data-id="${row.id}" href="${_appUrl}/admin/order/non-bdrs/${row.id}?token=${token}">
                                 View
                             </a>
                         `;

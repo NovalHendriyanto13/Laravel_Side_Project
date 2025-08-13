@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form class="form-blood-stock-update" action="{{ route('api.bloodStock.update', ['id' => $id])}}" method="POST" data-id="{{$id}}
+        <form class="form-blood-stock-update" action="{{ route('api.admin.bloodStock.update', ['id' => $id])}}" method="POST" data-id="{{$id}}
         ">
             @csrf
             <div class="form-group row">

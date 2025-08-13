@@ -25,17 +25,6 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        let str = data.golongan;
-                        str = str.replace(/_/g, ' ');
-                        str = str.charAt(0).toUpperCase() + str.slice(1);
-                        return str;
-                    }
-                },
                 { data: 'jumlah_ml' },
                 { data: 'jumlah' },     
             ]
@@ -56,6 +45,28 @@ $(document).ready(async function() {
             $('#dokter').val(data.dokter);
             $('#tgl_pemesanan').val(data.tgl_pemesanan);
             $('#tgl_diperlukan').val(data.tgl_diperlukan);
+            $('#diagnosis').val(data.diagnosis);
+            $('#alasan_transfusi').val(data.alasan_transfusi);
+            $('#hb').val(data.hb);
+            $('#trombosit').val(data.trombosit);
+            $('#berat_badan').val(data.berat_badan);
+            $('#nama_pasien').val(data.nama_pasien);
+            $('#status_nikah').val(data.status_nikah);
+            $('#nama_pasangan').val(data.nama_pasangan);
+            $('#jenis_kelamin').val(data.jenis_kelamin);
+            $('#tempat_lahir').val(data.tempat_lahir);
+            $('#tanggal_lahir').val(data.tanggal_lahir);
+            $('#alamat').val(data.alamat);
+            $('#no_telp').val(data.no_telp);
+            $('#transfusi_sebelumnya').val(data.transfusi_sebelumnya);
+            $('#tgl_transfusi_sebelumnya').val(data.tgl_transfusi_sebelumnya);
+            $('#gejala_reaksi').val(data.gejala_reaksi);
+            $('#tempat_serologi').val(data.tempat_serologi);
+            $('#tgl_serologi').val(data.tgl_serologi);
+            $('#hasil_serologi').val(data.hasil_serologi);
+            $('#hamil').val(data.hamil);
+            $('#jumlah_kehamilan').val(data.jumlah_kehamilan);
+            $('#pernah_aborsi').val(data.pernah_aborsi);
             $('#status').val(data.status);
 
             const lenSelectedItem = selectedItems.length;
@@ -68,7 +79,6 @@ $(document).ready(async function() {
                 selectedItems.push({
                     index: (ix),
                     name: `${blood.blood_type} - ${blood.name}`,
-                    golongan: `${item.golongan} - ${item.rhesus}`,
                     jumlah_ml: item.jumlah_ml,
                     jumlah: item.jumlah,
                     id: item.blood_id, 
@@ -80,21 +90,26 @@ $(document).ready(async function() {
 
             selectedTable.clear().rows.add(selectedItems).draw();
 
-            await _detailProcessTab(selectedItems, id);
+            const patientTab = $('.patient-info');
+            const additionalTab = $('.additional-info');
 
-            if (data.status.toLowerCase() == 'selesai') {
-                $('.btn-submit').attr('disabled', true);
-                Swal.fire({
-                    title: 'Info!',
-                    text: 'Pemesanan sudah selesai',
-                    icon: 'info',
-                    confirmButtonText: 'OK'
-                });
+            if (data.tipe == 'bdrs') {
+                patientTab.css("display", "none");
+                additionalTab.css("display", "none");
 
-                return false;
+                $('#hasil_pemeriksaan').attr("disabled", true);
+                $('#hasil_golongan_sampel').attr("disabled", true);
+                $('#hasil_rhesus_sampel').attr("disabled", true);
+            } else {
+                patientTab.css("display", "block");
+                additionalTab.css("display", "block");
+
+                $('#hasil_pemeriksaan').remoteAttr("disabled");
+                $('#hasil_golongan_sampel').remoteAttr("disabled");
+                $('#hasil_rhesus_sampel').remoteAttr("disabled");
             }
-        } else {
-            alert('dd');
+
+            await _detailProcessTab(selectedItems, id);
         }
 
     }
@@ -111,28 +126,20 @@ $(document).ready(async function() {
             data: processedItems,
             columns: [
                 { data: 'name' },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        let str = data.golongan;
-                        str = str.replace(/_/g, ' ');
-                        str = str.charAt(0).toUpperCase() + str.slice(1);
-                        return str;
-                    }
-                },
                 { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
                     data: null,
                     render: function(data, type, row) {
+                        return 0;
+                    } 
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
                         const dataRow = JSON.stringify(row);
                         return `
-                            <div class="d-flex">
-                                <a class="btn btn-sm btn-info view-btn-fulfill-detail mr-2" data-row='${dataRow}' href="#">Detail</a>
-                                <a class="btn btn-sm btn-danger view-btn-fulfill" data-row='${dataRow}' href="#">Fulfillment</a>
-                            </div> 
+                            <a class="btn btn-sm btn-info view-btn-fulfill" data-row='${dataRow}' href="#">Detail</a>
                         `;
                     } 
                 },
@@ -147,8 +154,6 @@ $(document).ready(async function() {
         const response = await httpGet(url);
 
         if (response?.error == false) {
-            $('.penerimaan-item').removeAttr('style');
-
             const data = response?.data || null;
             const urlStep = `${_apiBaseUrl}/api/admin-receipt/process/${data.id}`;
             
@@ -173,12 +178,11 @@ $(document).ready(async function() {
             $('#periksa_sampel_oleh').val(data.periksa_sampel_oleh);
             
         } else {
-            $('.penerimaan-item').attr('style', 'display:none');
+            console.log('No Data Found');
         }
     }
 
     function _gesture() {
-        /** fulfillment block start */
         $('.table-receive-item tbody').on('click', '.view-btn-fulfill', async function (e){
             e.preventDefault();
             const data = $(this).data('row');
@@ -190,14 +194,8 @@ $(document).ready(async function() {
                 table.DataTable().clear().destroy(); // optional
             }
             const url = `${_apiBaseUrl}/api/admin-blood-stock`;
-            let parts = (data.golongan).split(" - ");
-            const golongan = parts[0];
-            const rhesus = parts[1];
-            
             const payload = {
                 "blood_id": data.id,
-                "blood_group": golongan,
-                "blood_rhesus": rhesus,
                 "status": 1,
             }
             const response = await httpGet(url, payload);
@@ -240,19 +238,10 @@ $(document).ready(async function() {
         $('.table-fulfillment tbody').on('click', '.view-btn-fulfillment', async function (e){
             e.preventDefault();
             const data = $(this).data('row');
-            $(this).parent().closest('tr').attr('style', 'background-color: #ffeeba !important; ');
-
-            const jumlahMl = $('#jumlah_ml').val();
-            const jumlah =$('#jumlah').val();
-
-            const total = jumlahMl * jumlah;
-            console.log(total);
+            $(this).parent().closest('tr').attr('style', 'background-color: #ffeeba !important; ')
 
             fulfillmentItems.push(data);
-            const fulfillmentTotal = fulfillmentItems.reduce((sum, obj) => sum + obj.unit_volume, 0);
-
-            $('#jumlah_terpenuhi').val(fulfillmentTotal);
-
+console.log(fulfillmentItems);
             $(this).html('Hapus');
 
             $(this).addClass('remove-btn-fulfillment');
@@ -280,43 +269,6 @@ $(document).ready(async function() {
             $(this).removeClass('remove-btn-fulfillment');
             $(this).removeClass('btn-danger');
         });
-
-        /** fulfillment block end */
-
-        /** fulfillment detail */
-        $('.table-receive-item tbody').on('click', '.view-btn-fulfill-detail', async function (e){
-            e.preventDefault();
-            const data = $(this).data('row');
-            
-            let modalEl = $('#fulfillment-detail-modal');
-
-            const table = $('.table-fulfillment-detail');
-            if ( $.fn.dataTable.isDataTable('.table-fulfillment') ) {
-                table.DataTable().clear().destroy(); // optional
-            }
-            const url = `${_apiBaseUrl}/api/admin-receipt/detail/${data.pid}`;
-            const response = await httpGet(url);
-
-            if (response?.error == false) {
-                const responseData = response?.data || null;
-                
-                processedTable = table.DataTable({
-                    data: responseData,
-                    columns: [
-                        { data: 'stock_no' },
-                        { data: 'expiry_date' },
-                        { data: 'name' },
-                        { data: 'blood_group' },
-                        { data: 'blood_rhesus' },
-                        { data: 'unit_volume' },
-                    ]
-                });
-            }
-
-            let modal = new bootstrap.Modal(modalEl[0]);
-            modal.show();
-        });
-
 
         $('.btn-submit').click(async function(e) {
             e.preventDefault();
