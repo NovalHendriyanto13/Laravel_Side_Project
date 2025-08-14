@@ -187,22 +187,68 @@ class ReceiptController extends ApiBaseController {
                 'hasil_golongan_sampel' => $request->hasil_golongan_sampel,
                 'hasil_rhesus_sampel' => $request->hasil_rhesus_sampel
             ],
+            'selesai' => [
+                'status' => 4,
+            ],
         ];
+        $items = json_decode($request->items);
 
+        if (count($items) <= 0) {
+            return "Item penerimaan tidak boleh kosong";
+        }
+        
+        if (count($items) > 0) {
+            $orderDetailId = array_map(function($i) {
+                return $i->pemesanan_detail_id;
+            }, $items);
+            $total = OrderDetail::selectRaw('SUM(jumlah_ml * jumlah) AS total_ml')
+                ->whereIn('id', $orderDetailId)
+                ->first();
+
+            $totalMl = $total->total_ml ?? 0;
+
+            $proposedQty = array_sum(array_map(fn($i) => $i->unit_volume, $items));
+            
+            if ($proposedQty != $totalMl) {
+                return "Total item tidak sama dengan total permintaan";
+            }
+
+            $totalSisa = $totalMl;
+            foreach ($items as $item) {
+                $totalSisa = $totalSisa - $item->unit_volume;
+
+                ReceiptDetail::create([
+                    'penerimaan_id' => $id,
+                    'pemesanan_detail_id' => $item->pemesanan_detail_id,
+                    'blood_stock_id' => $item->id,
+                    'sisa' => $totalSisa,
+                    'status' => $item->status,
+                ]);
+
+                BloodStock::where('id', $item->id)
+                    ->update(['status' => 2]);
+            }
+        }
+
+        
         $type = $request->type;
 
         $data = Receipt::where('id', $id)
             ->update($processStatus[$type]);
 
+        $order->status = $totalSisa > 0 ? 5 : 2;
+        $order->save();
+
         $orderStatusArr = [
             'ambil_sampel' => 3,
             'terima_sampel' => 3,
             'periksa_sampel' => 4,
+            'selesai' => 5,
         ];
 
         $order->status = $orderStatusArr[$type];
         $order->save();
 
-        return $data;
+        return true;
     }
 }

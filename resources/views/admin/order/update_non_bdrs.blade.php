@@ -79,7 +79,7 @@
                             </div>
                         </div>
 
-                        <div class="accordion-item patient-info" style="display:none">
+                        <div class="accordion-item patient-info">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
                                     <b>Informasi Pasien</b>
@@ -172,7 +172,7 @@
                             </div>
                         </div>
 
-                        <div class="accordion-item additional-info" style="display:none">
+                        <div class="accordion-item additional-info">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
                                     <b>Informasi Tambahan</b>
@@ -309,12 +309,22 @@
 
                                             <div class="form-group mb-3">
                                                 <label for="hasil_pemeriksaan">Hasil Pemeriksaan Sampel</label>
-                                                <input type="text" name="hasil_pemeriksaan" id="hasil_pemeriksaan" class="form-control">
+                                                <select name="hasil_pemeriksaan" id="hasil_pemeriksaan" class="form-control">
+                                                    <option value="">Pilih</option>
+                                                    <option value="0">Tidak cocok</option>
+                                                    <option value="1">Cocok</option>
+                                                </select>
                                             </div>
 
                                             <div class="form-group mb-3">
                                                 <label for="hasil_golongan_sampel">Hasil Golongan Sampel</label>
-                                                <input type="text" name="hasil_golongan_sampel" id="hasil_golongan_sampel" class="form-control" >
+                                                <select name="hasil_golongan_sampel" id="hasil_golongan_sampel" class="form-control" >
+                                                    <option value="">Pilih</option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="AB">AB</option>
+                                                    <option value="O">O</option>
+                                                </select>
                                             </div>
                                             
                                         </div>
@@ -341,7 +351,11 @@
 
                                             <div class="form-group mb-3">
                                                 <label for="hasil_rhesus_sampel">Hasil Rhesus Sampel</label>
-                                                <input type="text" name="hasil_rhesus_sampel" id="hasil_rhesus_sampel" class="form-control" >
+                                                <select name="hasil_rhesus_sampel" id="hasil_rhesus_sampel" class="form-control" >
+                                                    <option value="">Pilih</option>
+                                                        <option value="positif">+ (Positif)</option>
+                                                        <option value="negatif">- (Negatif)</option>
+                                                    </select>
                                             </div>
                                         </div>
 
@@ -365,7 +379,6 @@
                                                     <th>Item</th>
                                                     <th>Jumlah(ml)</th>
                                                     <th>Jumlah Permintaan</th>
-                                                    <th>Jumlah Terpenuhi</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -454,10 +467,39 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="fulfillment-detail-modal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Fulfillment</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-fulfillment-detail">
+                <thead>
+                <tr>
+                    <td>Stock No</td>
+                    <td>Tgl Kadaluarsa</td>
+                    <td>Deskripsi</td>
+                    <td>Golongan</td>
+                    <td>Rhesus</td>
+                    <td>Volume</td>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('scripts')
 <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('js/pages/order/update.js') }}"></script>
+<script src="{{ asset('js/pages/order/update_non_bdrs.js') }}"></script>
 @endpush

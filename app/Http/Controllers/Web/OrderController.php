@@ -36,6 +36,13 @@ class OrderController extends BaseController {
         ]);
     }
 
+    public function detailNonBdrs(int $id, Request $request) {
+        return view('admin.order.update_non_bdrs', [
+            'title' => 'Detail Pemesanan',
+            'id' => $id,
+        ]);
+    }
+
     public function report(Request $request) {
        return view('admin.order.report', [
             'title' => 'Laporan Permintaan',

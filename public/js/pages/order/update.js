@@ -63,7 +63,7 @@ $(document).ready(async function() {
 
             orderDetail.forEach(function(item) {
                 let ix = lenSelectedItem;
-                const blood = additionalParam.bloods.find( (e) => e.id == item.id);
+                const blood = additionalParam.bloods.find( (e) => e.id == item.blood_id);
 
                 selectedItems.push({
                     index: (ix),
@@ -93,8 +93,6 @@ $(document).ready(async function() {
 
                 return false;
             }
-        } else {
-            alert('dd');
         }
 
     }
@@ -246,7 +244,6 @@ $(document).ready(async function() {
             const jumlah =$('#jumlah').val();
 
             const total = jumlahMl * jumlah;
-            console.log(total);
 
             fulfillmentItems.push(data);
             const fulfillmentTotal = fulfillmentItems.reduce((sum, obj) => sum + obj.unit_volume, 0);

@@ -125,6 +125,7 @@ class OrderController extends ApiBaseController {
                 return new \Exception('No data found');
             }
 
+            $data->status_id = $data->status;
             $data->status = Order::$_status[$data->status];
 
             return $this->successApiResponse($data);

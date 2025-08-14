@@ -38,7 +38,7 @@ $(document).ready(async function() {
                 { 
                     data: null,
                     render: function(data, type, row) {
-                        const status = ['Tidak Tersedia', 'Tersedia', 'Kadaluarsa'];
+                        const status = ['Tidak Tersedia', 'Tersedia', 'Habis'];
                         return status[row.status];
                     } 
                 },

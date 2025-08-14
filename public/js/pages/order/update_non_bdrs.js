@@ -8,6 +8,10 @@ $(document).ready(async function() {
 
     let fulfillmentItems = [];
 
+    const steps = [
+        'ambil_sampel', 'terima_sampel', 'periksa_sampel', 'selesai'
+    ];
+
     await _init();
     _gesture();
 
@@ -74,7 +78,7 @@ $(document).ready(async function() {
 
             orderDetail.forEach(function(item) {
                 let ix = lenSelectedItem;
-                const blood = additionalParam.bloods.find( (e) => e.id == item.id);
+                const blood = additionalParam.bloods.find( (e) => e.id == item.blood_id);
 
                 selectedItems.push({
                     index: (ix),
@@ -90,26 +94,19 @@ $(document).ready(async function() {
 
             selectedTable.clear().rows.add(selectedItems).draw();
 
-            const patientTab = $('.patient-info');
-            const additionalTab = $('.additional-info');
-
-            if (data.tipe == 'bdrs') {
-                patientTab.css("display", "none");
-                additionalTab.css("display", "none");
-
-                $('#hasil_pemeriksaan').attr("disabled", true);
-                $('#hasil_golongan_sampel').attr("disabled", true);
-                $('#hasil_rhesus_sampel').attr("disabled", true);
-            } else {
-                patientTab.css("display", "block");
-                additionalTab.css("display", "block");
-
-                $('#hasil_pemeriksaan').remoteAttr("disabled");
-                $('#hasil_golongan_sampel').remoteAttr("disabled");
-                $('#hasil_rhesus_sampel').remoteAttr("disabled");
-            }
-
             await _detailProcessTab(selectedItems, id);
+
+            if (data.status.toLowerCase() == 'selesai') {
+                $('.btn-submit').attr('disabled', true);
+                Swal.fire({
+                    title: 'Info!',
+                    text: 'Pemesanan sudah selesai',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+
+                return false;
+            }
         }
 
     }
@@ -131,24 +128,17 @@ $(document).ready(async function() {
                 {
                     data: null,
                     render: function(data, type, row) {
-                        return 0;
-                    } 
-                },
-                {
-                    data: null,
-                    render: function(data, type, row) {
                         const dataRow = JSON.stringify(row);
                         return `
-                            <a class="btn btn-sm btn-info view-btn-fulfill" data-row='${dataRow}' href="#">Detail</a>
+                            <div class="d-flex">
+                                <a class="btn btn-sm btn-info view-btn-fulfill-detail mr-2" data-row='${dataRow}' href="#">Detail</a>
+                                <a class="btn btn-sm btn-danger view-btn-fulfill" data-row='${dataRow}' href="#">Fulfillment</a>
+                            </div> 
                         `;
                     } 
                 },
             ]
         });
-
-        const steps = [
-            'ambil_sampel', 'terima_sampel', 'periksa_sampel'
-        ];
 
         const url = `${_apiBaseUrl}/api/admin-receipt/${id}`;
         const response = await httpGet(url);
@@ -173,9 +163,21 @@ $(document).ready(async function() {
             if (data.tgl_periksa_sampel != null) {
                 $('#tgl_periksa_sampel').val(data.tgl_periksa_sampel + ' ' + data.jam_periksa_sampel);
             }
-            $('#ambil_sampel_oleh').val(data.ambil_sampel_oleh);
-            $('#terima_sampel_oleh').val(data.terima_sampel_oleh);
-            $('#periksa_sampel_oleh').val(data.periksa_sampel_oleh);
+            $('#ambil_sampel_oleh').val(data.pengambil);
+            $('#terima_sampel_oleh').val(data.penerima);
+            $('#periksa_sampel_oleh').val(data.pemeriksa);
+            if (data.hasil_pemeriksaan != null) {
+                $('#hasil_pemeriksaan').val(data.hasil_pemeriksaan);
+                $('#hasil_pemeriksaan').attr('disabled', true);
+            }
+            if (data.hasil_golongan_sampel != null) {
+                $('#hasil_golongan_sampel').val(data.hasil_golongan_sampel);
+                $('#hasil_golongan_sampel').attr('disabled', true);
+            }
+            if (data.hasil_rhesus_sampel != null) {
+                $('#hasil_rhesus_sampel').val(data.hasil_rhesus_sampel);
+                $('#hasil_rhesus_sampel').attr('disabled', true);
+            }
             
         } else {
             console.log('No Data Found');
@@ -196,6 +198,8 @@ $(document).ready(async function() {
             const url = `${_apiBaseUrl}/api/admin-blood-stock`;
             const payload = {
                 "blood_id": data.id,
+                "blood_group": $('#hasil_golongan_sampel').val(),
+                "blood_rhesus": $('#hasil_rhesus_sampel').val(),
                 "status": 1,
             }
             const response = await httpGet(url, payload);
@@ -240,9 +244,18 @@ $(document).ready(async function() {
             const data = $(this).data('row');
             $(this).parent().closest('tr').attr('style', 'background-color: #ffeeba !important; ')
 
+            const jumlahMl = $('#jumlah_ml').val();
+            const jumlah =$('#jumlah').val();
+
+            const total = jumlahMl * jumlah;
+
             fulfillmentItems.push(data);
-console.log(fulfillmentItems);
-            $(this).html('Hapus');
+            const fulfillmentTotal = fulfillmentItems.reduce((sum, obj) => sum + obj.unit_volume, 0);
+
+            $('#jumlah_terpenuhi').val(fulfillmentTotal);
+
+            fulfillmentItems.push(data);
+                        $(this).html('Hapus');
 
             $(this).addClass('remove-btn-fulfillment');
             $(this).addClass('btn-danger');
@@ -268,6 +281,40 @@ console.log(fulfillmentItems);
 
             $(this).removeClass('remove-btn-fulfillment');
             $(this).removeClass('btn-danger');
+        });
+
+        /** fulfillment detail */
+        $('.table-receive-item tbody').on('click', '.view-btn-fulfill-detail', async function (e){
+            e.preventDefault();
+            const data = $(this).data('row');
+            
+            let modalEl = $('#fulfillment-detail-modal');
+
+            const table = $('.table-fulfillment-detail');
+            if ( $.fn.dataTable.isDataTable('.table-fulfillment') ) {
+                table.DataTable().clear().destroy(); // optional
+            }
+            const url = `${_apiBaseUrl}/api/admin-receipt/detail/${data.pid}`;
+            const response = await httpGet(url);
+
+            if (response?.error == false) {
+                const responseData = response?.data || null;
+                
+                processedTable = table.DataTable({
+                    data: responseData,
+                    columns: [
+                        { data: 'stock_no' },
+                        { data: 'expiry_date' },
+                        { data: 'name' },
+                        { data: 'blood_group' },
+                        { data: 'blood_rhesus' },
+                        { data: 'unit_volume' },
+                    ]
+                });
+            }
+
+            let modal = new bootstrap.Modal(modalEl[0]);
+            modal.show();
         });
 
         $('.btn-submit').click(async function(e) {
