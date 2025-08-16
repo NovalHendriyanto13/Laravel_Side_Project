@@ -43,5 +43,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/pages/blood_stock/create.js') }}"></script>
+<script src="{{ asset('js/pages/order/report.js') }}"></script>
 @endpush

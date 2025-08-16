@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Order;
 use App\Models\OrderDetail;
 
@@ -220,6 +221,53 @@ class OrderController extends ApiBaseController {
     }
 
     public function report(Request $request) {
-        
+        if (empty($request->order_start_date) || empty($request->order_end_date)) {
+            return $this->errorApiResponse(500, 'Start date dan end date wajib diisi');
+        }
+
+        $items = Order::query()
+            ->select([
+                'pemesanan.id',
+                'pemesanan.kode_pemesanan',
+                'pemesanan.rs_id',
+                'pemesanan.tipe',
+                'pemesanan.dokter',
+                'pemesanan.tgl_pemesanan',
+                'pemesanan.tgl_diperlukan',
+                'pemesanan.nama_pasien',
+                'pemesanan.diagnosis',
+                'pemesanan.jenis_kelamin',
+                'pemesanan.tempat_lahir',
+                'pemesanan.tanggal_lahir',
+                'pemesanan.no_telp',
+                'pemesanan.status',
+                'rumah_sakit.nama_rs',
+                'rumah_sakit.kode_rs'
+            ])
+            ->leftJoin('rumah_sakit', 'pemesanan.rs_id', 'rumah_sakit.id')
+            ->when(!empty($request->order_start_date) || !empty($request->order_end_date),function($q)use($request){
+                return $q->whereBetween('pemesanan.tgl_pemesanan',[[
+                    date('Y-m-d 00:00:00', strtotime($request->order_start_date ?? '1970-01-01 00:00:00')),
+                    date('Y-m-d 23:59:59', strtotime($request->order_end_date ?? '2200-01-01 23:59:59'))
+                ]]);
+            })
+            ->orderBy('pemesanan.id', 'DESC')
+            ->get();
+
+        $items->map(function($item) {
+            $item->status = Order::$_status[$item->status];
+            $item->tipe = str_replace(['_'], ' ', strtoupper($item->tipe));
+            return $item;
+        });
+
+        $dates = [
+            'start_date' => date('d F Y', strtotime($request->order_start_date)),
+            'end_date' => date('d F Y', strtotime($request->order_end_date))
+        ];
+
+        $pdf = Pdf::loadView('admin.pdf.order', compact('items', 'dates'));
+
+        // Download langsung
+        return $pdf->download('laporan-penjualan.pdf');
     }
 }

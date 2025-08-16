@@ -190,6 +190,73 @@ async function httpGetGuest(url, data = {}) {
     }
 }
 
+async function httpDownloadFile_1(url, data = {}, tokenString) {
+    try {
+        const token = localStorage.getItem(tokenString) || '';
+        const response = await new Promise((resolve, reject) => {
+            $.ajax({
+                url,
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data,
+                xhrFields: { responseType: 'blob' },
+                success: function (blobData, status, xhr) {
+                    // ambil filename dari Content-Disposition
+                    let filename = "download.pdf";
+                    const disposition = xhr.getResponseHeader('Content-Disposition');
+                    if (disposition && disposition.indexOf('filename=') !== -1) {
+                        filename = disposition.split('filename=')[1].replace(/"/g, '');
+                    }
+
+                    resolve({ blobData, filename });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    reject({
+                        error: true,
+                        message: jqXHR?.responseJSON?.message
+                    });
+                }
+            });
+        });
+
+        return response || null;
+
+    } catch (err) {
+        return err;
+    }
+}
+
+async function httpDownloadFile(url, data = {}, tokenString) {
+    try {
+        const token = localStorage.getItem(tokenString) || '';
+        const response = await new Promise((resolve, reject) => {
+            $.ajax({
+                url,
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data,
+                xhrFields: { responseType: 'blob' },
+                success: resolve,
+                error: function(jqXHR, textStatus, errorThrown) {
+                    reject({
+                        error: true,
+                        message: jqXHR?.responseJSON?.message
+                    });
+                }
+            });
+        });
+
+        return response || null;
+
+    } catch (err) {
+        return err;
+    }
+}
+
 async function redirectWithToken(url, tokenName='_token') {
     const token = localStorage.getItem(tokenName);
 

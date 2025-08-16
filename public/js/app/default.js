@@ -177,6 +177,27 @@ async function submitPutFormGuestToken(form, additionalPayload = [], validation 
     }
 }
 
+async function submitDownloadFileToken(form, additionalPayload = [], token = "_token") {
+    const payload = $(form).serializeArray();
+    const url = $(form).attr('action');
+
+    payload.push(...additionalPayload);
+
+    const response = await httpDownloadFile(url, payload, token) || null;
+    if (response != null) {
+        const blobData = response;
+        const filename = 'download.pdf';
+
+        const blob = new Blob([blobData], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+}
+
 async function logout(url, tokenName = '_token') {
     const response = await httpGet(url, {}, tokenName) || null;
     if (response?.error != null) {
