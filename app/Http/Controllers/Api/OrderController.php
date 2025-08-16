@@ -270,4 +270,29 @@ class OrderController extends ApiBaseController {
         // Download langsung
         return $pdf->download('laporan-penjualan.pdf');
     }
+
+    public function preview(int $id, Request $request) {
+        $user = auth()->user();
+        $hospital = $user->hospital ?? null;
+
+        $data = Order::query()
+            ->with('orderDetail')
+            ->select([
+                'pemesanan.*',
+                'rumah_sakit.nama_rs',
+                'rumah_sakit.kode_rs',
+                'rumah_sakit.alamat AS alamat_rs',
+            ])
+            ->leftJoin('rumah_sakit', 'pemesanan.rs_id', 'rumah_sakit.id')
+            ->where('pemesanan.id', $id)
+            ->orderBy('pemesanan.id', 'DESC')
+            ->first();
+
+        if (!empty($data)) {
+            $data->status = Order::$_status[$data->status];
+            $data->tgl_transfusi_sebelumnya = $data->tgl_transfusi_sebelumnya == '1970-01-01' ? '' : $data->tgl_transfusi_sebelumnya;
+        };
+
+        return view('admin.pdf.preview', compact('data'));
+    }
 }

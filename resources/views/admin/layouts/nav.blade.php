@@ -1,3 +1,7 @@
+@php 
+    $user = auth()->user();
+    $isAdmin = $user->role == 'admin' ? true : false;
+@endphp
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -23,6 +27,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    @if ($isAdmin)
     <!-- Heading -->
     <div class="sidebar-heading">
         Masters
@@ -54,7 +59,7 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
+    @endif
     <!-- Heading -->
     <div class="sidebar-heading">
         Transaksi
@@ -69,6 +74,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    @if ($isAdmin)
     <!-- Heading -->
     <div class="sidebar-heading">
         Laporan
@@ -93,7 +99,7 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Users</span></a>
     </li>
-
+    @endif
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

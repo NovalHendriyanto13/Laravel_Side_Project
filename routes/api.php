@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('api.order.index');
         Route::post('/create', [OrderController::class, 'create'])->name('api.order.create');
         Route::put('/update/{id}', [OrderController::class, 'update'])->name('api.order.update');
+        Route::get('/preview/{id}', [OrderController::class, 'preview'])->name('api.order.preview');
         Route::get('/{id}', [OrderController::class, 'detail'])->name('api.order.detail');
     });
 

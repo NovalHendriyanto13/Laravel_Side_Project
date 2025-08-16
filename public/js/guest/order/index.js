@@ -44,7 +44,7 @@ $(document).ready(async function() {
                     data: null,
                     render: function(data, type, row) {
                         const token = localStorage.getItem('_token_guest');
-                        return `<a href="${_appUrl}/order/preview/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth">Preview</a>`;
+                        return `<a href="${_appUrl}/api/order/preview/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth">Preview</a>`;
                     } 
                 },
             ]

@@ -7,7 +7,7 @@
 <body>
     <h1>Laporan Pemesanan</h1>
     <p>Tanggal: {{ $dates['start_date'] }} - {{ $dates['end_date'] }}</p>
-    <table border="1" cellspacing="0" cellpadding="4">
+    <table border="1" cellspacing="0" cellpadding="4" style="width:100%">
         <tr>
             <th>Kode Pemesanan</th>
             <th>Tipe</th>
