@@ -1,6 +1,8 @@
 @php 
     $user = auth()->user();
     $isAdmin = $user->role == 'admin' ? true : false;
+    $isCrossMatch = $user->role == 'checker' ? true :  false;
+    $isUpdOfficer = $user->role == 'upd_officer' ? true :  false;
 @endphp
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">

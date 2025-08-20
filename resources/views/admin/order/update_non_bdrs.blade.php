@@ -260,8 +260,8 @@
                                         >
                                             <thead>
                                                 <tr>
-                                                    <th>Item</th>
-                                                    <th>Jumlah (ml)</th>
+                                                    <th>Product</th>
+                                                    <th>Jenis Pack</th>
                                                     <th>Jumlah</th>
                                                 </tr>
                                             </thead>
@@ -376,8 +376,8 @@
                                         <table class="table table-bordered table-receive-item" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th>Item</th>
-                                                    <th>Jumlah(ml)</th>
+                                                    <th>Product</th>
+                                                    <th>Jenis Pack</th>
                                                     <th>Jumlah Permintaan</th>
                                                     <th></th>
                                                 </tr>
@@ -425,7 +425,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 mb-3">
                 <div class="form-group mb-3">
-                    <label for="item">Item</label>
+                    <label for="item">Product</label>
                     <input type="text" name="item" id="item" class="form-control" disabled>
                 </div>
 
@@ -437,7 +437,7 @@
 
             <div class="col-lg-6 col-md-6 mb-3">
                 <div class="form-group mb-3">
-                    <label for="jumlah_ml">Jumlah(ml)</label>
+                    <label for="jumlah_ml">Jenis Pack</label>
                     <input type="text" name="jumlah_ml" id="jumlah_ml" class="form-control" disabled>
                 </div>
 

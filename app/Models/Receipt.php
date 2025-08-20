@@ -31,6 +31,7 @@ class Receipt extends Model
         "hasil_rhesus_sampel",
         "nama_pasangan",
         "status",
+        "total_harga",
         "created_by",
         "updated_by"
     ];
@@ -42,4 +43,8 @@ class Receipt extends Model
         'Check Sampel',
         'Selesai',
     ];
+
+    public function receiptDetail(): HasMany {
+        return $this->hasMany(ReceiptDetail::class, 'penerimaan_id', 'id');
+    }
 }

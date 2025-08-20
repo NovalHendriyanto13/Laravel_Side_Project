@@ -35,7 +35,7 @@ $(document).ready(function() {
 
     async function _init() {
         const id = $('.form-blood-stock-update').data('id');
-        const url = `${_apiBaseUrl}/api/blood-stock/${id}`;
+        const url = `${_apiBaseUrl}/api/admin-blood-stock/${id}`;
         const response = await httpGet(url) || null;
 
         if (response != null) {

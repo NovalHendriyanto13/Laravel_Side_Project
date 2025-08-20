@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Blood;
+use App\Models\Receipt;
 
 class OrderController extends ApiBaseController {
     public function index() {
@@ -265,10 +267,11 @@ class OrderController extends ApiBaseController {
             'end_date' => date('d F Y', strtotime($request->order_end_date))
         ];
 
-        $pdf = Pdf::loadView('admin.pdf.order', compact('items', 'dates'));
+        return view('admin.pdf.order', compact('items', 'dates'));
+        // $pdf = Pdf::loadView('admin.pdf.order', compact('items', 'dates'));
 
-        // Download langsung
-        return $pdf->download('laporan-penjualan.pdf');
+        // // Download langsung
+        // return $pdf->download('laporan-penjualan.pdf');
     }
 
     public function preview(int $id, Request $request) {
@@ -293,6 +296,45 @@ class OrderController extends ApiBaseController {
             $data->tgl_transfusi_sebelumnya = $data->tgl_transfusi_sebelumnya == '1970-01-01' ? '' : $data->tgl_transfusi_sebelumnya;
         };
 
-        return view('admin.pdf.preview', compact('data'));
+        $bloods = Blood::query()
+            ->select(['id', 'name', 'blood_type'])
+            ->get();
+
+        $bloodData = [];
+        foreach($bloods as $blood) {
+            $jumlahMl = 0;
+            $jumlah = 0;
+            $orderDetail = ($data->orderDetail)->toArray() ?? [];
+
+            $isExists = array_search($blood->id, array_column($orderDetail, 'blood_id'));
+            if ($isExists !== false) {
+                $jumlahMl = $orderDetail[$isExists]['jumlah_ml'];
+                $jumlah = $orderDetail[$isExists]['jumlah'];
+            }
+            $bloodData[$blood->blood_type][] = [
+                'name' => $blood->name,
+                'jumlah_ml' => $jumlahMl == 0 ? '' : $jumlahMl,
+                'jumlah' => $jumlah == 0 ? '' : $jumlah,
+            ];
+        }
+
+        $dataReceipt = Receipt::select([
+            'penerimaan.*',
+            'pengambil.name AS pengambil',
+            'penerima.name AS penerima',
+            'pemeriksa.name AS pemeriksa'
+        ])
+            ->with('receiptDetail')
+            ->where('pemesanan_id', $id)
+            ->leftJoin('users AS pengambil', 'pengambil.id', 'penerimaan.ambil_sampel_oleh')
+            ->leftJoin('users AS penerima', 'penerima.id', 'penerimaan.terima_sampel_oleh')
+            ->leftJoin('users AS pemeriksa', 'pemeriksa.id', 'penerimaan.periksa_sampel_oleh')
+            ->first();
+        
+        $hasilPemeriksaan = [
+            'Tidak Cocok', 'Cocok'
+        ];
+        
+        return view('admin.pdf.preview', compact('data', 'bloodData', 'dataReceipt', 'hasilPemeriksaan'));
     }
 }

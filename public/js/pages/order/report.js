@@ -7,7 +7,8 @@ $(document).ready(async function() {
             e.preventDefault();
 
             const payload = [];
-            await submitDownloadFileToken('.form-order-report', payload) || null;
+            await submitPostFormToken('.form-order-report', payload) || null;
+            // await submitDownloadFileToken('.form-order-report', payload) || null;
         });
     }
 })

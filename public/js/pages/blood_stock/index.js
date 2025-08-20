@@ -35,6 +35,7 @@ $(document).ready(async function() {
                     } 
                 },
                 { data: 'unit_volume' },
+                { data: 'harga' },
                 { 
                     data: null,
                     render: function(data, type, row) {

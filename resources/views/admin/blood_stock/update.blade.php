@@ -63,7 +63,12 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="col-sm-6  mb-3 mb-sm-0">
+                    <label class="form-label">Harga</label>
+                    <input type="number" class="form-control" id="harga"
+                        placeholder="Harga" name="harga" required>
+                </div>
+                <div class="col-sm-6">
                     <label class="form-label">Status</label>
                     <select class="form-control" id="status"
                         placeholder="Status" name="status">

@@ -34,8 +34,8 @@
                     <select class="form-control" id="role"
                         placeholder="Role" name="role">
                         <option value="">Select Role</option>
-                        <option value="admin">Admin</option>
-                        <option value="taker">Taker</option>
+                        <option value="admin">Service Desk</option>
+                        <option value="upd_officer">Admin UPD</option>
                         <option value="checker">Cross Match</option>
                     </select>
                 </div>

@@ -266,7 +266,7 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 mb-3">                                                
                                                 <div class="form-group mb-3">
-                                                    <label for="item">Item</label>
+                                                    <label for="item">Product</label>
                                                     <select class="form-control" id="item" name="item" data-url="{{ route('api.blood.index') }}">
                                                         <option value="">Pilih</option>
                                                     </select>
@@ -274,7 +274,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 mb-3">
                                                 <div class="form-group mb-3">
-                                                    <label for="jumlah">Jumlah (unit/mL)</label>
+                                                    <label for="jumlah">Jenis Pack</label>
                                                     <select name="jumlah_ml" id="jumlah_ml" class="form-control" data-url="{{ route('api.bloodStock.ml') }}"></select>
                                                 </div>
                                             </div>
@@ -297,8 +297,8 @@
                                             >
                                                 <thead>
                                                     <tr>
-                                                        <th>Item</th>
-                                                        <th>Jumlah (ml)</th>
+                                                        <th>Product</th>
+                                                        <th>Jenis Pack</th>
                                                         <th>Jumlah</th>
                                                         <th></th>
                                                     </tr>

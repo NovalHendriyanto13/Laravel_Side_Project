@@ -165,24 +165,27 @@ class ReceiptController extends ApiBaseController {
         return true;
     }
     private function nonBdrs(int $id, Request $request, Order $order) {
+        $user = auth()->user();
+
+        // if ()
         $processStatus = [
             'ambil_sampel' => [
                 'status' => 1,
                 'tgl_ambil_sampel' => date('Y-m-d'),
                 'jam_ambil_sampel' => date('H:i:s'),
-                'ambil_sampel_oleh' => auth()->user()->id,
+                'ambil_sampel_oleh' => $user->id,
             ], 
             'terima_sampel' => [
                 'status' => 2,
                 'tgl_terima_sampel' => date('Y-m-d'),
                 'jam_terima_sampel' => date('H:i:s'),
-                'terima_sampel_oleh' => auth()->user()->id,
+                'terima_sampel_oleh' => $user->id,
             ], 
             'periksa_sampel' => [
                 'status' => 3,
                 'tgl_periksa_sampel' => date('Y-m-d'),
                 'jam_periksa_sampel' => date('H:i:s'),
-                'periksa_sampel_oleh' => auth()->user()->id,
+                'periksa_sampel_oleh' => $user->id,
                 'hasil_pemeriksaan' => $request->hasil_pemeriksaan,
                 'hasil_golongan_sampel' => $request->hasil_golongan_sampel,
                 'hasil_rhesus_sampel' => $request->hasil_rhesus_sampel

@@ -29,6 +29,7 @@
                         <th>Jenis Darah</th>
                         <th>Golongan Darah</th>
                         <th>Volume (ml)</th>
+                        <th>Harga</th>
                         <th>Status</th>
                         <th> </th>
                     </tr>

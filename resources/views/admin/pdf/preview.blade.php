@@ -37,7 +37,7 @@
   <div class="d-flex justify-content-between align-items-start mb-2">
     <div class="d-flex align-items-center gap-2">
       <!-- Ganti src logo PMI kalau ada -->
-      <div style="width:48px;height:48px;border:1px solid #ccc; background: url('../../../images/donor_bg.jpg');"></div>
+      <div style="width:48px;height:48px;border:1px solid #ccc; background-image: url('../../../images/donor_bg.jpg'); background-size: cover"></div>
       <div>
         <div class="fw-bold">UNIT DONOR DARAH – DKI JAKARTA</div>
         <div class="xs">Jl. Kramat Raya 47, Jakarta 10450 • Telp. 3906646 Fax 3101107</div>
@@ -64,10 +64,10 @@
         <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->dokter }}" readonly>
       </div>
       <div><span class="label">Tgl Permintaan</span>
-        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tgl_pemesanan }}" readonly>
+        <input class="form-control form-control-sm mt-1" type="text" value="{{ date('d F Y', strtotime($data->tgl_pemesanan)) }}" readonly>
       </div>
       <div><span class="label">Diperlukan</span>
-        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tgl_diperlukan }}" readonly>
+        <input class="form-control form-control-sm mt-1" type="text" value="{{ date('d F Y', strtotime($data->tgl_diperlukan)) }}" readonly>
       </div>
     </div>
     <div class="mt-2 grid-3">
@@ -131,10 +131,10 @@
   <div class="b p-2 mb-2">
     <div class="grid-3">
       <div><span class="label">Transfusi Sebelumnya</span>
-        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->transfusi_sebelumnya }}" readonly>
+        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->transfusi_sebelumnya == 1 ? 'Ya' : 'Tidak' }}" readonly>
       </div>
       <div><span class="label">Tanggal Transfusi Sebelumnya</span>
-        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tgl_transfusi_sebelumnya }}" readonly>
+        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tgl_transfusi_sebelumnya == '1970-01-01' ?? date('d F Y', strtotime($data->tgl_transfusi_sebelumnya)) }}" readonly>
       </div>
       <div><span class="label">Gejala reaksi</span>
         <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->gejala_reaksi }}" readonly>
@@ -146,7 +146,7 @@
             <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tempat_serologi }}" readonly>
         </div>
         <div><span class="label">Tanggal Serologi</span>
-            <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tgl_serologi }}" readonly>
+            <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tgl_serologi == '1970-01-01' ?? date('d F Y', strtotime($data->tgl_serologi)) }}" readonly>
         </div>
         <div><span class="label">Hasil Serologi</span>
             <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->hasil_serologi }}" readonly>
@@ -155,7 +155,7 @@
 
     <div class="grid-3">
       <div><span class="label">Sedang Hamil</span>
-        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->hamil }}" readonly>
+        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->hamil == 1 ? 'Ya' : 'Tidak' }}" readonly>
       </div>
       <div><span class="label">Jumlah Kehamilan</span>
         <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->jumlah_kehamilan }}" readonly>
@@ -169,28 +169,34 @@
 
   <!-- JENIS KOMPONEN DARAH -->
   <div class="b p-2 mb-2">
-    <div class="label mb-1">Darah Diminta</div>
+    <h6>Darah Diminta</h6>
     <div class="row g-2">
-      <div class="col-6 col-md-4">
-        <label class="form-check-label"><span class="cb"></span> WB Segar / Biasa</label>
-        <input class="form-control form-control-sm mt-1" type="text" placeholder="Jumlah kantong / catatan">
-      </div>
-      <div class="col-6 col-md-4">
-        <label class="form-check-label"><span class="cb"></span> PRC (Packed Cells)</label>
-        <input class="form-control form-control-sm mt-1" type="text" placeholder="Jumlah / catatan">
-      </div>
-      <div class="col-6 col-md-4">
-        <label class="form-check-label"><span class="cb"></span> Trombocyte Concentrate</label>
-        <input class="form-control form-control-sm mt-1" type="text" placeholder="TC Biasa / Apheresis">
-      </div>
-      <div class="col-6 col-md-4">
-        <label class="form-check-label"><span class="cb"></span> Plasma Segar Beku (FFP)</label>
-        <input class="form-control form-control-sm mt-1" type="text" placeholder="Jumlah / catatan">
-      </div>
-      <div class="col-6 col-md-4">
-        <label class="form-check-label"><span class="cb"></span> Lainnya</label>
-        <input class="form-control form-control-sm mt-1" type="text" placeholder="Sebutkan">
-      </div>
+      @foreach($bloodData as $key => $bloods)
+        <div class="label mb-1">{{ $key }}</div>
+        @foreach($bloods as $blood)
+        <div class="col-12 col-md-6 mb-2">
+          <label class="form-check-label d-block mb-1">
+            <span class="cb"></span> {{ $blood['name'] }}
+          </label>
+          <div class="d-flex gap-2">
+            <input class="form-control form-control-sm" type="text" 
+                  value="{{ $blood['jumlah_ml'] }}" readonly>
+            <input class="form-control form-control-sm" type="text" 
+                  value="{{ $blood['jumlah'] }}" readonly>
+          </div>
+        </div>
+        @endforeach
+      @endforeach
+    </div>
+  </div>
+
+  <!-- Pengambilan SAMPEL -->
+  <div class="b p-2 mb-2">
+    <div class="label mb-1">Pengambilan Sampel (oleh BDRS/UDD)</div>
+    <div class="grid-4">
+      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->pengambil }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) }}" readonly></div>
+      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_terima_sampel }}" readonly></div>
     </div>
   </div>
 
@@ -198,10 +204,9 @@
   <div class="b p-2 mb-2">
     <div class="label mb-1">Penerimaan Sampel (oleh BDRS/UDD)</div>
     <div class="grid-4">
-      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text"></div>
-      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text"></div>
-      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time"></div>
-      <div><span class="xs">Petugas</span><input class="form-control form-control-sm mt-1" type="text"></div>
+      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->penerima }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) }}" readonly></div>
+      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_terima_sampel }}" readonly></div>
     </div>
   </div>
 
@@ -209,7 +214,13 @@
   <div class="b p-2 mb-2">
     <div class="d-flex justify-content-between">
       <div class="label">Pemeriksaan & Pemberian Darah (oleh BDRS/UDD)</div>
-      <div class="xs">Hasil: Cocok / Tidak Cocok / Emergency</div>
+      <div class="xs">Hasil: {{ $hasilPemeriksaan[$dataReceipt->hasil_pemeriksaan] }}</div>
+    </div>
+
+    <div class="grid-4">
+      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->pemeriksa }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) }}" readonly></div>
+      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_periksa_sampel }}" readonly></div>
     </div>
 
     <table class="table table-tight table-bordered align-middle mt-2">
@@ -227,8 +238,9 @@
       </thead>
       <tbody>
       <!-- Ubah jumlah baris sesuai kebutuhan -->
+       @foreach($dataReceipt->receiptDetail as $k => $products)
       <tr>
-        <td class="text-center">1</td>
+        <td class="text-center">{{ ($k + 1) }}</td>
         <td><input class="form-control form-control-sm" type="text"></td>
         <td><input class="form-control form-control-sm" type="text" placeholder="A+/A-"></td>
         <td><input class="form-control form-control-sm" type="text"></td>
@@ -237,16 +249,7 @@
         <td><input class="form-control form-control-sm" type="text"></td>
         <td><div class="sign"></div></td>
       </tr>
-      <tr>
-        <td class="text-center">2</td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><input class="form-control form-control-sm" type="number"></td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><div class="sign"></div></td>
-      </tr>
+      @endforeach
       </tbody>
     </table>
   </div>

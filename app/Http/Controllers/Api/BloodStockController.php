@@ -15,6 +15,7 @@ class BloodStockController extends ApiBaseController {
                 'blood_stock.blood_rhesus',
                 'blood_stock.unit_volume',
                 'blood_stock.status',
+                'blood_stock.harga',
                 'blood.name',
                 'blood.blood_type'
             ])
@@ -65,6 +66,7 @@ class BloodStockController extends ApiBaseController {
             'unit_volume' => 'required',
             'blood_group' => 'required',
             'blood_rhesus' => 'required',
+            'harga' => 'required',
         ]);
 
         try {
@@ -76,6 +78,7 @@ class BloodStockController extends ApiBaseController {
                 'blood_group' => $request->blood_group,
                 'blood_rhesus' => $request->blood_rhesus,
                 'status' => $request->status,
+                'harga' => $request->harga,
                 'created_by' => auth()->user()->id,
             ]);
 
@@ -110,6 +113,7 @@ class BloodStockController extends ApiBaseController {
             'unit_volume' => 'required',
             'blood_group' => 'required',
             'blood_rhesus' => 'required',
+            'harga' => 'required',
         ]);
 
         try {
@@ -119,6 +123,10 @@ class BloodStockController extends ApiBaseController {
                 throw new \Exception('Data is not found');
             }
 
+            if ($data->status != 1) {
+                throw new \Exception('Stok sudah tidak tersedia');
+            }
+
             $data->stock_no = $request->stock_no;
             $data->expiry_date = date('Y-m-d', strtotime($request->expiry_date));
             $data->blood_id = $request->blood_id;
@@ -126,6 +134,7 @@ class BloodStockController extends ApiBaseController {
             $data->blood_group = $request->blood_group;
             $data->blood_rhesus = $request->blood_rhesus;
             $data->status = $request->status;
+            $data->harga = $request->harga;
             $data->updated_by = auth()->user()->id;
             $data->save();
 

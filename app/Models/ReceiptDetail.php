@@ -20,6 +20,7 @@ class ReceiptDetail extends Model
         "blood_stock_id",
         "sisa",
         "status",
+        "harga",
         "created_by",
         "updated_by"
     ];

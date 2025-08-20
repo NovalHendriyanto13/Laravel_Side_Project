@@ -198,29 +198,29 @@
 
                                                 <div class="form-group mb-3">
                                                     <label for="tgl_transfusi_sebelumnya">Tanggal Transfusi Sebelumnya</label>
-                                                    <input type="date" name="tgl_transfusi_sebelumnya" id="tgl_transfusi_sebelumnya" class="form-control" >
+                                                    <input type="date" name="tgl_transfusi_sebelumnya" id="tgl_transfusi_sebelumnya" class="form-control" disabled>
                                                 </div>
 
                                                 <div class="form-group mb-3">
                                                     <label for="tempat_serologi">Tempat Serologi</label>
-                                                    <input type="text" name="tempat_serologi" id="tempat_serologi" class="form-control">
+                                                    <input type="text" name="tempat_serologi" id="tempat_serologi" class="form-control" disabled>
                                                 </div>
 
                                                 <div class="form-group mb-3">
                                                     <label for="tgl_serologi">Tanggal Serologi</label>
-                                                    <input type="date" name="tgl_serologi" id="tgl_serologi" class="form-control">
+                                                    <input type="date" name="tgl_serologi" id="tgl_serologi" class="form-control" disabled>
                                                 </div>
 
                                                 <div class="form-group mb-3">
                                                     <label for="hasil_serologi">Hasil Serologi</label>
-                                                    <input type="text" name="hasil_serologi" id="hasil_serologi" class="form-control">
+                                                    <input type="text" name="hasil_serologi" id="hasil_serologi" class="form-control" disabled>
                                                 </div>
                                                 
                                             </div>
                                             <div class="col-lg-6 col-md-6 mb-3">
                                                 <div class="form-group mb-3">
                                                     <label for="gejala_reaksi">Gejala Reaksi</label>
-                                                    <input type="text" name="gejala_reaksi" id="gejala_reaksi" class="form-control">
+                                                    <input type="text" name="gejala_reaksi" id="gejala_reaksi" class="form-control" disabled>
                                                 </div>
 
                                                 <div class="form-group mb-3">
@@ -233,7 +233,7 @@
 
                                                 <div class="form-group mb-3">
                                                     <label for="jumlah_kehamilan">Jumlah Kehamilan</label>
-                                                    <input type="text" name="jumlah_kehamilan" id="jumlah_kehamilan" class="form-control" readonly>
+                                                    <input type="text" name="jumlah_kehamilan" id="jumlah_kehamilan" class="form-control" disabled>
                                                 </div>
                                                 
                                                 <div class="form-group mb-3">
@@ -262,7 +262,7 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 mb-3">                                                
                                                 <div class="form-group mb-3">
-                                                    <label for="item">Item</label>
+                                                    <label for="item">Product</label>
                                                     <select class="form-control" id="item" name="item" data-url="{{ route('api.blood.index') }}">
                                                         <option value="">Pilih</option>
                                                     </select>
@@ -270,7 +270,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 mb-3">
                                                 <div class="form-group mb-3">
-                                                    <label for="jumlah">Jumlah (unit/mL)</label>
+                                                    <label for="jumlah">Jenis Pack</label>
                                                     <select name="jumlah_ml" id="jumlah_ml" class="form-control" data-url="{{ route('api.bloodStock.ml') }}"></select>
                                                 </div>
                                             </div>
@@ -293,8 +293,8 @@
                                             >
                                                 <thead>
                                                     <tr>
-                                                        <th>Item</th>
-                                                        <th>Jumlah (ml)</th>
+                                                        <th>Product</th>
+                                                        <th>Jenis Pack</th>
                                                         <th>Jumlah</th>
                                                         <th></th>
                                                     </tr>

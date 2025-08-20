@@ -21,5 +21,6 @@ class BloodStock extends Model
         'blood_rhesus',
         'unit_volume',
         'status',
+        'harga',
     ];
 }

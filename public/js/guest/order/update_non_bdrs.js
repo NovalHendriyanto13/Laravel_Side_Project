@@ -167,6 +167,29 @@ $(document).ready(async function() {
             }
         });
 
+        $('#transfusi_sebelumnya').change(function(e) {
+            const value = $(this).val();
+            const tglTransfusiSebelumnya = $('#tgl_transfusi_sebelumnya');
+            const tempatSerologi = $('#tempat_serologi');
+            const tglSerologi = $('#tgl_serologi');
+            const hasilSerologi = $('#hasil_serologi');
+            const gejalaReaksi = $('#gejala_reaksi');
+
+            if (value == 1) {
+                tglTransfusiSebelumnya.removeAttr("disabled");
+                tempatSerologi.removeAttr("disabled");
+                tglSerologi.removeAttr("disabled");
+                hasilSerologi.removeAttr("disabled");
+                gejalaReaksi.removeAttr("disabled");
+            } else {
+                tglTransfusiSebelumnya.attr("disabled", true);
+                tempatSerologi.attr("disabled", true);
+                tglSerologi.attr("disabled", true);
+                hasilSerologi.attr("disabled", true);
+                gejalaReaksi.attr("disabled", true);
+            }
+        });
+
         $('#select_item').click(function() {
             const item = $('#item').find(':selected');
             const jml = $('#jumlah');
