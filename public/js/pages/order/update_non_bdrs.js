@@ -96,11 +96,11 @@ $(document).ready(async function() {
 
             await _detailProcessTab(selectedItems, id);
 
-            if (data.status.toLowerCase() == 'selesai') {
+            if (data.status_id == '4') {
                 $('.btn-submit').attr('disabled', true);
                 Swal.fire({
                     title: 'Info!',
-                    text: 'Pemesanan sudah selesai',
+                    text: 'Pemesanan menunggu pembayaran',
                     icon: 'info',
                     confirmButtonText: 'OK'
                 });
@@ -153,6 +153,7 @@ $(document).ready(async function() {
 
             $('#kode_penerimaan').val(data.kode_penerimaan);
             $('#tgl_penerimaan').val(data.tgl_penerimaan);
+            $('#total_harga').val(data.total_harga);
 
             if (data.tgl_ambil_sampel != null) {
                 $('#tgl_ambil_sampel').val(data.tgl_ambil_sampel + ' ' + data.jam_ambil_sampel);
@@ -220,6 +221,7 @@ $(document).ready(async function() {
                         { data: 'blood_group' },
                         { data: 'blood_rhesus' },
                         { data: 'unit_volume' },
+                        { data: 'harga' },
                         {
                             data: null,
                             render: function(dataObj, type, row) {
@@ -242,7 +244,6 @@ $(document).ready(async function() {
         $('.table-fulfillment tbody').on('click', '.view-btn-fulfillment', async function (e){
             e.preventDefault();
             const data = $(this).data('row');
-            $(this).parent().closest('tr').attr('style', 'background-color: #ffeeba !important; ')
 
             const jumlahMl = $('#jumlah_ml').val();
             const jumlah =$('#jumlah').val();
@@ -254,8 +255,7 @@ $(document).ready(async function() {
 
             $('#jumlah_terpenuhi').val(fulfillmentTotal);
 
-            fulfillmentItems.push(data);
-                        $(this).html('Hapus');
+            $(this).html('Hapus');
 
             $(this).addClass('remove-btn-fulfillment');
             $(this).addClass('btn-danger');
@@ -309,6 +309,7 @@ $(document).ready(async function() {
                         { data: 'blood_group' },
                         { data: 'blood_rhesus' },
                         { data: 'unit_volume' },
+                        { data: 'harga' },
                     ]
                 });
             }

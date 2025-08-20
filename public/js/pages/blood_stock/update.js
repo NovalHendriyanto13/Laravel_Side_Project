@@ -47,6 +47,7 @@ $(document).ready(function() {
                 $('#unit_volume').val(data.unit_volume || '');
                 $('#blood_id').val(data.blood_id || '');
                 $('#blood_rhesus').val(data.blood_rhesus || '');
+                $('#harga').val(data.harga || '');
                 $('#status').val(data.status || '');
             }
         }

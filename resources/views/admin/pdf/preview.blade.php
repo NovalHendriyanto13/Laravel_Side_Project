@@ -194,9 +194,9 @@
   <div class="b p-2 mb-2">
     <div class="label mb-1">Pengambilan Sampel (oleh BDRS/UDD)</div>
     <div class="grid-4">
-      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->pengambil }}" readonly></div>
-      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) }}" readonly></div>
-      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_terima_sampel }}" readonly></div>
+      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ !empty($dataReceipt) ? $dataReceipt->pengambil : '' }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ !empty($dataReceipt) ? date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) : '' }}" readonly></div>
+      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_terima_sampel ?? '' }}" readonly></div>
     </div>
   </div>
 
@@ -204,9 +204,9 @@
   <div class="b p-2 mb-2">
     <div class="label mb-1">Penerimaan Sampel (oleh BDRS/UDD)</div>
     <div class="grid-4">
-      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->penerima }}" readonly></div>
-      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) }}" readonly></div>
-      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_terima_sampel }}" readonly></div>
+      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->penerima ?? '' }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ !empty($dataReceipt) ? date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) : '' }}" readonly></div>
+      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_terima_sampel ?? '' }}" readonly></div>
     </div>
   </div>
 
@@ -214,13 +214,13 @@
   <div class="b p-2 mb-2">
     <div class="d-flex justify-content-between">
       <div class="label">Pemeriksaan & Pemberian Darah (oleh BDRS/UDD)</div>
-      <div class="xs">Hasil: {{ $hasilPemeriksaan[$dataReceipt->hasil_pemeriksaan] }}</div>
+      <div class="xs">Hasil: {{ !empty($dataReceipt) ? $hasilPemeriksaan[$dataReceipt->hasil_pemeriksaan] : '-' }}</div>
     </div>
 
     <div class="grid-4">
-      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->pemeriksa }}" readonly></div>
-      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) }}" readonly></div>
-      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_periksa_sampel }}" readonly></div>
+      <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->pemeriksa ?? '' }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ !empty($dataReceipt) ? date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) : '' }}" readonly></div>
+      <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_periksa_sampel ?? '' }}" readonly></div>
     </div>
 
     <table class="table table-tight table-bordered align-middle mt-2">
@@ -238,18 +238,20 @@
       </thead>
       <tbody>
       <!-- Ubah jumlah baris sesuai kebutuhan -->
-       @foreach($dataReceipt->receiptDetail as $k => $products)
-      <tr>
-        <td class="text-center">{{ ($k + 1) }}</td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><input class="form-control form-control-sm" type="text" placeholder="A+/A-"></td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><input class="form-control form-control-sm" type="number"></td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><input class="form-control form-control-sm" type="text"></td>
-        <td><div class="sign"></div></td>
-      </tr>
-      @endforeach
+       @if (!empty($dataReceipt))
+        @foreach($dataReceipt->receiptDetail as $k => $products)
+        <tr>
+          <td class="text-center">{{ ($k + 1) }}</td>
+          <td><input class="form-control form-control-sm" type="text"></td>
+          <td><input class="form-control form-control-sm" type="text" placeholder="A+/A-"></td>
+          <td><input class="form-control form-control-sm" type="text"></td>
+          <td><input class="form-control form-control-sm" type="number"></td>
+          <td><input class="form-control form-control-sm" type="text"></td>
+          <td><input class="form-control form-control-sm" type="text"></td>
+          <td><div class="sign"></div></td>
+        </tr>
+        @endforeach
+      @endif
       </tbody>
     </table>
   </div>

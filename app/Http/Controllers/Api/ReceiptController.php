@@ -95,6 +95,7 @@ class ReceiptController extends ApiBaseController {
 
             $data = ReceiptDetail::select([
                 'penerimaan_detail.id',
+                'penerimaan_detail.harga',
                 'blood_stock.stock_no',
                 'blood_stock.expiry_date',
                 'blood_stock.blood_group',
@@ -167,7 +168,6 @@ class ReceiptController extends ApiBaseController {
     private function nonBdrs(int $id, Request $request, Order $order) {
         $user = auth()->user();
 
-        // if ()
         $processStatus = [
             'ambil_sampel' => [
                 'status' => 1,
@@ -194,10 +194,16 @@ class ReceiptController extends ApiBaseController {
                 'status' => 4,
             ],
         ];
-        $items = json_decode($request->items);
 
-        if (count($items) <= 0) {
-            return "Item penerimaan tidak boleh kosong";
+        $type = $request->type;
+        $items = json_decode($request->items);
+        $totalSisa = 0;
+        $totalHarga = 0;
+
+        if ($type == 'periksa_sampel') {
+            if (count($items) <= 0) {
+                return "Item penerimaan tidak boleh kosong";
+            }
         }
         
         if (count($items) > 0) {
@@ -210,8 +216,8 @@ class ReceiptController extends ApiBaseController {
 
             $totalMl = $total->total_ml ?? 0;
 
-            $proposedQty = array_sum(array_map(fn($i) => $i->unit_volume, $items));
-            
+            $proposedQty = array_sum(array_map(fn($i) => ($i->unit_volume), $items));
+
             if ($proposedQty != $totalMl) {
                 return "Total item tidak sama dengan total permintaan";
             }
@@ -219,12 +225,14 @@ class ReceiptController extends ApiBaseController {
             $totalSisa = $totalMl;
             foreach ($items as $item) {
                 $totalSisa = $totalSisa - $item->unit_volume;
+                $totalHarga = $totalHarga + $item->harga;
 
                 ReceiptDetail::create([
                     'penerimaan_id' => $id,
                     'pemesanan_detail_id' => $item->pemesanan_detail_id,
                     'blood_stock_id' => $item->id,
                     'sisa' => $totalSisa,
+                    'harga' => $item->harga,
                     'status' => $item->status,
                 ]);
 
@@ -233,11 +241,8 @@ class ReceiptController extends ApiBaseController {
             }
         }
 
-        
-        $type = $request->type;
-
         $data = Receipt::where('id', $id)
-            ->update($processStatus[$type]);
+            ->update(array_merge($processStatus[$type], ['total_harga' => $totalHarga]));
 
         $order->status = $totalSisa > 0 ? 5 : 2;
         $order->save();

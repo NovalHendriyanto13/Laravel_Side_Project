@@ -261,7 +261,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Product</th>
-                                                    <th>Jenis Pack</th>
+                                                    <th>Jenis Pack (ml)</th>
                                                     <th>Jumlah</th>
                                                 </tr>
                                             </thead>
@@ -357,6 +357,11 @@
                                                         <option value="negatif">- (Negatif)</option>
                                                     </select>
                                             </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="total_harga">Total Harga</label>
+                                                <input type="text" name="total_harga" id="total_harga" class="form-control" disabled>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -377,7 +382,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Product</th>
-                                                    <th>Jenis Pack</th>
+                                                    <th>Jenis Pack (ml)</th>
                                                     <th>Jumlah Permintaan</th>
                                                     <th></th>
                                                 </tr>
@@ -437,7 +442,7 @@
 
             <div class="col-lg-6 col-md-6 mb-3">
                 <div class="form-group mb-3">
-                    <label for="jumlah_ml">Jenis Pack</label>
+                    <label for="jumlah_ml">Jenis Pack (ml)</label>
                     <input type="text" name="jumlah_ml" id="jumlah_ml" class="form-control" disabled>
                 </div>
 
@@ -457,6 +462,7 @@
                     <td>Golongan</td>
                     <td>Rhesus</td>
                     <td>Volume</td>
+                    <td>Harga</td>
                     <td></td>
                 </tr>
                 </thead>
@@ -487,6 +493,7 @@
                     <td>Golongan</td>
                     <td>Rhesus</td>
                     <td>Volume</td>
+                    <td>Harga</td>
                 </tr>
                 </thead>
                 <tbody></tbody>

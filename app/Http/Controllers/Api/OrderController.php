@@ -267,11 +267,10 @@ class OrderController extends ApiBaseController {
             'end_date' => date('d F Y', strtotime($request->order_end_date))
         ];
 
-        return view('admin.pdf.order', compact('items', 'dates'));
-        // $pdf = Pdf::loadView('admin.pdf.order', compact('items', 'dates'));
+        $pdf = Pdf::loadView('admin.pdf.order', compact('items', 'dates'));
 
         // // Download langsung
-        // return $pdf->download('laporan-penjualan.pdf');
+        return $pdf->download('laporan-penjualan.pdf');
     }
 
     public function preview(int $id, Request $request) {
@@ -330,7 +329,7 @@ class OrderController extends ApiBaseController {
             ->leftJoin('users AS penerima', 'penerima.id', 'penerimaan.terima_sampel_oleh')
             ->leftJoin('users AS pemeriksa', 'pemeriksa.id', 'penerimaan.periksa_sampel_oleh')
             ->first();
-        
+            
         $hasilPemeriksaan = [
             'Tidak Cocok', 'Cocok'
         ];
