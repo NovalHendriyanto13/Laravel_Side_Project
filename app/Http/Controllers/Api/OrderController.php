@@ -477,6 +477,11 @@ class OrderController extends ApiBaseController {
 
         $data->amount_text = CommonHelper::amountToText($data->total_harga, 'id');
         
-        return view('admin.pdf.kwitansi', compact('data'));
+        $pdf = Pdf::loadView('admin.pdf.kwitansi', compact('data'));
+
+        // Download langsung
+        $filename = 'kwitansi.pdf';
+        return $pdf->download($filename);
+        // return view('admin.pdf.kwitansi', compact('data'));
     }
 }

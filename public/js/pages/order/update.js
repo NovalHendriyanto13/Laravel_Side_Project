@@ -303,8 +303,30 @@ $(document).ready(async function() {
                         { data: 'stock_no' },
                         { data: 'expiry_date' },
                         { data: 'name' },
-                        { data: 'blood_group' },
-                        { data: 'blood_rhesus' },
+                        {
+                            data: null,
+                            orderable: false,
+                            searchable: false,
+                            render: function(data, type, row) {
+                                let str = data.blood_group;
+                                if (str == null) {
+                                    str = '';
+                                }
+                                return str;
+                            }
+                        },
+                        {
+                            data: null,
+                            orderable: false,
+                            searchable: false,
+                            render: function(data, type, row) {
+                                let str = data.blood_rhesus;
+                                if (str == null) {
+                                    str = '';
+                                }
+                                return str;
+                            }
+                        },
                         { data: 'unit_volume' },
                     ]
                 });

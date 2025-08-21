@@ -18,6 +18,10 @@
             margin: 10px;             /* jarak div dengan luar */
             border-radius: 6px;  
         }
+        .main-table {
+            background: url("{{asset('images/lunas.png')}}") no-repeat center center;
+            background-size: 500px;
+        }
     </style>
 </head>
 <body>
@@ -25,7 +29,7 @@
         <table border="0" cellspacing="0" cellpadding="4" style="width:100%">
             <tr>
                 <td>
-                    <div style="width:48px;height:48px;border:1px solid #ccc; background-image: url('../../../images/donor_bg.jpg'); background-size: cover;"></div>
+                    <div style="width:48px;height:48px;border:1px solid #ccc; background-image: url('{{asset('images/donor_bg.jpg')}}'); background-size: cover;"></div>
                 </td>
                 <td>
                     <div>
@@ -42,7 +46,7 @@
     <div style="text-align: right; margin: 10px"><h3>No. {{ $data->kode_pemesanan }}</h3></div>
     <div class="main">
         
-        <table border="0" cellspacing="0" cellpadding="4" style="width:100%;">
+        <table border="0" cellspacing="0" cellpadding="4" style="width:100%;" class="main-table">
             <tr>
                 <th rowspan="5" style="border-right: 2px solid #000; width: 20%; 
                     writing-mode: vertical-rl; 
@@ -50,7 +54,6 @@
                     text-align: center;
                     font-size: 80px;
                     color: red">
-                    LUNAS
                 </th>
             </tr>
             <tr>
@@ -67,6 +70,11 @@
                 <th style="width: 25%">Untuk Pembayaran</th>
                 <th style="width: 5%">&nbsp;</th>
                 <td>Pembelian paket donor darah {{ str_replace('_', ' ', strtoupper($data->tipe)) }} </td>
+            </tr>
+            <tr>
+                <th style="width: 25%">Status</th>
+                <th style="width: 5%">&nbsp;</th>
+                <td>LUNAS</td>
             </tr>
         </table>
         <table border="0" cellspacing="0" cellpadding="4" style="width:100%;">

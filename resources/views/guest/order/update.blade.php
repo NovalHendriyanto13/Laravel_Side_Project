@@ -117,6 +117,7 @@
                                                         <option value="ab_negatif">AB-</option>
                                                         <option value="o_positif">O+</option>
                                                         <option value="o_negatif">O-</option>
+                                                        <option value="_">(Kosong)-</option>
                                                     </select>
                                                 </div>
                                             </div>

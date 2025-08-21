@@ -64,8 +64,6 @@ class BloodStockController extends ApiBaseController {
             'expiry_date' => 'required',
             'blood_id' => 'required',
             'unit_volume' => 'required',
-            'blood_group' => 'required',
-            'blood_rhesus' => 'required',
             'harga' => 'required',
         ]);
 
@@ -111,8 +109,6 @@ class BloodStockController extends ApiBaseController {
             'expiry_date' => 'required',
             'blood_id' => 'required',
             'unit_volume' => 'required',
-            'blood_group' => 'required',
-            'blood_rhesus' => 'required',
             'harga' => 'required',
         ]);
 

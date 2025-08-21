@@ -65,7 +65,7 @@ $(document).ready(async function() {
                     data: null,
                     render: function(data, type, row) {
                         const token = localStorage.getItem('_token_guest');
-                        if (row.status_id == '4') {
+                        if (row.status_id == '5') {
                             return `<a href="${_appUrl}/api/order/receipt-letter/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth" style="margin-right: 5px">Form</a>`
                         }
                         return '';

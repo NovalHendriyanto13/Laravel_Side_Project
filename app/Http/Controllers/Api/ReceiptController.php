@@ -119,6 +119,7 @@ class ReceiptController extends ApiBaseController {
     private function bdrs(int $id, Request $request, Order $order) {
         $type = 4;
         $items = json_decode($request->items);
+        $totalHarga = 0;
 
         if (count($items) <= 0) {
             return "Item penerimaan tidak boleh kosong";
@@ -128,6 +129,7 @@ class ReceiptController extends ApiBaseController {
             $orderDetailId = array_map(function($i) {
                 return $i->pemesanan_detail_id;
             }, $items);
+            
             $total = OrderDetail::selectRaw('SUM(jumlah_ml * jumlah) AS total_ml')
                 ->whereIn('id', $orderDetailId)
                 ->first();
@@ -135,7 +137,7 @@ class ReceiptController extends ApiBaseController {
             $totalMl = $total->total_ml ?? 0;
 
             $proposedQty = array_sum(array_map(fn($i) => $i->unit_volume, $items));
-            
+
             if ($proposedQty != $totalMl) {
                 return "Total item tidak sama dengan total permintaan";
             }
@@ -143,12 +145,14 @@ class ReceiptController extends ApiBaseController {
             $totalSisa = $totalMl;
             foreach ($items as $item) {
                 $totalSisa = $totalSisa - $item->unit_volume;
+                $totalHarga = $totalHarga + $item->harga;
 
                 ReceiptDetail::create([
                     'penerimaan_id' => $id,
                     'pemesanan_detail_id' => $item->pemesanan_detail_id,
                     'blood_stock_id' => $item->id,
                     'sisa' => $totalSisa,
+                    'harga' => $item->harga,
                     'status' => $item->status,
                 ]);
 
@@ -157,10 +161,13 @@ class ReceiptController extends ApiBaseController {
             }
 
             $data = Receipt::where('id', $id)
-                ->update([ 'status' => $type ]);
+                ->update([ 
+                    'status' => $type,
+                    'total_harga' => $totalHarga,
+                ]);
         }
 
-        $order->status = $totalSisa > 0 ? 5 : 2;
+        $order->status = 4;
         $order->save();
 
         return true;
