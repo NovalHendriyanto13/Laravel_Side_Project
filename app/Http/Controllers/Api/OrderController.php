@@ -3,9 +3,11 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Helpers\CommonHelper;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Blood;
+use App\Models\BloodStock;
 use App\Models\Receipt;
 
 class OrderController extends ApiBaseController {
@@ -41,6 +43,7 @@ class OrderController extends ApiBaseController {
             ->get();
 
         $datas->map(function($item) {
+            $item->status_id = $item->status;
             $item->status = Order::$_status[$item->status];
             return $item;
         });
@@ -333,7 +336,147 @@ class OrderController extends ApiBaseController {
         $hasilPemeriksaan = [
             'Tidak Cocok', 'Cocok'
         ];
+
+        if (!empty($dataReceipt)) {
+            foreach($dataReceipt->receiptDetail as $item) {
+                $bloodStock = BloodStock::select([
+                    'blood_stock.stock_no',
+                    'blood_stock.expiry_date',
+                    'blood_stock.blood_group',
+                    'blood_stock.blood_rhesus',
+                    'blood_stock.unit_volume',
+                    'blood.name',
+                    'blood.blood_type',
+                ])
+                    ->join('blood', 'blood.id', '=', 'blood_stock.blood_id')
+                    ->where('blood_stock.id', $item->blood_stock_id)
+                    ->first();
+
+                $item->stock_no = $bloodStock->stock_no;
+                $item->expiry_date = $bloodStock->expiry_date;
+                $item->blood_group = $bloodStock->blood_group;
+                $item->blood_rhesus = $bloodStock->blood_rhesus == 'positif' ? '+' : '-';
+                $item->unit_volume = $bloodStock->unit_volume;
+                $item->name = $bloodStock->name;
+                $item->blood_type = $bloodStock->blood_type;
+            }
+        }
         
         return view('admin.pdf.preview', compact('data', 'bloodData', 'dataReceipt', 'hasilPemeriksaan'));
+    }
+
+    public function receipt(int $id, Request $request) {
+        $user = auth()->user();
+        $hospital = $user->hospital ?? null;
+
+        $data = Order::query()
+            ->with('orderDetail')
+            ->select([
+                'pemesanan.*',
+                'rumah_sakit.nama_rs',
+                'rumah_sakit.kode_rs',
+                'rumah_sakit.alamat AS alamat_rs',
+            ])
+            ->leftJoin('rumah_sakit', 'pemesanan.rs_id', 'rumah_sakit.id')
+            ->where('pemesanan.id', $id)
+            ->orderBy('pemesanan.id', 'DESC')
+            ->first();
+
+        if (!empty($data)) {
+            $data->status = Order::$_status[$data->status];
+            $data->tgl_transfusi_sebelumnya = $data->tgl_transfusi_sebelumnya == '1970-01-01' ? '' : $data->tgl_transfusi_sebelumnya;
+        };
+
+        $bloods = Blood::query()
+            ->select(['id', 'name', 'blood_type'])
+            ->get();
+
+        $bloodData = [];
+        foreach($bloods as $blood) {
+            $jumlahMl = 0;
+            $jumlah = 0;
+            $orderDetail = ($data->orderDetail)->toArray() ?? [];
+
+            $isExists = array_search($blood->id, array_column($orderDetail, 'blood_id'));
+            if ($isExists !== false) {
+                $jumlahMl = $orderDetail[$isExists]['jumlah_ml'];
+                $jumlah = $orderDetail[$isExists]['jumlah'];
+            }
+            $bloodData[$blood->blood_type][] = [
+                'name' => $blood->name,
+                'jumlah_ml' => $jumlahMl == 0 ? '' : $jumlahMl,
+                'jumlah' => $jumlah == 0 ? '' : $jumlah,
+            ];
+        }
+
+        $dataReceipt = Receipt::select([
+            'penerimaan.*',
+            'pengambil.name AS pengambil',
+            'penerima.name AS penerima',
+            'pemeriksa.name AS pemeriksa'
+        ])
+            ->with('receiptDetail')
+            ->where('pemesanan_id', $id)
+            ->leftJoin('users AS pengambil', 'pengambil.id', 'penerimaan.ambil_sampel_oleh')
+            ->leftJoin('users AS penerima', 'penerima.id', 'penerimaan.terima_sampel_oleh')
+            ->leftJoin('users AS pemeriksa', 'pemeriksa.id', 'penerimaan.periksa_sampel_oleh')
+            ->first();
+            
+        $hasilPemeriksaan = [
+            'Tidak Cocok', 'Cocok'
+        ];
+
+        if (!empty($dataReceipt)) {
+            foreach($dataReceipt->receiptDetail as $item) {
+                $bloodStock = BloodStock::select([
+                    'blood_stock.stock_no',
+                    'blood_stock.expiry_date',
+                    'blood_stock.blood_group',
+                    'blood_stock.blood_rhesus',
+                    'blood_stock.unit_volume',
+                    'blood.name',
+                    'blood.blood_type',
+                ])
+                    ->join('blood', 'blood.id', '=', 'blood_stock.blood_id')
+                    ->where('blood_stock.id', $item->blood_stock_id)
+                    ->first();
+
+                $item->stock_no = $bloodStock->stock_no;
+                $item->expiry_date = $bloodStock->expiry_date;
+                $item->blood_group = $bloodStock->blood_group;
+                $item->blood_rhesus = $bloodStock->blood_rhesus == 'positif' ? '+' : '-';
+                $item->unit_volume = $bloodStock->unit_volume;
+                $item->name = $bloodStock->name;
+                $item->blood_type = $bloodStock->blood_type;
+            }
+        }
+        
+        return view('admin.pdf.preview', compact('data', 'bloodData', 'dataReceipt', 'hasilPemeriksaan'));
+    }
+
+    public function receiptLetter(int $id, Request $request) {
+        $user = auth()->user();
+        $hospital = $user->hospital ?? null;
+
+        $data = Order::query()
+            ->with('orderDetail')
+            ->select([
+                'pemesanan.id',
+                'pemesanan.kode_pemesanan',
+                'pemesanan.tipe',
+                'pemesanan.dokter',
+                'rumah_sakit.nama_rs',
+                'rumah_sakit.alamat AS alamat_rs',
+                'penerimaan.total_harga',
+                'pemesanan.updated_at',
+            ])
+            ->leftJoin('rumah_sakit', 'pemesanan.rs_id', 'rumah_sakit.id')
+            ->leftJoin('penerimaan', 'penerimaan.pemesanan_id', 'pemesanan.id')
+            ->where('pemesanan.id', $id)
+            ->first();
+
+        $data->amount_text = CommonHelper::amountToText($data->total_harga, 'id');
+        
+        return view('admin.pdf.kwitansi', compact('data'));
     }
 }

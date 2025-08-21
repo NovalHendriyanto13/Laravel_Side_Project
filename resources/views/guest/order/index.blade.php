@@ -41,13 +41,15 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>Kode Pemesanan</th>
+                                    <th>Kd Pemesanan</th>
                                     <th>Tipe</th>
                                     <th>Dokter</th>
-                                    <th>Tanggal Pemesanan</th>
-                                    <th>Tanggal Di perlukan</th>
+                                    <th>Tgl Pemesanan</th>
+                                    <th>Tgl Di perlukan</th>
                                     <th>Status</th>
-                                    <th></th>
+                                    <th>Form</th>
+                                    <th>Bukti terima</th>
+                                    <th>Bukti bayar</th>
                                 </tr>
                             </thead>
                             <tbody>

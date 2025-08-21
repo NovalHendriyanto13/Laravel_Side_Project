@@ -231,23 +231,19 @@
         <th style="width:80px">Gol</th>
         <th style="width:140px">Tgl Kadaluwarsa</th>
         <th style="width:80px">Vol (mL)</th>
-        <th style="width:120px">Petugas</th>
-        <th>Nama yang Mengambil</th>
         <th style="width:160px">Tanda Tangan Keluarga</th>
       </tr>
       </thead>
       <tbody>
       <!-- Ubah jumlah baris sesuai kebutuhan -->
        @if (!empty($dataReceipt))
-        @foreach($dataReceipt->receiptDetail as $k => $products)
+        @foreach($dataReceipt->receiptDetail as $k => $product)
         <tr>
           <td class="text-center">{{ ($k + 1) }}</td>
-          <td><input class="form-control form-control-sm" type="text"></td>
-          <td><input class="form-control form-control-sm" type="text" placeholder="A+/A-"></td>
-          <td><input class="form-control form-control-sm" type="text"></td>
-          <td><input class="form-control form-control-sm" type="number"></td>
-          <td><input class="form-control form-control-sm" type="text"></td>
-          <td><input class="form-control form-control-sm" type="text"></td>
+          <td><input class="form-control form-control-sm" type="text" value="{{ $product->stock_no }}" readonly></td>
+          <td><input class="form-control form-control-sm" type="text" value="{{ $product->blood_group }} {{ $product->blood_rhesus }}" readonly></td>
+          <td><input class="form-control form-control-sm" type="text" value="{{ date('d F Y', strtotime($product->expiry_date)) }}" readonly></td>
+          <td><input class="form-control form-control-sm" type="text" value="{{ $product->unit_volume }}" readonly></td>
           <td><div class="sign"></div></td>
         </tr>
         @endforeach

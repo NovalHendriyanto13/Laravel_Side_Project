@@ -32,7 +32,7 @@ $(document).ready(async function() {
                         if (data.tipe == 'bdrs') {
                             return `<a href="${_appUrl}/order/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
                         }
-                                                return `<a href="${_appUrl}/order/non-bdrs/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
+                        return `<a href="${_appUrl}/order/non-bdrs/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
                     } 
                 },
                 { data: 'tipe' },
@@ -45,10 +45,31 @@ $(document).ready(async function() {
                     render: function(data, type, row) {
                         const token = localStorage.getItem('_token_guest');
                         if (row.tipe == 'non_bdrs') {
-                            return `<a href="${_appUrl}/api/order/preview/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth">Form</a>`;
+                            return `<a href="${_appUrl}/api/order/preview/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth" style="margin-right: 5px">Lihat</a>`
                         } else { 
                             return '';
                         }
+                    } 
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        const token = localStorage.getItem('_token_guest');
+                        if (row.status_id == '4' || row.status_id == '5') {
+                            return `<a href="${_appUrl}/api/order/receipt/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth" style="margin-right: 5px">Lihat</a>`
+                        }
+                        return '';
+                    } 
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        const token = localStorage.getItem('_token_guest');
+                        if (row.status_id == '4') {
+                            return `<a href="${_appUrl}/api/order/receipt-letter/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth" style="margin-right: 5px">Form</a>`
+                        }
+                        return '';
+                        
                     } 
                 },
             ]

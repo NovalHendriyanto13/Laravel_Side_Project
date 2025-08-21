@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/create', [OrderController::class, 'create'])->name('api.order.create');
         Route::put('/update/{id}', [OrderController::class, 'update'])->name('api.order.update');
         Route::get('/preview/{id}', [OrderController::class, 'preview'])->name('api.order.preview');
+        Route::get('/receipt/{id}', [OrderController::class, 'receipt'])->name('api.order.receipt');
+        Route::get('/receipt-letter/{id}', [OrderController::class, 'receiptLetter'])->name('api.order.receipt');
         Route::get('/{id}', [OrderController::class, 'detail'])->name('api.order.detail');
     });
 

@@ -107,6 +107,18 @@ $(document).ready(async function() {
 
                 return false;
             }
+
+            if (data.status_id == '5') {
+                $('.btn-submit').attr('disabled', true);
+                Swal.fire({
+                    title: 'Info!',
+                    text: 'Pemesanan Sudah Selesai di proses',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+
+                return false;
+            }
         }
 
     }
