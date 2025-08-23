@@ -48,15 +48,15 @@
       </tr>
       <tr>
         <td>No. RM</td>
-        <td>: {{ $data->dataReceipt }}</td>
+        <td>: {{ $dataReceipt->kode_penerimaan }}</td>
       </tr>
       <tr>
         <td>Nama</td>
-        <td>: MRS NURSI SIMANULLANG</td>
+        <td>: {{ $data->dokter }}</td>
       </tr>
       <tr>
         <td>Alamat</td>
-        <td>: -</td>
+        <td>: {{ $data->alamat_rs }}</td>
       </tr>
       <tr>
         <td>RS</td>
@@ -75,21 +75,30 @@
         <td width="300">Komponen Darah</td>
         <td width="100">Jumlah</td>
       </tr>
+      @php $total = 0; @endphp
+      @foreach($groupBloodPack as $item)
+      
       <tr>
-        <td>1. PRC</td>
-        <td>2 Kantong</td>
+        <td>
+            <div><b>{{ $item->name }}</b></div>
+            <div>{{ $item->blood_group }} {{ $item->blood_rhesus }} {{ $item->unit_volume }} mL</div>
+        </td>
+        <td>{{ $count[$item->blood_id]}} Kantong</td>
       </tr>
+
+      @php $total = $total + $count[$item->blood_id]; @endphp
+      @endforeach
     </table>
 
-    <p>Jumlah: Agt : 2 Kantong</p>
+    <p>Jumlah: Agt : {{ $total }} Kantong</p>
 
-    <p>Sampel diterima pukul 09 <br>
-    18 April 2025<br>
+    <p>Sampel diterima pukul {{ $dataReceipt->jam_terima_sampel }} <br>
+    {{ date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) }}<br>
     Petugas UDD</p>
 
     <div class="signature">
       <p>(ttd)</p>
-      <p>Yulia Admin</p>
+      <p>{{ $dataReceipt->penerima }}</p>
     </div>
   </div>
 </body>

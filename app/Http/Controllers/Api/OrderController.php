@@ -458,14 +458,13 @@ class OrderController extends ApiBaseController {
             ->leftJoin('users AS penerima', 'penerima.id', 'penerimaan.terima_sampel_oleh')
             ->leftJoin('users AS pemeriksa', 'pemeriksa.id', 'penerimaan.periksa_sampel_oleh')
             ->first();
-            
-        $hasilPemeriksaan = [
-            'Tidak Cocok', 'Cocok'
-        ];
-
+        
+        $groupBloodPack = [];
+        $count = [];
         if (!empty($dataReceipt)) {
             foreach($dataReceipt->receiptDetail as $item) {
                 $bloodStock = BloodStock::select([
+                    'blood_stock.blood_id',
                     'blood_stock.stock_no',
                     'blood_stock.expiry_date',
                     'blood_stock.blood_group',
@@ -478,6 +477,7 @@ class OrderController extends ApiBaseController {
                     ->where('blood_stock.id', $item->blood_stock_id)
                     ->first();
 
+                $item->blood_id = $bloodStock->blood_id;
                 $item->stock_no = $bloodStock->stock_no;
                 $item->expiry_date = $bloodStock->expiry_date;
                 $item->blood_group = $bloodStock->blood_group;
@@ -485,10 +485,15 @@ class OrderController extends ApiBaseController {
                 $item->unit_volume = $bloodStock->unit_volume;
                 $item->name = $bloodStock->name;
                 $item->blood_type = $bloodStock->blood_type;
+
+                $count[$bloodStock->blood_id] = isset($count[$bloodStock->blood_id]) ? $count[$bloodStock->blood_id] + 1 : 1;
+
+                $groupBloodPack[$bloodStock->blood_id] = $item;
             }
         }
         
-        return view('admin.pdf.receipt', compact('data', 'bloodData', 'dataReceipt', 'hasilPemeriksaan'));
+        
+        return view('admin.pdf.receipt', compact('data', 'bloodData', 'dataReceipt', 'groupBloodPack', 'count'));
     }
 
     public function receiptLetter(int $id, Request $request) {
