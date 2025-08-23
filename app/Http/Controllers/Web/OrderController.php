@@ -43,6 +43,19 @@ class OrderController extends BaseController {
         ]);
     }
 
+    public function paymentList(Request $request) {
+        return view('admin.order.payment_list', [
+            'title' => 'Pembayaran Pemesanan'
+        ]);
+    }
+
+    public function payment(int $id, Request $request) {
+        return view('admin.order.payment', [
+            'title' => 'Pembayaran Pemesanan',
+            'id' => $id,
+        ]);
+    }
+
     public function report(Request $request) {
        return view('admin.order.report', [
             'title' => 'Laporan Permintaan',

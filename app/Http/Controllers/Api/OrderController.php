@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use App\Models\Blood;
 use App\Models\BloodStock;
 use App\Models\Receipt;
+use App\Models\ReceiptDetail;
 
 class OrderController extends ApiBaseController {
     public function index() {
@@ -225,6 +226,47 @@ class OrderController extends ApiBaseController {
         }
     }
 
+    public function paymentList(Request $request) {
+        $user = auth()->user();
+        $hospital = $user->hospital ?? null;
+
+        $datas = Order::query()
+            ->with('orderDetail')
+            ->select([
+                'pemesanan.id',
+                'pemesanan.kode_pemesanan',
+                'pemesanan.rs_id',
+                'pemesanan.tipe',
+                'pemesanan.dokter',
+                'pemesanan.tgl_pemesanan',
+                'pemesanan.tgl_diperlukan',
+                'pemesanan.nama_pasien',
+                'pemesanan.diagnosis',
+                'pemesanan.jenis_kelamin',
+                'pemesanan.tempat_lahir',
+                'pemesanan.tanggal_lahir',
+                'pemesanan.no_telp',
+                'pemesanan.status',
+                'rumah_sakit.nama_rs',
+                'rumah_sakit.kode_rs'
+            ])
+            ->leftJoin('rumah_sakit', 'pemesanan.rs_id', 'rumah_sakit.id')
+            ->when(!empty($hospital), function($q) use ($hospital) {
+                return $q->where('pemesanan.rs_id', $hospital->id);
+            })
+            ->where('pemesanan.status', 4)
+            ->orderBy('pemesanan.id', 'DESC')
+            ->get();
+
+        $datas->map(function($item) {
+            $item->status_id = $item->status;
+            $item->status = Order::$_status[$item->status];
+            return $item;
+        });
+
+        return $this->successApiResponse($datas);
+    }
+
     public function report(Request $request) {
         if (empty($request->order_start_date) || empty($request->order_end_date)) {
             return $this->errorApiResponse(500, 'Start date dan end date wajib diisi');
@@ -382,11 +424,6 @@ class OrderController extends ApiBaseController {
             ->orderBy('pemesanan.id', 'DESC')
             ->first();
 
-        if (!empty($data)) {
-            $data->status = Order::$_status[$data->status];
-            $data->tgl_transfusi_sebelumnya = $data->tgl_transfusi_sebelumnya == '1970-01-01' ? '' : $data->tgl_transfusi_sebelumnya;
-        };
-
         $bloods = Blood::query()
             ->select(['id', 'name', 'blood_type'])
             ->get();
@@ -451,7 +488,7 @@ class OrderController extends ApiBaseController {
             }
         }
         
-        return view('admin.pdf.preview', compact('data', 'bloodData', 'dataReceipt', 'hasilPemeriksaan'));
+        return view('admin.pdf.receipt', compact('data', 'bloodData', 'dataReceipt', 'hasilPemeriksaan'));
     }
 
     public function receiptLetter(int $id, Request $request) {

@@ -42,6 +42,12 @@ $(document).ready(async function() {
                 { 
                     data: null,
                     render: function(data, type, row) {
+                        return (row.harga).toLocaleString('id-ID');
+                    } 
+                },
+                { 
+                    data: null,
+                    render: function(data, type, row) {
                         const status = ['Tidak Tersedia', 'Tersedia', 'Kadaluarsa'];
                         return status[row.status];
                     } 

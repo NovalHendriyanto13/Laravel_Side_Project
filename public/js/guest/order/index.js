@@ -25,16 +25,7 @@ $(document).ready(async function() {
                 }
             },
             columns: [
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        const token = localStorage.getItem('_token_guest');
-                        if (data.tipe == 'bdrs') {
-                            return `<a href="${_appUrl}/order/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
-                        }
-                        return `<a href="${_appUrl}/order/non-bdrs/${row.id}?token=${token}" class="a-auth">${row.kode_pemesanan}</a>`;
-                    } 
-                },
+                { data: 'kode_pemesanan' },
                 { data: 'tipe' },
                 { data: 'dokter' },
                 { data: 'tgl_pemesanan' },
@@ -44,31 +35,36 @@ $(document).ready(async function() {
                     data: null,
                     render: function(data, type, row) {
                         const token = localStorage.getItem('_token_guest');
-                        if (row.tipe == 'non_bdrs') {
-                            return `<a href="${_appUrl}/api/order/preview/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth" style="margin-right: 5px">Lihat</a>`
-                        } else { 
-                            return '';
+                        let urlUpdate = `${_appUrl}/order/non-bdrs/${row.id}?token=${token}`;
+                        if (data.tipe == 'bdrs') {
+                            urlUpdate = `${_appUrl}/order/${row.id}?token=${token}`
                         }
+                        return `
+                            <div class="d-flex">
+                                <a href="${urlUpdate}" class="btn btn-success a-auth" style="margin-right: 2px">Ubah</a>
+                            </div> 
+                        `;
                     } 
                 },
                 {
                     data: null,
                     render: function(data, type, row) {
                         const token = localStorage.getItem('_token_guest');
-                        if (row.status_id == '4' || row.status_id == '5') {
-                            return `<a href="${_appUrl}/api/order/receipt/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth" style="margin-right: 5px">Lihat</a>`
-                        }
-                        return '';
-                    } 
-                },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        const token = localStorage.getItem('_token_guest');
-                        if (row.status_id == '5') {
-                            return `<a href="${_appUrl}/api/order/receipt-letter/${row.id}?token=${token}" target="_blank" class="btn btn-primary a-auth" style="margin-right: 5px">Form</a>`
-                        }
-                        return '';
+                        const receiptLetter = row.status_id == '5' ? `<a href="${_appUrl}/api/order/receipt-letter/${row.id}?token=${token}" target="_blank" class="dropdown-item">Kwitansi</a>` : '';
+                        const receipt = row.status_id == '4' ? `<a href="${_appUrl}/api/order/receipt/${row.id}?token=${token}" target="_blank" class="dropdown-item">Bukti Penerimaan</a>` : '';
+                        const form = row.tipe == 'non_bdrs' ? `<a href="${_appUrl}/api/order/preview/${row.id}?token=${token}" target="_blank" class="dropdown-item">Form</a>` : '';
+                        return `
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                    Print
+                                </button>
+                                <div class="dropdown-menu">
+                                    ${form}
+                                    ${receipt}
+                                    ${receiptLetter}
+                                </div>
+                            </div>
+                        `;
                         
                     } 
                 },

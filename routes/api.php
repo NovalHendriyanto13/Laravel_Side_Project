@@ -53,6 +53,7 @@ Route::middleware(['jwt'])->group(function() {
 
     Route::prefix('admin-order')->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('api.admin.order.index');
+        Route::get('/payment-list', [OrderController::class, 'paymentList'])->name('api.admin.order.payment-list');
         Route::post('/report', [OrderController::class, 'report'])->name('api.admin.order.report');
         Route::put('/{id}', [OrderController::class, 'update'])->name('api.admin.order.update');
         Route::get('/{id}', [OrderController::class, 'detail'])->name('api.admin.order.detail');
@@ -60,6 +61,7 @@ Route::middleware(['jwt'])->group(function() {
 
     Route::prefix('admin-receipt')->group(function() {
         Route::post('/create', [ReceiptController::class, 'create'])->name('api.admin.receipt.create');
+        Route::get('/payment/{id}', [ReceiptController::class, 'payment'])->name('api.admin.receipt.payment');
         Route::post('/process/{id}', [ReceiptController::class, 'process'])->name('api.admin.receipt.process');
         Route::get('/detail/{id}', [ReceiptController::class, 'detailItem'])->name('api.admin.receipt.detail.item');
         Route::get('/{id}', [ReceiptController::class, 'detail'])->name('api.admin.receipt.detail');

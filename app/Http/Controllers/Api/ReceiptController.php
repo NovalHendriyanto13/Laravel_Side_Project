@@ -116,6 +116,38 @@ class ReceiptController extends ApiBaseController {
         }
     }
 
+    public function payment($id, Request $request) {
+        try {
+
+            $data = Order::find($id);
+            if (!$data || empty($data)) {
+                throw new \Exception('Data is not found');
+            }
+
+            $data->status = 5;
+            $data->updated_by = auth()->user()->id;
+            $data->save();
+
+            $updateReceipt = Receipt::where('pemesanan_id', $id)
+                ->first();
+
+            $updateReceipt->status = 4;
+            $updateReceipt->updated_by = auth()->user()->id;
+            $updateReceipt->save();
+
+            $updateReceiptDetail = ReceiptDetail::where('penerimaan_id', $updateReceipt->id)
+                ->update([
+                    'status' => 4,
+                    'updated_by' => auth()->user()->id
+                ]);
+
+            return $this->successApiResponse($data);
+
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
+        }
+    }
+
     private function bdrs(int $id, Request $request, Order $order) {
         $type = 4;
         $items = json_decode($request->items);
@@ -208,6 +240,22 @@ class ReceiptController extends ApiBaseController {
         $totalHarga = 0;
 
         if ($type == 'periksa_sampel') {
+            if ($request->hasil_pemeriksaan == 0) {
+                $data = Receipt::where('id', $id)
+                    ->update([
+                        'status' => 0,
+                        'tgl_ambil_sampel' => '',
+                        'jam_ambil_sampel' => '',
+                        'ambil_sampel_oleh' => '',
+                        'tgl_terima_sampel' => '',
+                        'jam_terima_sampel' => '',
+                        'terima_sampel_oleh' => '',
+                        "updated_by" => auth()->user()->id
+                    ]);
+
+                return "Hasil Pemeriksaan tidak cocok, harap kirimkan sample kembali";
+            }
+            
             if (count($items) <= 0) {
                 return "Item penerimaan tidak boleh kosong";
             }

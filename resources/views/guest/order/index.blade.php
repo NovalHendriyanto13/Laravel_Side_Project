@@ -47,9 +47,8 @@
                                     <th>Tgl Pemesanan</th>
                                     <th>Tgl Di perlukan</th>
                                     <th>Status</th>
-                                    <th>Form</th>
-                                    <th>Bukti terima</th>
-                                    <th>Bukti bayar</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>

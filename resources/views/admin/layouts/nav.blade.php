@@ -73,6 +73,12 @@
             <span>Pemesanan</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.order.payment-list') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Pembayaran</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

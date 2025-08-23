@@ -82,11 +82,11 @@ $(document).ready(async function() {
 
             await _detailProcessTab(selectedItems, id);
 
-            if (data.status_id == '5') {
+            if (data.status.toLowerCase() == 'selesai') {
                 $('.btn-submit').attr('disabled', true);
                 Swal.fire({
                     title: 'Info!',
-                    text: 'Pemesanan Sudah Selesai di proses',
+                    text: 'Pemesanan sudah selesai',
                     icon: 'info',
                     confirmButtonText: 'OK'
                 });
@@ -176,109 +176,6 @@ $(document).ready(async function() {
     }
 
     function _gesture() {
-        /** fulfillment block start */
-        $('.table-receive-item tbody').on('click', '.view-btn-fulfill', async function (e){
-            e.preventDefault();
-            const data = $(this).data('row');
-
-            let modalEl = $('#fulfillment-modal');
-
-            const table = $('.table-fulfillment');
-            if ( $.fn.dataTable.isDataTable('.table-fulfillment') ) {
-                table.DataTable().clear().destroy(); // optional
-            }
-            const url = `${_apiBaseUrl}/api/admin-blood-stock`;
-            let parts = (data.golongan).split(" - ");
-            const golongan = parts[0];
-            const rhesus = parts[1];
-            
-            const payload = {
-                "blood_id": data.id,
-                "blood_group": golongan,
-                "blood_rhesus": rhesus,
-                "status": 1,
-            }
-            const response = await httpGet(url, payload);
-
-            if (response?.error == false) {
-                const responseData = response?.data || null;
-
-                $('#item').val(data.name);
-                $('#jumlah_ml').val(data.jumlah_ml);
-                $('#jumlah').val(data.jumlah);
-                
-                processedTable = table.DataTable({
-                    data: responseData,
-                    columns: [
-                        { data: 'stock_no' },
-                        { data: 'expiry_date' },
-                        { data: 'name' },
-                        { data: 'blood_group' },
-                        { data: 'blood_rhesus' },
-                        { data: 'unit_volume' },
-                        {
-                            data: null,
-                            render: function(dataObj, type, row) {
-                                row.pemesanan_detail_id = data.pid;
-                                const dataRow = JSON.stringify(row);
-                                
-                                return `
-                                    <a class="btn btn-sm btn-info view-btn-fulfillment" data-row='${dataRow}' href="#">Pilih</a>
-                                `;
-                            } 
-                        },
-                    ]
-                });
-            }
-
-            let modal = new bootstrap.Modal(modalEl[0]);
-            modal.show();
-        });
-
-        $('.table-fulfillment tbody').on('click', '.view-btn-fulfillment', async function (e){
-            e.preventDefault();
-            const data = $(this).data('row');
-            $(this).parent().closest('tr').attr('style', 'background-color: #ffeeba !important; ');
-
-            const jumlahMl = $('#jumlah_ml').val();
-            const jumlah =$('#jumlah').val();
-
-            const total = jumlahMl * jumlah;
-
-            fulfillmentItems.push(data);
-            const fulfillmentTotal = fulfillmentItems.reduce((sum, obj) => sum + obj.unit_volume, 0);
-
-            $('#jumlah_terpenuhi').val(fulfillmentTotal);
-
-            $(this).html('Hapus');
-
-            $(this).addClass('remove-btn-fulfillment');
-            $(this).addClass('btn-danger');
-
-            $(this).removeClass('view-btn-fulfillment');
-            $(this).removeClass('btn-info');
-
-        });
-
-        $('.table-fulfillment tbody').on('click', '.remove-btn-fulfillment', async function (e){
-            e.preventDefault();
-            const data = $(this).data('row');
-            $(this).parent().closest('tr').attr('style', 'background-color: #ffeeba !important; ')
-
-            const index = fulfillmentItems.findIndex(item => item.id === data.id);
-            if (index !== -1) {
-                fulfillmentItems.splice(index, 1);
-            }
-            $(this).html('Pilih');
-
-            $(this).addClass('view-btn-fulfillment');
-            $(this).addClass('btn-info');
-
-            $(this).removeClass('remove-btn-fulfillment');
-            $(this).removeClass('btn-danger');
-        });
-
-        /** fulfillment block end */
 
         /** fulfillment detail */
         $('.table-receive-item tbody').on('click', '.view-btn-fulfill-detail', async function (e){
