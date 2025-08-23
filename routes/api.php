@@ -61,8 +61,9 @@ Route::middleware(['jwt'])->group(function() {
 
     Route::prefix('admin-receipt')->group(function() {
         Route::post('/create', [ReceiptController::class, 'create'])->name('api.admin.receipt.create');
-        Route::get('/payment/{id}', [ReceiptController::class, 'payment'])->name('api.admin.receipt.payment');
+        Route::post('/payment/{id}', [ReceiptController::class, 'payment'])->name('api.admin.receipt.payment');
         Route::post('/process/{id}', [ReceiptController::class, 'process'])->name('api.admin.receipt.process');
+        Route::get('/detail-order/{id}', [ReceiptController::class, 'detailByOrder'])->name('api.admin.receipt.detail.order');
         Route::get('/detail/{id}', [ReceiptController::class, 'detailItem'])->name('api.admin.receipt.detail.item');
         Route::get('/{id}', [ReceiptController::class, 'detail'])->name('api.admin.receipt.detail');
     });

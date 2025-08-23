@@ -34,6 +34,51 @@ class ReceiptController extends ApiBaseController {
         }
     }
 
+    public function detailByOrder(int $id, Request $request) {
+        try {
+            $data = Receipt::select([
+                'penerimaan.*',
+                'pemesanan.kode_pemesanan',
+                'pemesanan.rs_id',
+                'pemesanan.tipe',
+                'pemesanan.dokter',
+                'pemesanan.tgl_pemesanan',
+                'pemesanan.tgl_diperlukan',
+                'pemesanan.status as status_order',
+            ])
+                ->with('receiptDetail')
+                ->join('pemesanan', 'pemesanan.id', '=', 'penerimaan.pemesanan_id')
+                ->where('pemesanan_id', $id)                
+                ->first();
+
+            $data->status = Order::$_status[$data->status_order];
+
+            foreach($data->receiptDetail as $item) {
+                $blood = BloodStock::select([
+                    'blood_id',
+                    'unit_volume',
+                    'blood_group',
+                    'blood_rhesus'
+                ])
+                    ->where('id', $item->blood_stock_id)
+                    ->first();
+
+                $item->blood_id = $blood->blood_id;
+                $item->unit_volume = $blood->unit_volume;
+                $item->blood_group = $blood->blood_group;
+                $item->blood_rhesus = $blood->blood_rhesus;
+            }
+
+            if (empty($data)) {
+                throw new \Exception('No Order Data Found');
+            }
+            return $this->successApiResponse($data);
+
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
+        }
+    }
+
     public function create(Request $request) {
         try {
             $orderId = $request->order_id;

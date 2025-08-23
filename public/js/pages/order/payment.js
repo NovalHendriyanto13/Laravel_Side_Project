@@ -41,12 +41,12 @@ $(document).ready(async function() {
             ]
         });
 
-        const id = $('.form-order-update').data('id');
+        const id = $('.form-order-payment').data('id');
         await _getDetail(id, { "bloods": responseItem });
     }
 
     async function _getDetail(id, additionalParam = {}) {
-        const url = `${_apiBaseUrl}/api/admin-order/${id}`;
+        const url = `${_apiBaseUrl}/api/admin-receipt/detail-order/${id}`;
         const response = await httpGet(url);
 
         if (response?.error == false) {
@@ -57,9 +57,10 @@ $(document).ready(async function() {
             $('#tgl_pemesanan').val(data.tgl_pemesanan);
             $('#tgl_diperlukan').val(data.tgl_diperlukan);
             $('#status').val(data.status);
+            $('#total_harga').val((data.total_harga).toLocaleString('id-ID'));
 
             const lenSelectedItem = selectedItems.length;
-            const orderDetail = data.order_detail;
+            const orderDetail = data.receipt_detail;
 
             orderDetail.forEach(function(item) {
                 let ix = lenSelectedItem;
@@ -68,9 +69,9 @@ $(document).ready(async function() {
                 selectedItems.push({
                     index: (ix),
                     name: `${blood.blood_type} - ${blood.name}`,
-                    golongan: `${item.golongan} - ${item.rhesus}`,
-                    jumlah_ml: item.jumlah_ml,
-                    jumlah: item.jumlah,
+                    golongan: `${item.blood_group} - ${item.blood_rhesus}`,
+                    jumlah_ml: item.unit_volume,
+                    jumlah: item.harga,
                     id: item.blood_id, 
                     pid: item.id,
                 });
@@ -79,8 +80,6 @@ $(document).ready(async function() {
             
 
             selectedTable.clear().rows.add(selectedItems).draw();
-
-            await _detailProcessTab(selectedItems, id);
 
             if (data.status.toLowerCase() == 'selesai') {
                 $('.btn-submit').attr('disabled', true);
@@ -97,163 +96,28 @@ $(document).ready(async function() {
 
     }
 
-    async function _detailProcessTab(defaultItem, id) {
-
-        processedItems = defaultItem;
-        const table = $('.table-receive-item');
-
-        if ( $.fn.dataTable.isDataTable('.table-receive-item') ) {
-            table.DataTable().clear().destroy(); // optional
-        }
-        processedTable = table.DataTable({
-            data: processedItems,
-            columns: [
-                { data: 'name' },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        let str = data.golongan;
-                        str = str.replace(/_/g, ' ');
-                        str = str.charAt(0).toUpperCase() + str.slice(1);
-                        return str;
-                    }
-                },
-                { data: 'jumlah_ml' },
-                { data: 'jumlah' },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        const dataRow = JSON.stringify(row);
-                        return `
-                            <div class="d-flex">
-                                <a class="btn btn-sm btn-info view-btn-fulfill-detail mr-2" data-row='${dataRow}' href="#">Detail</a>
-                                <a class="btn btn-sm btn-danger view-btn-fulfill" data-row='${dataRow}' href="#">Fulfillment</a>
-                            </div> 
-                        `;
-                    } 
-                },
-            ]
-        });
-
-        const steps = [
-            'ambil_sampel', 'terima_sampel', 'periksa_sampel'
-        ];
-
-        const url = `${_apiBaseUrl}/api/admin-receipt/${id}`;
-        const response = await httpGet(url);
-
-        if (response?.error == false) {
-            $('.penerimaan-item').removeAttr('style');
-
-            const data = response?.data || null;
-            const urlStep = `${_apiBaseUrl}/api/admin-receipt/process/${data.id}`;
-            
-            $('.form-order-update').attr('action', urlStep);
-            $('.form-order-update').data('receipt', data.id);
-            $('.form-order-update').data('step', steps[data.status]);
-
-            $('#kode_penerimaan').val(data.kode_penerimaan);
-            $('#tgl_penerimaan').val(data.tgl_penerimaan);
-
-            if (data.tgl_ambil_sampel != null) {
-                $('#tgl_ambil_sampel').val(data.tgl_ambil_sampel + ' ' + data.jam_ambil_sampel);
-            }
-            if (data.tgl_terima_sampel != null) {
-                $('#tgl_terima_sampel').val(data.tgl_terima_sampel + ' ' + data.jam_terima_sampel);
-            }
-            if (data.tgl_periksa_sampel != null) {
-                $('#tgl_periksa_sampel').val(data.tgl_periksa_sampel + ' ' + data.jam_periksa_sampel);
-            }
-            $('#ambil_sampel_oleh').val(data.ambil_sampel_oleh);
-            $('#terima_sampel_oleh').val(data.terima_sampel_oleh);
-            $('#periksa_sampel_oleh').val(data.periksa_sampel_oleh);
-            
-        } else {
-            $('.penerimaan-item').attr('style', 'display:none');
-        }
-    }
-
     function _gesture() {
-
-        /** fulfillment detail */
-        $('.table-receive-item tbody').on('click', '.view-btn-fulfill-detail', async function (e){
-            e.preventDefault();
-            const data = $(this).data('row');
-            
-            let modalEl = $('#fulfillment-detail-modal');
-
-            const table = $('.table-fulfillment-detail');
-            if ( $.fn.dataTable.isDataTable('.table-fulfillment') ) {
-                table.DataTable().clear().destroy(); // optional
-            }
-            const url = `${_apiBaseUrl}/api/admin-receipt/detail/${data.pid}`;
-            const response = await httpGet(url);
-
-            if (response?.error == false) {
-                const responseData = response?.data || null;
-                
-                processedTable = table.DataTable({
-                    data: responseData,
-                    columns: [
-                        { data: 'stock_no' },
-                        { data: 'expiry_date' },
-                        { data: 'name' },
-                        {
-                            data: null,
-                            orderable: false,
-                            searchable: false,
-                            render: function(data, type, row) {
-                                let str = data.blood_group;
-                                if (str == null) {
-                                    str = '';
-                                }
-                                return str;
-                            }
-                        },
-                        {
-                            data: null,
-                            orderable: false,
-                            searchable: false,
-                            render: function(data, type, row) {
-                                let str = data.blood_rhesus;
-                                if (str == null) {
-                                    str = '';
-                                }
-                                return str;
-                            }
-                        },
-                        { data: 'unit_volume' },
-                    ]
-                });
-            }
-
-            let modal = new bootstrap.Modal(modalEl[0]);
-            modal.show();
-        });
-
 
         $('.btn-submit').click(async function(e) {
             e.preventDefault();
 
-            const form = $('.form-order-update');
-            const orderId = form.data('id');
+            const totalHarga = $('#total_harga').val();
+            const totalBayar = $('#jumlah_pembayaran').val();
 
-            const step = form.data('step') || null;
+            if (parseInt(totalBayar.replace(/\./g, ''), 10) != parseInt(totalHarga.replace(/\./g, ''), 10)) {
+                Swal.fire({
+                    title: "Error",
+                    text: "Jumlah Bayar tidak sama dengan jumlah harga",
+                    icon: "error",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                    }).then((result) => {
+                    });
+                
+                return false;
+            }
 
-            const payload = [{
-                name: "items",
-                value: JSON.stringify(fulfillmentItems)
-            }, {
-                name: "order_id",
-                value: orderId
-            }, {
-                name: "type",
-                value: step
-            }];
-
-            const response = await submitPostFormToken('.form-order-update', payload) || null;
+            const response = await submitPostFormToken('.form-order-payment') || null;
 
             if (response != null) {
                 if (response?.error) {
@@ -267,15 +131,13 @@ $(document).ready(async function() {
                 } else {
                     Swal.fire({
                         title: "Success",
-                        text: "Order is Processed",
+                        text: "Order is Done",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"
                         }).then((result) => {
                             return redirectWithToken('/admin/order');
                         });
-
-                    await _detailProcessTab(selectedItems, orderId);
                 }                
             }
         });

@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form class="form-order-update" action="{{ route('api.admin.receipt.payment', ['id' => $id])}}" method="POST" data-id="{{$id}}">
+        <form class="form-order-payment" action="{{ route('api.admin.receipt.payment', ['id' => $id])}}" method="POST" data-id="{{$id}}">
             @csrf
             <ul class="nav nav-tabs" id="order-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -52,6 +52,11 @@
                                                     value="{{ date('d / m / Y') }}" disabled
                                                 >
                                             </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="total_harga">Total Harga</label>
+                                                <input type="text" name="total_harga" id="total_harga" class="form-control"  readonly>
+                                            </div>
                                     
                                         </div>
                                         <div class="col-lg-6 col-md-6 mb-3">
@@ -64,10 +69,15 @@
                                                 <label for="tgl_diperlukan">Tanggal Diperlukan</label>
                                                 <input type="date" name="tgl_diperlukan" id="tgl_diperlukan" class="form-control"  disabled>
                                             </div>
-                                            
+
                                             <div class="form-group mb-3">
                                                 <label for="status">Status</label>
                                                 <input type="text" name="status" id="status" class="form-control"  disabled>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="jumlah_pembayaran">Jumlah Pembayaran</label>
+                                                <input type="text" name="jumlah_pembayaran" id="jumlah_pembayaran" class="form-control">
                                             </div>
                                         </div>
 
@@ -92,8 +102,8 @@
                                                 <tr>
                                                     <th>Item</th>
                                                     <th>Golongan</th>
-                                                    <th>Jumlah (ml)</th>
-                                                    <th>Jumlah</th>
+                                                    <th>Unit Volume</th>
+                                                    <th>Harga</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
