@@ -418,6 +418,7 @@ class OrderController extends ApiBaseController {
                 'rumah_sakit.nama_rs',
                 'rumah_sakit.kode_rs',
                 'rumah_sakit.alamat AS alamat_rs',
+                'rumah_sakit.penanggung_jawab_rs',
             ])
             ->leftJoin('rumah_sakit', 'pemesanan.rs_id', 'rumah_sakit.id')
             ->where('pemesanan.id', $id)
@@ -492,7 +493,11 @@ class OrderController extends ApiBaseController {
             }
         }
         
-        
+        // $pdf = Pdf::loadView('admin.pdf.receipt', compact('data', 'bloodData', 'dataReceipt', 'groupBloodPack', 'count'));
+
+        // // Download langsung
+        // $filename = 'receipt.pdf';
+        // return $pdf->download($filename);
         return view('admin.pdf.receipt', compact('data', 'bloodData', 'dataReceipt', 'groupBloodPack', 'count'));
     }
 

@@ -52,7 +52,7 @@
       </tr>
       <tr>
         <td>Nama</td>
-        <td>: {{ $data->dokter }}</td>
+        <td>: {{ $data->penanggung_jawab_rs }}</td>
       </tr>
       <tr>
         <td>Alamat</td>

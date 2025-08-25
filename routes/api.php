@@ -55,6 +55,7 @@ Route::middleware(['jwt'])->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('api.admin.order.index');
         Route::get('/payment-list', [OrderController::class, 'paymentList'])->name('api.admin.order.payment-list');
         Route::post('/report', [OrderController::class, 'report'])->name('api.admin.order.report');
+        Route::get('/receipt/{id}', [OrderController::class, 'receipt'])->name('api.admin.order.receipt');
         Route::put('/{id}', [OrderController::class, 'update'])->name('api.admin.order.update');
         Route::get('/{id}', [OrderController::class, 'detail'])->name('api.admin.order.detail');
     });
