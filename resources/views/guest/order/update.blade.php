@@ -98,7 +98,7 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 mb-3">                                                
                                                 <div class="form-group mb-3">
-                                                    <label for="item">Item</label>
+                                                    <label for="item">Produk</label>
                                                     <select class="form-control" id="item" name="item" data-url="{{ route('api.blood.index') }}">
                                                         <option value="">Pilih</option>
                                                     </select>
@@ -106,7 +106,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 mb-3">
                                                 <div class="form-group mb-3">
-                                                    <label for="golongan">Gologan</label>
+                                                    <label for="golongan">Gologan Darah</label>
                                                     <select name="golongan" id="golongan" class="form-control">
                                                         <option value=""></option>
                                                         <option value="a_positif">A+</option>
@@ -123,7 +123,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 mb-3">
                                                 <div class="form-group mb-3">
-                                                    <label for="jumlah">Jumlah (unit/mL)</label>
+                                                    <label for="jumlah">Volume</label>
                                                     <select name="jumlah_ml" id="jumlah_ml" class="form-control" data-url="{{ route('api.bloodStock.ml') }}"></select>
                                                 </div>
                                             </div>
@@ -146,9 +146,9 @@
                                             >
                                                 <thead>
                                                     <tr>
-                                                        <th>Item</th>
-                                                        <th>Golongan</th>
-                                                        <th>Jumlah (ml)</th>
+                                                        <th>Produk</th>
+                                                        <th>Golongan Darah</th>
+                                                        <th>Volume</th>
                                                         <th>Jumlah</th>
                                                         <th></th>
                                                     </tr>

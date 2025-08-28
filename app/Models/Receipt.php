@@ -38,9 +38,9 @@ class Receipt extends Model
 
     public static $_status = [
         'Proses',
-        'Ambil Sampel',
-        'Terima Sampel',
-        'Check Sampel',
+        'Menunggu Sampel',
+        'Menerima Sampel',
+        'Pengecekan Sampel',
         'Selesai',
     ];
 

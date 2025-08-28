@@ -23,6 +23,17 @@
     .grid-3 { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; }
     .grid-4 { display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; }
     .table-tight td, .table-tight th { padding:.35rem .4rem; }
+    .approved {
+      color: red;
+      font-weight: bold;
+      font-size: 18px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 2px solid red;   /* bingkai merah */
+      padding: 4px 8px;
+      display: inline-block;
+    }
+
     @media print {
       .a4 { padding: 8mm; box-shadow:none; }
       .no-print { display:none !important; }
@@ -263,20 +274,28 @@
     <div class="col-4">
       <div class="b p-2 h-100">
         <div class="label mb-2">Dokter / Petugas</div>
-        <div class="sign"></div>
+        <div class="sign">
+          @if($dataReceipt->status == 4)
+          <span class="approved">APPROVED</span>
+          @endif
+        </div>
       </div>
     </div>
     <div class="col-4">
       <div class="b p-2 h-100">
         <div class="label mb-2">Keluarga Pasien</div>
-        <div class="sign"></div>
+        <div class="sign">
+          @if($dataReceipt->status == 4)
+          <span class="approved">APPROVED</span>
+          @endif
+        </div>
       </div>
     </div>
   </div>
 
   <!-- CATATAN -->
   <div class="mt-2 xs text-muted">
-    <strong>Keterangan:</strong> Template ini merupakan versi HTML dari formulir pada gambar. Silakan sesuaikan label, teks statis, dan logic (Biasa/Cito, Coombs, dsb.) sesuai kebutuhan.
+    <strong>Keterangan:</strong> Formulir ini telah disetujui oleh pihak rumah sakit dan pihak keluarga pasien.
   </div>
 
   <div class="no-print mt-3 d-flex gap-2">

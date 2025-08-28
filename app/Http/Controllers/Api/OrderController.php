@@ -34,9 +34,11 @@ class OrderController extends ApiBaseController {
                 'pemesanan.no_telp',
                 'pemesanan.status',
                 'rumah_sakit.nama_rs',
-                'rumah_sakit.kode_rs'
+                'rumah_sakit.kode_rs',
+                'penerimaan.status AS status_penerimaan',
             ])
             ->leftJoin('rumah_sakit', 'pemesanan.rs_id', 'rumah_sakit.id')
+            ->leftJoin('penerimaan', 'pemesanan.id', 'penerimaan.pemesanan_id')
             ->when(!empty($hospital), function($q) use ($hospital) {
                 return $q->where('pemesanan.rs_id', $hospital->id);
             })
@@ -46,6 +48,7 @@ class OrderController extends ApiBaseController {
         $datas->map(function($item) {
             $item->status_id = $item->status;
             $item->status = Order::$_status[$item->status];
+            $item->status_penerimaan_label = Receipt::$_status[$item->status_penerimaan];
             return $item;
         });
 
