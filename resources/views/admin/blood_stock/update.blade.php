@@ -92,6 +92,12 @@
                     </span>
                     <span class="text">Submit</span>
                 </button>
+                <button type="button"class="btn btn-danger btn-icon-split m-2 btn-delete">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    <span class="text">Delete</span>
+                </button>
             </div>
             <hr>
         </form>

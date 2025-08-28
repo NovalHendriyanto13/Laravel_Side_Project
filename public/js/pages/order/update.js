@@ -7,11 +7,17 @@ $(document).ready(async function() {
     let processedTable;
 
     let fulfillmentItems = [];
+    let _user = null;
 
     await _init();
     _gesture();
 
     async function _init() {
+        _user = JSON.parse(localStorage.getItem('_user'));
+        if (_user.role == 'admin') {
+            $('.btn-submit').attr('disabled', true);
+        }
+
         const itemUrl = `${_apiBaseUrl}/api/admin-blood`;
         let responseItem = [];
         const items = await httpGet(itemUrl);

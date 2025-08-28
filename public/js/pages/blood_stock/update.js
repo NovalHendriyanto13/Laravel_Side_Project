@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    let _user = null;
     _gesture();
     _init();
 
@@ -31,9 +32,59 @@ $(document).ready(function() {
                 
             }
         })
+
+        $('.btn-delete').click(async function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Delete!',
+                text: "Apakah Anda yakin akan menghapus data ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const id = $('.form-blood-stock-update').data('id');
+                    const url = `${_apiBaseUrl}/api/admin-blood-stock/delete/${id}`;
+                    const response = await httpPost(url) || null;
+
+                    if (response != null) {
+                        if (response?.error == false) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Error!",
+                                text: response?.message,
+                                icon: "error"
+                            });
+                        }
+                    }
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    Swal.fire({
+                        title: "Cancelled",
+                        text: "Your imaginary file is safe :)",
+                        icon: "error"
+                    });
+                }
+            });
+        })
     }
 
     async function _init() {
+        _user = JSON.parse(localStorage.getItem('_user'));
+        if (_user.role == 'admin' || _user.role == 'checker') {
+            $('.btn-submit').attr('disabled', true);
+        }
+
         const id = $('.form-blood-stock-update').data('id');
         const url = `${_apiBaseUrl}/api/admin-blood-stock/${id}`;
         const response = await httpGet(url) || null;

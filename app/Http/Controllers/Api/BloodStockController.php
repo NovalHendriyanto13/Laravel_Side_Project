@@ -144,4 +144,25 @@ class BloodStockController extends ApiBaseController {
             return $this->errorApiResponse(500, $e->getMessage());
         }
     }
+
+    public function delete(int $id, Request $request) {
+        try {
+            $data = BloodStock::find($id);
+
+            if (!$data) {
+                throw new \Exception('Data is not found');
+            }
+
+            if ($data->status != 1) {
+                throw new \Exception('Stok sudah tidak tersedia / habis');
+            }
+
+            $data->delete();
+
+            return $this->successApiResponse($data);
+
+        } catch (\Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
+        }
+    }
 }

@@ -270,7 +270,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 mb-3">
                                                 <div class="form-group mb-3">
-                                                    <label for="jumlah">Jenis Pack</label>
+                                                    <label for="jumlah">Volume</label>
                                                     <select name="jumlah_ml" id="jumlah_ml" class="form-control" data-url="{{ route('api.bloodStock.ml') }}"></select>
                                                 </div>
                                             </div>
@@ -294,7 +294,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Product</th>
-                                                        <th>Jenis Pack</th>
+                                                        <th>Volume</th>
                                                         <th>Jumlah</th>
                                                         <th></th>
                                                     </tr>

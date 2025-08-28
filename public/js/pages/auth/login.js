@@ -9,6 +9,7 @@ $(document).ready(function() {
 
             if (response != null) {
                 localStorage.setItem("_token", response.token);
+                localStorage.setItem("_user", JSON.stringify(response.user));
                 
                 return redirectWithToken('/admin');
             }
