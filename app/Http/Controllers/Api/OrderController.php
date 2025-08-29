@@ -315,7 +315,8 @@ class OrderController extends ApiBaseController {
             'end_date' => date('d F Y', strtotime($request->order_end_date))
         ];
 
-        $pdf = Pdf::loadView('admin.pdf.order', compact('items', 'dates'));
+        $pdf = Pdf::loadView('admin.pdf.order', compact('items', 'dates'))
+            ->setPaper('a4', 'landscape');
 
         // // Download langsung
         return $pdf->download('laporan-penjualan.pdf');

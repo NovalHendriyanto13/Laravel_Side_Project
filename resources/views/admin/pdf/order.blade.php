@@ -3,6 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>Laporan PDF</title>
+    <style>
+        body {
+            font-size: 18px;
+        }
+        .table-order {
+            font-size: 12px;
+        }
 </head>
 <body>
     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -22,7 +29,7 @@
     </div>
     <h1>Laporan Pemesanan</h1>
     <p>Tanggal: {{ $dates['start_date'] }} - {{ $dates['end_date'] }}</p>
-    <table border="1" cellspacing="0" cellpadding="4" style="width:100%">
+    <table border="1" cellspacing="0" cellpadding="4" style="width:100%" class="table-order">
         <tr>
             <th>Kode Pemesanan</th>
             <th>Tipe</th>
@@ -40,8 +47,8 @@
             <td>{{ $item->nama_rs }}</td>
             <td>{{ $item->kode_rs }}</td>
             <td>{{ $item->dokter }}</td>
-            <td>{{ $item->tgl_pemesanan }}</td>
-            <td>{{ $item->tgl_diperlukan }}</td>
+            <td>{{ date('d F Y', strtotime($item->tgl_pemesanan)) }}</td>
+            <td>{{ date('d F Y', strtotime($item->tgl_diperlukan)) }}</td>
             <td>{{ $item->status }}</td>
         </tr>
         @endforeach

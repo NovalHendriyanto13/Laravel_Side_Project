@@ -26,6 +26,7 @@ $(document).ready(function() {
             allowedMenu["blood-stock"] = true;
             allowedMenu.order = true;
             allowedMenu.payment = true;
+            allowedMenu.report = true;
        } else if (_user?.role == 'checker') {
             allowedMenu["blood-stock"] = true;
             allowedMenu.order = true;
