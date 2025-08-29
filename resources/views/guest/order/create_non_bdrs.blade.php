@@ -262,9 +262,26 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 mb-3">                                                
                                                 <div class="form-group mb-3">
-                                                    <label for="item">Product</label>
+                                                    <label for="item">Produk</label>
                                                     <select class="form-control" id="item" name="item" data-url="{{ route('api.blood.index') }}">
                                                         <option value="">Pilih</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 mb-3">
+                                                <div class="form-group mb-3">
+                                                    <label for="golongan">Gologan Darah</label>
+                                                    <select name="golongan" id="golongan" class="form-control">
+                                                        <option value=""></option>
+                                                        <option value="a_positif">A+</option>
+                                                        <option value="a_negatif">A-</option>
+                                                        <option value="b_positif">B+</option>
+                                                        <option value="b_negatif">B-</option>
+                                                        <option value="ab_positif">AB+</option>
+                                                        <option value="ab_negatif">AB-</option>
+                                                        <option value="o_positif">O+</option>
+                                                        <option value="o_negatif">O-</option>
+                                                        <option value="_">(Kosong)-</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -293,7 +310,8 @@
                                             >
                                                 <thead>
                                                     <tr>
-                                                        <th>Product</th>
+                                                        <th>Produk</th>
+                                                        <th>Golomgan Darah</th>
                                                         <th>Volume</th>
                                                         <th>Jumlah</th>
                                                         <th></th>

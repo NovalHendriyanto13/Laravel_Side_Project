@@ -81,7 +81,7 @@ $(document).ready(function() {
 
     async function _init() {
         _user = JSON.parse(localStorage.getItem('_user'));
-        if (_user.role == 'admin' || _user.role == 'checker') {
+        if (_user.role == 'upd_officer' || _user.role == 'checker') {
             $('.btn-submit').attr('disabled', true);
         }
 

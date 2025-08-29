@@ -52,7 +52,7 @@ class Order extends Model
         'Ditolak',
         'Permintaan',
         'Proses',
-        'Dicek Sample',
+        'Sampeling',
         'Menunggu Pembayaran',
         'Selesai'
     ];

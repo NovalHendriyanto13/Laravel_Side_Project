@@ -289,12 +289,12 @@ class ReceiptController extends ApiBaseController {
                 $data = Receipt::where('id', $id)
                     ->update([
                         'status' => 0,
-                        'tgl_ambil_sampel' => '',
-                        'jam_ambil_sampel' => '',
-                        'ambil_sampel_oleh' => '',
-                        'tgl_terima_sampel' => '',
-                        'jam_terima_sampel' => '',
-                        'terima_sampel_oleh' => '',
+                        'tgl_ambil_sampel' => null,
+                        'jam_ambil_sampel' => null,
+                        'ambil_sampel_oleh' => null,
+                        'tgl_terima_sampel' => null,
+                        'jam_terima_sampel' => null,
+                        'terima_sampel_oleh' => null,
                         "updated_by" => auth()->user()->id
                     ]);
 

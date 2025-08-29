@@ -45,6 +45,17 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        let str = data.golongan;
+                        str = str.replace(/_/g, ' ');
+                        str = str.charAt(0).toUpperCase() + str.slice(1);
+                        return str;
+                    }
+                },
                 { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
@@ -148,6 +159,7 @@ $(document).ready(async function() {
         $('#select_item').click(function() {
             const item = $('#item').find(':selected');
             const jmlMl = $('#jumlah_ml').find(':selected');
+            const gol = $('#golongan').find(':selected');
             const jml = $('#jumlah');
 
             if (jml.val() == "") {
@@ -165,6 +177,7 @@ $(document).ready(async function() {
             selectedItems.push({
                 index: (lenSelectedItem),
                 name: item.text(),
+                golongan: gol.val(),
                 jumlah_ml: jmlMl.val(),
                 jumlah: jml.val(),
                 id: item.val(), 

@@ -33,7 +33,7 @@ $(document).ready(function() {
                 } else {
                     Swal.fire({
                         title: "Success",
-                        text: "Blood Stock Data is created",
+                        text: "User Data is created",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"

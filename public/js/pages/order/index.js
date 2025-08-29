@@ -25,7 +25,23 @@ $(document).ready(async function() {
                 { data: 'dokter' },
                 { data: 'tgl_pemesanan' },
                 { data: 'tgl_diperlukan' },
-                { data: 'status' },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        let status = null;
+                        if (data.tipe == 'bdrs') {
+                            status = data.status;
+                        } else {
+                            if (data.status_penerimaan == null) {
+                                status = data.status;
+                            } else {
+                                status = data.status_penerimaan_label;
+                            }
+                        }
+
+                        return status;
+                    } 
+                },
                 {
                     data: null,
                     orderable: false,

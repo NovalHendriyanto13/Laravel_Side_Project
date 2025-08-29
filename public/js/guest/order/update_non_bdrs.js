@@ -33,6 +33,17 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        let str = data.golongan;
+                        str = str.replace(/_/g, ' ');
+                        str = str.charAt(0).toUpperCase() + str.slice(1);
+                        return str;
+                    }
+                },
                 { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
@@ -100,6 +111,7 @@ $(document).ready(async function() {
                 selectedItems.push({
                     index: (ix),
                     name: `${blood.blood_type} - ${blood.name}`,
+                    golongan: `${item.golongan} - ${item.rhesus}`,
                     jumlah_ml: item.jumlah_ml,
                     jumlah: item.jumlah,
                     id: item.blood_id, 
@@ -190,8 +202,39 @@ $(document).ready(async function() {
             }
         });
 
+        $('#item').change(async function(e) {
+            const value = $(this).val();
+            const jumlahMl = $('#jumlah_ml');
+            const itemUrl = jumlahMl.data('url');
+            const payload = {
+                "blood_id": value,
+            }        
+
+            const items = await httpGetGuest(itemUrl, payload);
+            if (items?.error == false) {
+                jumlahMl.empty()
+                responseItem = items?.data;
+                $(jumlahMl).append(
+                    $('<option>', {
+                        value: "",
+                        text: "Pilih"
+                    })
+                );
+                responseItem.forEach(function(value) {
+                    $(jumlahMl).append(
+                        $('<option>', {
+                            value: value?.unit_volume,
+                            text: (value?.unit_volume)
+                        })
+                    );
+                });
+            }
+        });
+
         $('#select_item').click(function() {
             const item = $('#item').find(':selected');
+            const gol = $('#golongan').find(':selected');
+            const jmlMl = $('#jumlah_ml').find(':selected');
             const jml = $('#jumlah');
 
             if (jml.val() == "") {
@@ -209,11 +252,13 @@ $(document).ready(async function() {
             selectedItems.push({
                 index: (lenSelectedItem),
                 name: item.text(),
+                golongan: gol.val(),
+                jumlah_ml: jmlMl.val(),
                 jumlah: jml.val(),
                 id: item.val(), 
                 pid: null,
             });
-
+            
             selectedTable.clear().rows.add(selectedItems).draw();
         });
 

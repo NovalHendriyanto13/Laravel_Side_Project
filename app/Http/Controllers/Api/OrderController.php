@@ -48,7 +48,7 @@ class OrderController extends ApiBaseController {
         $datas->map(function($item) {
             $item->status_id = $item->status;
             $item->status = Order::$_status[$item->status];
-            $item->status_penerimaan_label = Receipt::$_status[$item->status_penerimaan];
+            $item->status_penerimaan_label = !is_null($item->status_penerimaan) ? Receipt::$_status[$item->status_penerimaan] : '';
             return $item;
         });
 
