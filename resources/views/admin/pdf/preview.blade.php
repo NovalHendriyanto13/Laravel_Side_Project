@@ -50,8 +50,8 @@
       <!-- Ganti src logo PMI kalau ada -->
       <div style="width:48px;height:48px;border:1px solid #ccc; background-image: url('../../../images/donor_bg.jpg'); background-size: cover"></div>
       <div>
-        <div class="fw-bold">UNIT DONOR DARAH – DKI JAKARTA</div>
-        <div class="xs">Jl. Kramat Raya 47, Jakarta 10450 • Telp. 3906646 Fax 3101107</div>
+        <div class="fw-bold">Unit Pengelola Darah (UPD) Kota Tangerang</div>
+        <div class="xs">Jl. Jend. Ahmad Yani No.15, RT.005/RW.001, Sukaasih Kec. Tangerang, Kota Tangerang, Banten 15111 • Telp. 3906646 Fax 3101107</div>
       </div>
     </div>
     <div class="text-end">

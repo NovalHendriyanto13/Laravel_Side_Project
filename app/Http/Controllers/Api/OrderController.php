@@ -315,7 +315,9 @@ class OrderController extends ApiBaseController {
             'end_date' => date('d F Y', strtotime($request->order_end_date))
         ];
 
+        // return view('admin.pdf.order', compact('items', 'dates'));
         $pdf = Pdf::loadView('admin.pdf.order', compact('items', 'dates'))
+            ->setOptions(['isRemoteEnabled' => true])
             ->setPaper('a4', 'landscape');
 
         // // Download langsung
@@ -528,7 +530,9 @@ class OrderController extends ApiBaseController {
 
         $data->amount_text = CommonHelper::amountToText($data->total_harga, 'id');
         
-        $pdf = Pdf::loadView('admin.pdf.kwitansi', compact('data'));
+        $pdf = Pdf::loadView('admin.pdf.kwitansi', compact('data'))
+            ->setOptions(['isRemoteEnabled' => true])
+            ->setPaper('a4', 'landscape');
 
         // Download langsung
         $filename = 'kwitansi.pdf';

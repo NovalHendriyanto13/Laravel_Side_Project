@@ -36,8 +36,8 @@
 <body>
   <div class="container">
     <p style="text-align:center; margin:0;">
-      <b>UDD PMI Kota Tangerang</b><br>
-      Jl. Kramat Raya 47, Jakarta 10450 • Telp. 3906646 Fax 3101107
+      <b>Unit Pengelola Darah (UPD) Kota Tangerang</b><br>
+      Jl. Jend. Ahmad Yani No.15, RT.005/RW.001, Sukaasih Kec. Tangerang, Kota Tangerang, Banten 15111
     </p>
     <h2>BUKTI PENERIMAAN PERMINTAAN DARAH</h2>
 

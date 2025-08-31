@@ -5,17 +5,17 @@
     <title>Kwitansi</title>
     <style>
         body {
-            font-size: 18px;
+            font-size: 15px;
         }
         th {
-            height: 100px;
+            height: 50px;
             text-align: left;
             padding: 5px;
         }
         .main {
             border: 1px solid #000;   /* garis hitam */
-            padding: 10px;            /* jarak isi dengan border */
-            margin: 10px;             /* jarak div dengan luar */
+            padding: 5px;            /* jarak isi dengan border */
+            margin: 5px;             /* jarak div dengan luar */
             border-radius: 6px;  
         }
         .main-table {
@@ -29,12 +29,14 @@
         <table border="0" cellspacing="0" cellpadding="4" style="width:100%">
             <tr>
                 <td>
-                    <div style="width:48px;height:48px;border:1px solid #ccc; background-image: url('{{asset('images/donor_bg.jpg')}}'); background-size: cover;"></div>
+                    <div style="width:48px;height:48px;border:1px solid #ccc; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Logo_of_Indonesian_Red_Cross.svg/512px-Logo_of_Indonesian_Red_Cross.svg.png'); background-size: 'cover';">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Logo_of_Indonesian_Red_Cross.svg/512px-Logo_of_Indonesian_Red_Cross.svg.png" style="width:48px;height:48px;" />
+                    </div>
                 </td>
                 <td>
                     <div>
-                        <div class="fw-bold">UNIT DONOR DARAH – DKI JAKARTA</div>
-                        <div class="xs">Jl. Kramat Raya 47, Jakarta 10450 • Telp. 3906646 Fax 3101107</div>
+                        <div class="fw-bold">Unit Pengelola Darah (UPD) Kota Tangerang</div>
+                        <div class="xs">Jl. Jend. Ahmad Yani No.15, RT.005/RW.001, Sukaasih Kec. Tangerang, Kota Tangerang, Banten 15111 • Telp. 3906646 Fax 3101107</div>
                     </div>
                 </td>
             </tr>
@@ -46,16 +48,7 @@
     <div style="text-align: right; margin: 10px"><h3>No. {{ $data->kode_pemesanan }}</h3></div>
     <div class="main">
         
-        <table border="0" cellspacing="0" cellpadding="4" style="width:100%;" class="main-table">
-            <tr>
-                <th rowspan="5" style="border-right: 2px solid #000; width: 20%; 
-                    writing-mode: vertical-rl; 
-                    text-orientation: mixed; 
-                    text-align: center;
-                    font-size: 80px;
-                    color: red">
-                </th>
-            </tr>
+        <table border="0" cellspacing="0" cellpadding="2" style="width:100%;" class="main-table">
             <tr>
                 <th style="width: 25%">Sudah Terima dari</th>
                 <th style="width: 5%">&nbsp;</th>
@@ -79,7 +72,7 @@
         </table>
         <table border="0" cellspacing="0" cellpadding="4" style="width:100%;">
             <tr>
-                <td><div style="text-align: left; margin: 10px"><h3>Rp. {{ number_format($data->total_harga, 2, ",", ".") }}</h3></div></td>
+                <td><div style="text-align: left; margin: 10px; font-size: 18px"><h3>Rp. {{ number_format($data->total_harga, 2, ",", ".") }}</h3></div></td>
                 <td><div style="text-align: right; margin: 10px"><h3>Tangerang, {{ date('d F Y', strtotime($data->updated_at)) }}</h3></div></td>
             </tr>
         </table>
