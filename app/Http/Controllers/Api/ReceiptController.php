@@ -176,7 +176,7 @@ class ReceiptController extends ApiBaseController {
             $updateReceipt = Receipt::where('pemesanan_id', $id)
                 ->first();
 
-            $updateReceipt->status = 4;
+            $updateReceipt->status = 5;
             $updateReceipt->updated_by = auth()->user()->id;
             $updateReceipt->save();
 

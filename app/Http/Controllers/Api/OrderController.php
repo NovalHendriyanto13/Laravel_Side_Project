@@ -382,7 +382,7 @@ class OrderController extends ApiBaseController {
             ->first();
             
         $hasilPemeriksaan = [
-            'Tidak Cocok', 'Cocok'
+            'Tidak Cocok', 'Cocok', '' => '-'
         ];
 
         if (!empty($dataReceipt)) {

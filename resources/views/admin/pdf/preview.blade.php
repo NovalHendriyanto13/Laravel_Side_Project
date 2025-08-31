@@ -270,7 +270,7 @@
         <div class="label mb-2">Stempel & Paraf UPD</div>
         <div class="stamp">
           @if (!empty($dataReceipt))
-            @if($dataReceipt->status == 4)
+            @if($dataReceipt->status == 5)
             <span class="approved">APPROVED</span>
             @endif
           @endif

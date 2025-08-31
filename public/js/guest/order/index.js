@@ -24,6 +24,7 @@ $(document).ready(async function() {
                     console.error('AJAX error:', xhr.responseText);
                 }
             },
+            order: [[3, 'desc']],
             columns: [
                 { data: 'kode_pemesanan' },
                 { data: 'tipe' },
@@ -54,7 +55,7 @@ $(document).ready(async function() {
                                 } else {
                                     status = data.status_penerimaan_label;
                                 }
-                                 if (data.status_penerimaan == 4) {
+                                 if (data.status_penerimaan == 5) {
                                     colors = '#008000'; 
                                 }
                             }
@@ -84,7 +85,7 @@ $(document).ready(async function() {
                         const token = localStorage.getItem('_token_guest');
                         const receiptLetter = row.status_id == '5' ? `<a href="${_appUrl}/api/order/receipt-letter/${row.id}?token=${token}" target="_blank" class="dropdown-item">Kwitansi Pembayaran</a>` : '';
                         const receipt = row.status_id == '5' ? `<a href="${_appUrl}/api/order/receipt/${row.id}?token=${token}" target="_blank" class="dropdown-item">Bukti Penerimaan</a>` : '';
-                        const form = row.tipe == 'non_bdrs' ? `<a href="${_appUrl}/api/order/preview/${row.id}?token=${token}" target="_blank" class="dropdown-item">Form Pemesanan</a>` : '';
+                        const form = `<a href="${_appUrl}/api/order/preview/${row.id}?token=${token}" target="_blank" class="dropdown-item">Form Pemesanan</a>`;
                         return `
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
