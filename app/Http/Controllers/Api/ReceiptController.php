@@ -253,29 +253,32 @@ class ReceiptController extends ApiBaseController {
         $user = auth()->user();
 
         $processStatus = [
-            'ambil_sampel' => [
+            'ambil_sampel' => [ // menunggu sampel
                 'status' => 1,
                 'tgl_ambil_sampel' => date('Y-m-d'),
                 'jam_ambil_sampel' => date('H:i:s'),
                 'ambil_sampel_oleh' => $user->id,
             ], 
-            'terima_sampel' => [
+            'terima_sampel' => [ // terima sampel
                 'status' => 2,
                 'tgl_terima_sampel' => date('Y-m-d'),
                 'jam_terima_sampel' => date('H:i:s'),
                 'terima_sampel_oleh' => $user->id,
             ], 
-            'periksa_sampel' => [
+            'periksa_sampel' => [ // pengecekan sampel
                 'status' => 3,
                 'tgl_periksa_sampel' => date('Y-m-d'),
                 'jam_periksa_sampel' => date('H:i:s'),
                 'periksa_sampel_oleh' => $user->id,
+            ],
+            'hasil_periksa' => [
+                'status' => 4,
                 'hasil_pemeriksaan' => $request->hasil_pemeriksaan,
                 'hasil_golongan_sampel' => $request->hasil_golongan_sampel,
                 'hasil_rhesus_sampel' => $request->hasil_rhesus_sampel
             ],
             'selesai' => [
-                'status' => 4,
+                'status' => 5,
             ],
         ];
 
@@ -284,7 +287,7 @@ class ReceiptController extends ApiBaseController {
         $totalSisa = 0;
         $totalHarga = 0;
 
-        if ($type == 'periksa_sampel') {
+        if ($type == 'hasil_periksa') {
             if ($request->hasil_pemeriksaan == 0) {
                 /*
                 $data = Receipt::where('id', $id)
@@ -300,7 +303,7 @@ class ReceiptController extends ApiBaseController {
                     ]);
                 */
                 $data = Receipt::where('id', $id)
-                    ->update($processStatus[$type]);
+                    ->update(array_merge($processStatus[$type], ['status' => 5]));
 
                 $order->status = 6;
                 $order->save();
@@ -357,7 +360,8 @@ class ReceiptController extends ApiBaseController {
         $orderStatusArr = [
             'ambil_sampel' => 3,
             'terima_sampel' => 3,
-            'periksa_sampel' => 4,
+            'periksa_sampel' => 3,
+            'hasil_periksa' => 4,
             'selesai' => 5,
         ];
 

@@ -48,7 +48,7 @@ $(document).ready(async function() {
                                 } else {
                                     status = data.status_penerimaan_label;
                                 }
-                                 if (data.status_penerimaan == 4) {
+                                if (data.status_penerimaan == 4) {
                                     colors = '#008000'; 
                                 }
                             }

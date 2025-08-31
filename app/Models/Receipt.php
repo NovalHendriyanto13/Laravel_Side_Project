@@ -40,6 +40,7 @@ class Receipt extends Model
         'Proses',
         'Menunggu Sampel',
         'Menerima Sampel',
+        'Pengecekan Sampel',
         'Menunggu Pembayaran',
         'Selesai',
     ];

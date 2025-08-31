@@ -10,7 +10,7 @@ $(document).ready(async function() {
     let _user = null;
 
     const steps = [
-        'ambil_sampel', 'terima_sampel', 'periksa_sampel', 'selesai'
+        'ambil_sampel', 'terima_sampel', 'periksa_sampel', 'hasil_periksa', 'selesai'
     ];
 
     await _init();
