@@ -59,7 +59,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary btn-logout" href="{{ route('api.auth.logout') }}">Logout</a>
+                    <button class="btn btn-primary btn-logout" type="button" href="{{ route('api.auth.logout') }}">Logout</button>
                 </div>
             </div>
         </div>

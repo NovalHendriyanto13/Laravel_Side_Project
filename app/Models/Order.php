@@ -54,7 +54,8 @@ class Order extends Model
         'Proses',
         'Sampeling',
         'Menunggu Pembayaran',
-        'Selesai'
+        'Selesai',
+        'Tidak Cocok'
     ];
 
     public function orderDetail(): HasMany {

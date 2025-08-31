@@ -293,7 +293,7 @@
                                             </div>
 
                                             <div class="form-group mb-3">
-                                                <label for="tgl_ambil_sampel">Waktu Pengambilan Sampel</label>
+                                                <label for="tgl_ambil_sampel">Waktu Menunggu Sampel</label>
                                                 <input type="text" name="tgl_ambil_sampel" id="tgl_ambil_sampel" class="form-control" disabled>
                                             </div>
 
@@ -335,7 +335,7 @@
                                             </div>
 
                                             <div class="form-group mb-3">
-                                                <label for="ambil_sampel_oleh">Pengambilan Sampel Oleh</label>
+                                                <label for="ambil_sampel_oleh">Ditunggu Sampel Oleh</label>
                                                 <input type="text" name="ambil_sampel_oleh" id="ambil_sampel_oleh" class="form-control" disabled>
                                             </div>
 

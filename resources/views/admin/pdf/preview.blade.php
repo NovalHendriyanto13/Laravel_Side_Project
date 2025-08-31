@@ -225,7 +225,7 @@
   <div class="b p-2 mb-2">
     <div class="d-flex justify-content-between">
       <div class="label">Pemeriksaan & Pemberian Darah (oleh BDRS/UDD)</div>
-      <div class="xs">Hasil: {{ !empty($dataReceipt) ? $hasilPemeriksaan[$dataReceipt->hasil_pemeriksaan] : '-' }}</div>
+      <div class="xs">Hasil: {{ !is_null($dataReceipt) ? $hasilPemeriksaan[$dataReceipt->hasil_pemeriksaan] : '-' }}</div>
     </div>
 
     <div class="grid-4">
@@ -267,27 +267,29 @@
   <div class="row g-2">
     <div class="col-4">
       <div class="b p-2 h-100">
-        <div class="label mb-2">Stempel & Paraf UDD</div>
-        <div class="stamp"></div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="b p-2 h-100">
-        <div class="label mb-2">Dokter / Petugas</div>
-        <div class="sign">
-          @if($dataReceipt->status == 4)
-          <span class="approved">APPROVED</span>
+        <div class="label mb-2">Stempel & Paraf UPD</div>
+        <div class="stamp">
+          @if (!empty($dataReceipt))
+            @if($dataReceipt->status == 4)
+            <span class="approved">APPROVED</span>
+            @endif
           @endif
         </div>
       </div>
     </div>
     <div class="col-4">
       <div class="b p-2 h-100">
+        <div class="label mb-2">Dokter / Petugas</div>
+        <div class="sign">
+          <span class="approved">APPROVED</span>
+         </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="b p-2 h-100">
         <div class="label mb-2">Keluarga Pasien</div>
         <div class="sign">
-          @if($dataReceipt->status == 4)
           <span class="approved">APPROVED</span>
-          @endif
         </div>
       </div>
     </div>

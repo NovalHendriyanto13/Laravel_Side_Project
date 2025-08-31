@@ -29,17 +29,32 @@ $(document).ready(async function() {
                     data: null,
                     render: function(data, type, row) {
                         let status = null;
+                        let colors = '#000';
+                        
                         if (data.tipe == 'bdrs') {
                             status = data.status;
+                            if (data.status_id == 0) {
+                                colors = '#FF0000';   
+                            } else if (data.status_id == 5) {
+                                colors = '#008000'; 
+                            }
                         } else {
                             if (data.status_penerimaan == null) {
                                 status = data.status;
                             } else {
-                                status = data.status_penerimaan_label;
+                                if (data.status_id == 6) {
+                                    status = data.status;
+                                    colors = '#FF0000';
+                                } else {
+                                    status = data.status_penerimaan_label;
+                                }
+                                 if (data.status_penerimaan == 4) {
+                                    colors = '#008000'; 
+                                }
                             }
                         }
-
-                        return status;
+                        return `<span style="color: ${colors}">${status}</span>`;
+                        //return status;
                     } 
                 },
                 {

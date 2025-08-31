@@ -40,7 +40,11 @@ $(document).ready(async function() {
                     data: null,
                     render: function(data, type, row) {
                         const status = ['Tidak Tersedia', 'Tersedia', 'Habis'];
-                        return status[row.status];
+                        let colors = '#000';
+                        if (row.status == 2) {
+                            colors = '#FF0000';
+                        }
+                        return `<span style="color: ${colors}">${status[row.status]}</span>`;
                     } 
                 },
                 {

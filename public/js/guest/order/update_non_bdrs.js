@@ -103,11 +103,9 @@ $(document).ready(async function() {
 
             const lenSelectedItem = selectedItems.length;
             const orderDetail = data.order_detail;
-
             orderDetail.forEach(function(item) {
                 let ix = lenSelectedItem;
-                const blood = additionalParam.bloods.find( (e) => e.id == item.id);
-
+                const blood = additionalParam.bloods.find( (e) => e.id == item.blood_id);
                 selectedItems.push({
                     index: (ix),
                     name: `${blood.blood_type} - ${blood.name}`,

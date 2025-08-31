@@ -286,6 +286,7 @@ class ReceiptController extends ApiBaseController {
 
         if ($type == 'periksa_sampel') {
             if ($request->hasil_pemeriksaan == 0) {
+                /*
                 $data = Receipt::where('id', $id)
                     ->update([
                         'status' => 0,
@@ -297,6 +298,12 @@ class ReceiptController extends ApiBaseController {
                         'terima_sampel_oleh' => null,
                         "updated_by" => auth()->user()->id
                     ]);
+                */
+                $data = Receipt::where('id', $id)
+                    ->update($processStatus[$type]);
+
+                $order->status = 6;
+                $order->save();
 
                 return "Hasil Pemeriksaan tidak cocok, harap kirimkan sample kembali";
             }
