@@ -122,4 +122,28 @@ class AuthController extends ApiBaseController {
             return $this->errorApiResponse(500, $e->getMessage());
         }
     }
+
+    public function changePassword(Request $request) {
+        $request->validate([
+            'old_password' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
+            're_password' => 'required|string|max:255|same:password',
+        ]);
+
+        try {
+            $id = auth()->user()->id;
+            $user = User::find($id);
+            $hashPassword = Hash::make($request->password);
+            if (!\Hash::check($request->old_password, $user->password)) {
+                throw new \Exception('Password lama tidak sesuai');
+            }
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return $this->successApiResponse(['data' => $user]);
+
+        } catch (Exception $e) {
+            return $this->errorApiResponse(500, $e->getMessage());
+        }
+    }
 }

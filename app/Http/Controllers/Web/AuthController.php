@@ -100,4 +100,16 @@ class AuthController extends BaseController {
             ]);
         }
     }
+
+    public function profile(Request $request) {
+        return view('guest.auth.profile', [
+            'title' => 'Profil User'
+        ]);
+    }
+
+    public function changePassword(Request $request) {
+        return view('guest.auth.password', [
+            'title' => 'Ganti Password'
+        ]);
+    }
 }

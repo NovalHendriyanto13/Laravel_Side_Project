@@ -18,6 +18,12 @@
                         <li><a href="{{ route('order.index') }}" class="a-auth">Riwayat</a></li>
                     </ul>
                 </li>
+                <li class="dropdown"><a href="#"><span>Profile</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="{{ route('auth.profile') }}" class="a-auth">Profil</a></li>
+                        <li><a href="{{ route('auth.password') }}" class="a-auth">Ganti Password</a></li>
+                    </ul>
+                </li>
                 @endauth
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

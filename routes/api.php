@@ -90,4 +90,13 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/', [BloodStockController::class, 'index'])->name('api.bloodStock.index');
         Route::get('/ml', [BloodStockController::class, 'ml'])->name('api.bloodStock.ml');
     });
+
+    Route::prefix('hospitals')->group(function() {
+        Route::get('/{id}', [HospitalController::class, 'detail'])->name('api.hospitals.detail');
+        Route::put('/profile', [HospitalController::class, 'profile'])->name('api.hospitals.profile');
+    });
+
+    Route::prefix('auth')->group(function() {
+        Route::put('/change-password', [AuthController::class, 'changePassword'])->name('api.auth.changePassword');
+    });
 });

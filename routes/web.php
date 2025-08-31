@@ -99,4 +99,9 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/', [GuestBloodStockController::class, 'index'])->name('bloodStock.index');
     });
 
+    Route::prefix('auth')->group(function() {
+        Route::get('/profile', [AuthController::class, 'profile'])->name('auth.profile');
+        Route::get('/change-password', [AuthController::class, 'changePassword'])->name('auth.password');
+    });
+
 });
