@@ -54,6 +54,7 @@ $(document).ready(async function() {
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"
                         }).then((result) => {
+                            return redirectWithToken('/', '_token_guest');
                         });
                 }                
             }

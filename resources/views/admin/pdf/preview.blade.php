@@ -83,7 +83,7 @@
     </div>
     <div class="mt-2 grid-3">
       <div><span class="label">Alamat RS</span>
-        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->alamat }}" readonly>
+        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->alamat_rs }}" readonly>
       </div>
       <div><span class="label">Diagnosa Klinis</span>
         <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->diagnosis }}" readonly>
@@ -201,12 +201,23 @@
     </div>
   </div>
 
+  @php
+      $tglPeriksaSampel = '';
+      $tglTerimaSampel = '';
+      $tglAmbilSampel = '';
+      if (!empty($dataReceipt)) {
+        $tglPeriksaSampel = ($dataReceipt->tgl_periksa_sampel == '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) : '';
+        $tglTerimaSampel = ($dataReceipt->tgl_terima_sampel == '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) : '';
+        $tglAmbilSampel = ($dataReceipt->tgl_ambil_sampel == '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) : '';
+      }
+    @endphp
+
   <!-- Pengambilan SAMPEL -->
   <div class="b p-2 mb-2">
     <div class="label mb-1">Pengambilan Sampel (oleh BDRS/UDD)</div>
     <div class="grid-4">
       <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ !empty($dataReceipt) ? $dataReceipt->pengambil : '' }}" readonly></div>
-      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ !empty($dataReceipt) ? date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) : '' }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $tglAmbilSampel }}" readonly></div>
       <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_terima_sampel ?? '' }}" readonly></div>
     </div>
   </div>
@@ -216,7 +227,7 @@
     <div class="label mb-1">Penerimaan Sampel (oleh BDRS/UDD)</div>
     <div class="grid-4">
       <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->penerima ?? '' }}" readonly></div>
-      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ !empty($dataReceipt) ? date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) : '' }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $tglTerimaSampel }}" readonly></div>
       <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_terima_sampel ?? '' }}" readonly></div>
     </div>
   </div>
@@ -230,7 +241,7 @@
 
     <div class="grid-4">
       <div><span class="xs">Nama</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $dataReceipt->pemeriksa ?? '' }}" readonly></div>
-      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ !empty($dataReceipt) ? date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) : '' }}" readonly></div>
+      <div><span class="xs">Tanggal</span><input class="form-control form-control-sm mt-1" type="text" value="{{ $tglPeriksaSampel }}" readonly></div>
       <div><span class="xs">Jam</span><input class="form-control form-control-sm mt-1" type="time" value="{{ $dataReceipt->jam_periksa_sampel ?? '' }}" readonly></div>
     </div>
 
@@ -269,8 +280,8 @@
       <div class="b p-2 h-100">
         <div class="label mb-2">Stempel & Paraf UPD</div>
         <div class="stamp">
-          @if (!empty($dataReceipt))
-            @if($dataReceipt->status == 5)
+          @if (!empty($dataReceipt) || ($data->tipe == 'bdrs'))
+            @if($dataReceipt->status == 5 || ($data->tipe == 'bdrs'))
             <span class="approved">APPROVED</span>
             @endif
           @endif
@@ -289,7 +300,9 @@
       <div class="b p-2 h-100">
         <div class="label mb-2">Keluarga Pasien</div>
         <div class="sign">
+          @if (($data->tipe == 'non_bdrs'))
           <span class="approved">APPROVED</span>
+          @endif
         </div>
       </div>
     </div>
