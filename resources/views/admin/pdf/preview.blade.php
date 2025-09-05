@@ -42,6 +42,23 @@
 </head>
 <body class="bg-light">
 
+@php
+    $tglPeriksaSampel = '';
+    $tglTerimaSampel = '';
+    $tglAmbilSampel = '';
+    $tglTransfusiSebelumnya = '';
+    $tglSerologi = '';
+    $tglLahir = '';
+    if (!empty($dataReceipt)) {
+      $tglPeriksaSampel = ($dataReceipt->tgl_periksa_sampel != '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) : '';
+      $tglTerimaSampel = ($dataReceipt->tgl_terima_sampel != '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) : '';
+      $tglAmbilSampel = ($dataReceipt->tgl_ambil_sampel != '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) : '';
+      $tglTransfusiSebelumnya = ($data->tgl_transfusi_sebelumnya != null) ? date('d F Y', strtotime($data->tgl_transfusi_sebelumnya)) : '';
+      $tglSerologi = ($data->tgl_serologi != null) ? date('d F Y', strtotime($data->tgl_serologi)) : '';
+      $tglLahir = ($data->tanggal_lahir != '1970-01-01') ? date('d F Y', strtotime($data->tanggal_lahir)) : '';
+    }
+  @endphp
+
 <div class="a4 shadow-sm">
 
   <!-- HEADER -->
@@ -118,7 +135,7 @@
         <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tempat_lahir }}" readonly>
       </div>
       <div><span class="label">Tanggal Lahir</span>
-        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tanggal_lahir }}" readonly>
+        <input class="form-control form-control-sm mt-1" type="text" value="{{ $tglLahir }}" readonly>
       </div>
     </div>
 
@@ -145,7 +162,7 @@
         <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->transfusi_sebelumnya == 1 ? 'Ya' : 'Tidak' }}" readonly>
       </div>
       <div><span class="label">Tanggal Transfusi Sebelumnya</span>
-        <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tgl_transfusi_sebelumnya == '1970-01-01' ?? date('d F Y', strtotime($data->tgl_transfusi_sebelumnya)) }}" readonly>
+        <input class="form-control form-control-sm mt-1" type="text" value="{{ $tglTransfusiSebelumnya }}" readonly>
       </div>
       <div><span class="label">Gejala reaksi</span>
         <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->gejala_reaksi }}" readonly>
@@ -157,7 +174,7 @@
             <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tempat_serologi }}" readonly>
         </div>
         <div><span class="label">Tanggal Serologi</span>
-            <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->tgl_serologi == '1970-01-01' ?? date('d F Y', strtotime($data->tgl_serologi)) }}" readonly>
+            <input class="form-control form-control-sm mt-1" type="text" value="{{ $tglSerologi }}" readonly>
         </div>
         <div><span class="label">Hasil Serologi</span>
             <input class="form-control form-control-sm mt-1" type="text" value="{{ $data->hasil_serologi }}" readonly>
@@ -187,7 +204,7 @@
         @foreach($bloods as $blood)
         <div class="col-12 col-md-6 mb-2">
           <label class="form-check-label d-block mb-1">
-            <span class="cb"></span> {{ $blood['name'] }}
+            <span class="cb"></span> {{ $blood['name'] }} {{ $blood['golongan'] }}{{ $blood['rhesus'] }}
           </label>
           <div class="d-flex gap-2">
             <input class="form-control form-control-sm" type="text" 
@@ -200,17 +217,6 @@
       @endforeach
     </div>
   </div>
-
-  @php
-      $tglPeriksaSampel = '';
-      $tglTerimaSampel = '';
-      $tglAmbilSampel = '';
-      if (!empty($dataReceipt)) {
-        $tglPeriksaSampel = ($dataReceipt->tgl_periksa_sampel == '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) : '';
-        $tglTerimaSampel = ($dataReceipt->tgl_terima_sampel == '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) : '';
-        $tglAmbilSampel = ($dataReceipt->tgl_ambil_sampel == '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) : '';
-      }
-    @endphp
 
   <!-- Pengambilan SAMPEL -->
   <div class="b p-2 mb-2">
@@ -280,9 +286,13 @@
       <div class="b p-2 h-100">
         <div class="label mb-2">Stempel & Paraf UPD</div>
         <div class="stamp">
-          @if (!empty($dataReceipt) || ($data->tipe == 'bdrs'))
-            @if($dataReceipt->status == 5 || ($data->tipe == 'bdrs'))
+          @if ($data->tipe == 'bdrs')
             <span class="approved">APPROVED</span>
+          @else
+            @if (!empty($dataReceipt))
+               @if($dataReceipt->status == 5)
+                <span class="approved">APPROVED</span>
+              @endif
             @endif
           @endif
         </div>
@@ -296,6 +306,7 @@
          </div>
       </div>
     </div>
+    @if (($data->tipe == 'non_bdrs'))
     <div class="col-4">
       <div class="b p-2 h-100">
         <div class="label mb-2">Keluarga Pasien</div>
@@ -306,6 +317,7 @@
         </div>
       </div>
     </div>
+    @endif
   </div>
 
   <!-- CATATAN -->

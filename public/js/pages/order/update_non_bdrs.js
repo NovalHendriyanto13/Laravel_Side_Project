@@ -369,7 +369,7 @@ $(document).ready(async function() {
                 } else {
                     Swal.fire({
                         title: "Success",
-                        text: "Order is Processed",
+                        text: response?.message || "Order is Processed",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"

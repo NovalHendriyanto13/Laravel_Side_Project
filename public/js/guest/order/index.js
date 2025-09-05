@@ -72,9 +72,16 @@ $(document).ready(async function() {
                         if (data.tipe == 'bdrs') {
                             urlUpdate = `${_appUrl}/order/${row.id}?token=${token}`
                         }
+                        let anchor = 'a';
+                        let anchorClass = 'btn-success';
+
+                        if (data.status_id != 1) {
+                            anchor = 'button';
+                            anchorClass = 'btn-secondary';
+                        }
                         return `
                             <div class="d-flex">
-                                <a href="${urlUpdate}" class="btn btn-success a-auth" style="margin-right: 2px">Ubah</a>
+                                <${anchor} href="${urlUpdate}" class="btn ${anchorClass} a-auth" style="margin-right: 2px">Ubah</${anchor}>
                             </div> 
                         `;
                     } 
@@ -88,7 +95,7 @@ $(document).ready(async function() {
                         const form = `<a href="${_appUrl}/api/order/preview/${row.id}?token=${token}" target="_blank" class="dropdown-item">Form Pemesanan</a>`;
                         return `
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                                     Print
                                 </button>
                                 <div class="dropdown-menu">

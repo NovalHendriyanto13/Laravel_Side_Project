@@ -350,21 +350,36 @@ class OrderController extends ApiBaseController {
             ->select(['id', 'name', 'blood_type'])
             ->get();
 
+        $rhesusValue = [
+            '' => '',
+            null => '',
+            'positive' => '+',
+            'negative' => '-',
+            'positif' => '+',
+            'negatif' => '-'
+        ];
+
         $bloodData = [];
         foreach($bloods as $blood) {
             $jumlahMl = 0;
             $jumlah = 0;
+            $golongan = '';
+            $rhesus = '';
             $orderDetail = ($data->orderDetail)->toArray() ?? [];
 
             $isExists = array_search($blood->id, array_column($orderDetail, 'blood_id'));
             if ($isExists !== false) {
                 $jumlahMl = $orderDetail[$isExists]['jumlah_ml'];
                 $jumlah = $orderDetail[$isExists]['jumlah'];
+                $golongan = $orderDetail[$isExists]['golongan'];
+                $rhesus = $orderDetail[$isExists]['rhesus'];
             }
             $bloodData[$blood->blood_type][] = [
                 'name' => $blood->name,
                 'jumlah_ml' => $jumlahMl == 0 ? '' : $jumlahMl,
                 'jumlah' => $jumlah == 0 ? '' : $jumlah,
+                'golongan' => strtoupper($golongan),
+                'rhesus' => $rhesusValue[$rhesus],
             ];
         }
 

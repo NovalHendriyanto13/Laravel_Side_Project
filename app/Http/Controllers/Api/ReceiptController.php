@@ -125,10 +125,14 @@ class ReceiptController extends ApiBaseController {
                 $data = $this->nonBdrs($id, $request, $order);
             }
 
+            $message = '';
             if (is_string($data)) {
                 throw new \Exception($data);
+            } elseif (is_array($data)) {
+                $message = $data['message'];
+                $data = true;
             }
-            return $this->successApiResponse($data);
+            return $this->successApiResponse($data, $message);
 
         } catch (\Exception $e) {
             return $this->errorApiResponse(500, $e->getMessage());
@@ -308,7 +312,10 @@ class ReceiptController extends ApiBaseController {
                 $order->status = 6;
                 $order->save();
 
-                return "Hasil Pemeriksaan tidak cocok, harap kirimkan sample kembali";
+                return [
+                    'success' => true,
+                    'message' => "Hasil Pemeriksaan tidak cocok, harap kirimkan sample kembali"                    
+                ];
             }
             
             if (count($items) <= 0) {
