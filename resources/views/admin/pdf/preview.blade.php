@@ -50,13 +50,14 @@
     $tglSerologi = '';
     $tglLahir = '';
     if (!empty($dataReceipt)) {
-      $tglPeriksaSampel = ($dataReceipt->tgl_periksa_sampel != '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) : '';
-      $tglTerimaSampel = ($dataReceipt->tgl_terima_sampel != '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) : '';
-      $tglAmbilSampel = ($dataReceipt->tgl_ambil_sampel != '1970-01-01') ? date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) : '';
+      $tglPeriksaSampel = ($dataReceipt->tgl_periksa_sampel != '1970-01-01' || !empty($dataReceipt->tgl_periksa_sampel) ) ? date('d F Y', strtotime($dataReceipt->tgl_periksa_sampel)) : '';
+      $tglTerimaSampel = ($dataReceipt->tgl_terima_sampel != '1970-01-01' || !empty($dataReceipt->tgl_terima_sampel)) ? date('d F Y', strtotime($dataReceipt->tgl_terima_sampel)) : '';
+      $tglAmbilSampel = ($dataReceipt->tgl_ambil_sampel != '1970-01-01' || !empty($dataReceipt->tgl_ambil_sampel)) ? date('d F Y', strtotime($dataReceipt->tgl_ambil_sampel)) : '';
       $tglTransfusiSebelumnya = ($data->tgl_transfusi_sebelumnya != null) ? date('d F Y', strtotime($data->tgl_transfusi_sebelumnya)) : '';
-      $tglSerologi = ($data->tgl_serologi != null) ? date('d F Y', strtotime($data->tgl_serologi)) : '';
-      $tglLahir = ($data->tanggal_lahir != '1970-01-01') ? date('d F Y', strtotime($data->tanggal_lahir)) : '';
     }
+
+    $tglSerologi = ($data->tgl_serologi != null) ? date('d F Y', strtotime($data->tgl_serologi)) : '';
+      $tglLahir = ($data->tanggal_lahir != '1970-01-01') ? date('d F Y', strtotime($data->tanggal_lahir)) : '';
   @endphp
 
 <div class="a4 shadow-sm">
@@ -208,7 +209,7 @@
           </label>
           <div class="d-flex gap-2">
             <input class="form-control form-control-sm" type="text" 
-                  value="{{ $blood['jumlah_ml'] }}" readonly>
+                  value="{{ $blood['jumlah_ml'] ? ($blood['jumlah_ml']. ' ml') : ''}}" readonly>
             <input class="form-control form-control-sm" type="text" 
                   value="{{ $blood['jumlah'] }}" readonly>
           </div>
@@ -259,7 +260,6 @@
         <th style="width:80px">Gol</th>
         <th style="width:140px">Tgl Kadaluwarsa</th>
         <th style="width:80px">Vol (mL)</th>
-        <th style="width:160px">Tanda Tangan Keluarga</th>
       </tr>
       </thead>
       <tbody>
@@ -272,7 +272,6 @@
           <td><input class="form-control form-control-sm" type="text" value="{{ $product->blood_group }} {{ $product->blood_rhesus }}" readonly></td>
           <td><input class="form-control form-control-sm" type="text" value="{{ date('d F Y', strtotime($product->expiry_date)) }}" readonly></td>
           <td><input class="form-control form-control-sm" type="text" value="{{ $product->unit_volume }}" readonly></td>
-          <td><div class="sign"></div></td>
         </tr>
         @endforeach
       @endif

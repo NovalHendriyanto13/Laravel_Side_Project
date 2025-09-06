@@ -260,8 +260,9 @@
                                         >
                                             <thead>
                                                 <tr>
-                                                    <th>Product</th>
-                                                    <th>Jenis Pack (ml)</th>
+                                                    <th>Produk</th>
+                                                    <th>Golongan Darah</th>
+                                                    <th>Volume</th>
                                                     <th>Jumlah</th>
                                                 </tr>
                                             </thead>
@@ -310,7 +311,7 @@
                                             <div class="form-group mb-3">
                                                 <label for="hasil_pemeriksaan">Hasil Pemeriksaan Sampel</label>
                                                 <select name="hasil_pemeriksaan" id="hasil_pemeriksaan" class="form-control">
-                                                    <option value="">Pilih</option>
+                                                    <option value="-">Pilih</option>
                                                     <option value="0">Tidak cocok</option>
                                                     <option value="1">Cocok</option>
                                                 </select>
@@ -381,8 +382,9 @@
                                         <table class="table table-bordered table-receive-item" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th>Product</th>
-                                                    <th>Jenis Pack (ml)</th>
+                                                    <th>Produk</th>
+                                                    <th>Golongan</th>
+                                                    <th>Volume</th>
                                                     <th>Jumlah Permintaan</th>
                                                     <th></th>
                                                 </tr>

@@ -303,7 +303,7 @@ $(document).ready(async function() {
                 } else {
                     Swal.fire({
                         title: "Success",
-                        text: "Blood Stock Data is updated",
+                        text: "Order Data is updated",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"

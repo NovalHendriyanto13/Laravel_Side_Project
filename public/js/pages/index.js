@@ -56,6 +56,8 @@ $(document).ready(function() {
                     return redirect('/admin');
                 }
             } 
+            localStorage.removeItem("_token");
+            localStorage.removeItem("_user");
             return redirect('/admin');
         });
 

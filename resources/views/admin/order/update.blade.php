@@ -93,9 +93,9 @@
                                         >
                                             <thead>
                                                 <tr>
-                                                    <th>Item</th>
-                                                    <th>Golongan</th>
-                                                    <th>Jumlah (ml)</th>
+                                                    <th>Produk</th>
+                                                    <th>Golongan Darah</th>
+                                                    <th>Volume</th>
                                                     <th>Jumlah</th>
                                                 </tr>
                                             </thead>

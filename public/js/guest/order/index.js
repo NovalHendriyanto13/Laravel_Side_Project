@@ -55,7 +55,7 @@ $(document).ready(async function() {
                                 } else {
                                     status = data.status_penerimaan_label;
                                 }
-                                 if (data.status_penerimaan == 5) {
+                                 if (data.status_penerimaan == 5 && data.status_id != 6) {
                                     colors = '#008000'; 
                                 }
                             }

@@ -35,6 +35,17 @@ $(document).ready(async function() {
             data: selectedItems,
             columns: [
                 { data: 'name' },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        let str = data.golongan;
+                        str = str.replace(/_/g, ' ');
+                        str = str.charAt(0).toUpperCase() + str.slice(1);
+                        return str;
+                    }
+                },
                 { data: 'jumlah_ml' },
                 { data: 'jumlah' },     
             ]
@@ -89,6 +100,7 @@ $(document).ready(async function() {
                 selectedItems.push({
                     index: (ix),
                     name: `${blood.blood_type} - ${blood.name}`,
+                    golongan: `${item.golongan} - ${item.rhesus}`,
                     jumlah_ml: item.jumlah_ml,
                     jumlah: item.jumlah,
                     id: item.blood_id, 
@@ -141,6 +153,17 @@ $(document).ready(async function() {
             data: processedItems,
             columns: [
                 { data: 'name' },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        let str = data.golongan;
+                        str = str.replace(/_/g, ' ');
+                        str = str.charAt(0).toUpperCase() + str.slice(1);
+                        return str;
+                    }
+                },
                 { data: 'jumlah_ml' },
                 { data: 'jumlah' },
                 {
@@ -150,7 +173,7 @@ $(document).ready(async function() {
                         return `
                             <div class="d-flex">
                                 <a class="btn btn-sm btn-info view-btn-fulfill-detail mr-2" data-row='${dataRow}' href="#">Detail</a>
-                                <a class="btn btn-sm btn-danger view-btn-fulfill" data-row='${dataRow}' href="#">Fulfillment</a>
+                                <a class="btn btn-sm btn-danger view-btn-fulfill" data-row='${dataRow}' href="#">Pilih Produk</a>
                             </div> 
                         `;
                     } 

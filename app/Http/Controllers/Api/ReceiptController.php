@@ -292,6 +292,9 @@ class ReceiptController extends ApiBaseController {
         $totalHarga = 0;
 
         if ($type == 'hasil_periksa') {
+            if ($request->hasil_pemeriksaan == '-') {
+                return "Invalid! Hasil Pemeriksaan tidak boleh kosong";
+            }
             if ($request->hasil_pemeriksaan == 0) {
                 /*
                 $data = Receipt::where('id', $id)

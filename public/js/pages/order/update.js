@@ -135,7 +135,7 @@ $(document).ready(async function() {
                         return `
                             <div class="d-flex">
                                 <a class="btn btn-sm btn-info view-btn-fulfill-detail mr-2" data-row='${dataRow}' href="#">Detail</a>
-                                <a class="btn btn-sm btn-danger view-btn-fulfill" data-row='${dataRow}' href="#">Fulfillment</a>
+                                <a class="btn btn-sm btn-danger view-btn-fulfill" data-row='${dataRow}' href="#">Pilih Produk</a>
                             </div> 
                         `;
                     } 
